@@ -453,6 +453,9 @@ export class WorkspaceService {
     const executedByVersion =
       this.twentyConfigService.get('APP_VERSION') ?? 'unknown';
 
+    const hasWorkspaceAnySubscription =
+      await this.billingService.hasWorkspaceAnySubscription(workspaceId);
+
     const queryRunner = this.coreDataSource.createQueryRunner();
 
     await queryRunner.connect();
@@ -460,7 +463,9 @@ export class WorkspaceService {
 
     try {
       await queryRunner.manager.update(WorkspaceEntity, workspaceId, {
-        activationStatus: WorkspaceActivationStatus.ACTIVE,
+        activationStatus: hasWorkspaceAnySubscription
+          ? WorkspaceActivationStatus.ACTIVE
+          : WorkspaceActivationStatus.CREATED,
       });
 
       await this.upgradeMigrationService.markAsWorkspaceInitial({
