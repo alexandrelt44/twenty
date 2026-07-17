@@ -41,23 +41,38 @@ export class ConnectedAgentProvisioningService {
       roleId,
     });
 
-    const apiKeyToken = await this.apiKeyService.generateApiKeyToken(
-      workspaceId,
-      apiKey.id,
-      expiresAt,
-    );
+    try {
+      const apiKeyToken = await this.apiKeyService.generateApiKeyToken(
+        workspaceId,
+        apiKey.id,
+        expiresAt,
+      );
 
-    if (!apiKeyToken) {
-      throw new Error('Failed to generate token for connected agent');
+      if (!apiKeyToken) {
+        throw new Error('Failed to generate token for connected agent');
+      }
+
+      const connectedAgent = await this.connectedAgentRepository.save({
+        name,
+        description,
+        apiKeyId: apiKey.id,
+        workspaceId,
+      });
+
+      return { connectedAgent, token: apiKeyToken.token };
+    } catch (error) {
+      try {
+        await this.apiKeyService.revoke(apiKey.id, workspaceId);
+      } catch (revokeError) {
+        // Cleanup failure must not mask the original error, but is worth
+        // surfacing so an orphaned, live API key can be investigated.
+        console.error(
+          `Failed to revoke orphaned API key ${apiKey.id} for workspace ${workspaceId} after provisioning failure`,
+          revokeError,
+        );
+      }
+
+      throw error;
     }
-
-    const connectedAgent = await this.connectedAgentRepository.save({
-      name,
-      description,
-      apiKeyId: apiKey.id,
-      workspaceId,
-    });
-
-    return { connectedAgent, token: apiKeyToken.token };
   }
 }

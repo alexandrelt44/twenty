@@ -23,6 +23,7 @@ describe('ConnectedAgentProvisioningService', () => {
           useValue: {
             create: jest.fn(),
             generateApiKeyToken: jest.fn(),
+            revoke: jest.fn(),
           },
         },
         {
@@ -76,6 +77,7 @@ describe('ConnectedAgentProvisioningService', () => {
   it('should throw when the token could not be generated', async () => {
     apiKeyService.create.mockResolvedValue({ id: 'key-1' } as never);
     apiKeyService.generateApiKeyToken.mockResolvedValue(undefined);
+    apiKeyService.revoke.mockResolvedValue(null);
 
     await expect(
       service.provisionConnectedAgent({
@@ -86,5 +88,69 @@ describe('ConnectedAgentProvisioningService', () => {
         expiresAt,
       }),
     ).rejects.toThrow('Failed to generate token for connected agent');
+
+    expect(apiKeyService.revoke).toHaveBeenCalledWith('key-1', 'ws-1');
+  });
+
+  it('should revoke the created api key and rethrow the original error when generateApiKeyToken throws', async () => {
+    apiKeyService.create.mockResolvedValue({ id: 'key-1' } as never);
+    const originalError = new Error('token generation blew up');
+
+    apiKeyService.generateApiKeyToken.mockRejectedValue(originalError);
+    apiKeyService.revoke.mockResolvedValue(null);
+
+    await expect(
+      service.provisionConnectedAgent({
+        name: 'ProofBot',
+        description: null,
+        roleId: 'role-1',
+        workspaceId: 'ws-1',
+        expiresAt,
+      }),
+    ).rejects.toThrow(originalError);
+
+    expect(apiKeyService.revoke).toHaveBeenCalledWith('key-1', 'ws-1');
+    expect(repository.save).not.toHaveBeenCalled();
+  });
+
+  it('should revoke the created api key and rethrow the original error when the connected agent save fails', async () => {
+    apiKeyService.create.mockResolvedValue({ id: 'key-1' } as never);
+    apiKeyService.generateApiKeyToken.mockResolvedValue({ token: 'jwt-token' });
+    const originalError = new Error('save failed');
+
+    repository.save.mockRejectedValue(originalError);
+    apiKeyService.revoke.mockResolvedValue(null);
+
+    await expect(
+      service.provisionConnectedAgent({
+        name: 'ProofBot',
+        description: null,
+        roleId: 'role-1',
+        workspaceId: 'ws-1',
+        expiresAt,
+      }),
+    ).rejects.toThrow(originalError);
+
+    expect(apiKeyService.revoke).toHaveBeenCalledWith('key-1', 'ws-1');
+  });
+
+  it('should not mask the original error when the revoke cleanup itself fails', async () => {
+    apiKeyService.create.mockResolvedValue({ id: 'key-1' } as never);
+    const originalError = new Error('token generation blew up');
+
+    apiKeyService.generateApiKeyToken.mockRejectedValue(originalError);
+    apiKeyService.revoke.mockRejectedValue(new Error('revoke failed too'));
+
+    await expect(
+      service.provisionConnectedAgent({
+        name: 'ProofBot',
+        description: null,
+        roleId: 'role-1',
+        workspaceId: 'ws-1',
+        expiresAt,
+      }),
+    ).rejects.toThrow(originalError);
+
+    expect(apiKeyService.revoke).toHaveBeenCalledWith('key-1', 'ws-1');
   });
 });
