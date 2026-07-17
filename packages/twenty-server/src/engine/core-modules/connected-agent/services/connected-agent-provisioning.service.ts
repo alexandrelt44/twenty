@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
@@ -21,6 +21,8 @@ type ProvisionConnectedAgentResult = {
 
 @Injectable()
 export class ConnectedAgentProvisioningService {
+  private readonly logger = new Logger(ConnectedAgentProvisioningService.name);
+
   constructor(
     @InjectRepository(ConnectedAgentEntity)
     private readonly connectedAgentRepository: Repository<ConnectedAgentEntity>,
@@ -66,7 +68,7 @@ export class ConnectedAgentProvisioningService {
       } catch (revokeError) {
         // Cleanup failure must not mask the original error, but is worth
         // surfacing so an orphaned, live API key can be investigated.
-        console.error(
+        this.logger.error(
           `Failed to revoke orphaned API key ${apiKey.id} for workspace ${workspaceId} after provisioning failure`,
           revokeError,
         );
