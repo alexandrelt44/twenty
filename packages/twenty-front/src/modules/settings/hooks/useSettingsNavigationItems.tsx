@@ -30,6 +30,7 @@ import {
   IconMail,
   IconMessage,
   IconPlug,
+  IconRobot,
   IconRocket,
   IconServer,
   IconSettings,
@@ -186,6 +187,17 @@ const useSettingsNavigationItems = (): SettingsNavigationSection[] => {
           Icon: IconKey,
           isAdvanced: true,
           isHidden: !permissionMap[PermissionFlagType.SECURITY],
+        },
+      ],
+    },
+    {
+      label: t`Connected Agents`,
+      items: [
+        {
+          label: t`Connected Agents`,
+          path: SettingsPath.ConnectedAgents,
+          Icon: IconRobot,
+          isHidden: !permissionMap[PermissionFlagType.API_KEYS_AND_WEBHOOKS],
         },
       ],
     },

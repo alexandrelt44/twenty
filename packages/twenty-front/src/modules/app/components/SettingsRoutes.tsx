@@ -106,6 +106,30 @@ const SettingsDevelopersApiKeysNew = lazy(() =>
   })),
 );
 
+const SettingsConnectedAgents = lazy(() =>
+  import('~/pages/settings/connected-agents/SettingsConnectedAgents').then(
+    (module) => ({
+      default: module.SettingsConnectedAgents,
+    }),
+  ),
+);
+
+const SettingsConnectedAgentNew = lazy(() =>
+  import('~/pages/settings/connected-agents/SettingsConnectedAgentNew').then(
+    (module) => ({
+      default: module.SettingsConnectedAgentNew,
+    }),
+  ),
+);
+
+const SettingsConnectedAgentDetail = lazy(() =>
+  import(
+    '~/pages/settings/connected-agents/SettingsConnectedAgentDetail'
+  ).then((module) => ({
+    default: module.SettingsConnectedAgentDetail,
+  })),
+);
+
 const SettingsLogicFunctionDetail = lazy(() =>
   import('~/pages/settings/logic-functions/SettingsLogicFunctionDetail').then(
     (module) => ({
@@ -744,6 +768,18 @@ export const SettingsRoutes = ({ isAdminPageEnabled }: SettingsRoutesProps) => (
         <Route
           path={SettingsPath.WebhookDetail}
           element={<SettingsDevelopersWebhookDetail />}
+        />
+        <Route
+          path={SettingsPath.ConnectedAgents}
+          element={<SettingsConnectedAgents />}
+        />
+        <Route
+          path={SettingsPath.NewConnectedAgent}
+          element={<SettingsConnectedAgentNew />}
+        />
+        <Route
+          path={SettingsPath.ConnectedAgentDetail}
+          element={<SettingsConnectedAgentDetail />}
         />
       </Route>
 
