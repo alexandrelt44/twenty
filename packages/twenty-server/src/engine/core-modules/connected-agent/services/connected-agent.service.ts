@@ -26,4 +26,14 @@ export class ConnectedAgentService {
       },
     });
   }
+
+  async touchLastSeen(
+    connectedAgentId: string,
+    workspaceId: string,
+  ): Promise<void> {
+    await this.connectedAgentRepository.update(
+      { id: connectedAgentId, workspaceId },
+      { lastSeenAt: new Date() },
+    );
+  }
 }

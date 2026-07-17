@@ -17,7 +17,7 @@ describe('ConnectedAgentService', () => {
         ConnectedAgentService,
         {
           provide: getRepositoryToken(ConnectedAgentEntity),
-          useValue: { findOne: jest.fn() },
+          useValue: { findOne: jest.fn(), update: jest.fn() },
         },
       ],
     }).compile();
@@ -50,5 +50,18 @@ describe('ConnectedAgentService', () => {
     const result = await service.findActiveByApiKeyId('key-unknown', 'ws-1');
 
     expect(result).toBeNull();
+  });
+
+  describe('touchLastSeen', () => {
+    it('should set lastSeenAt to now for the given agent scoped by workspace', async () => {
+      const update = repository.update as jest.Mock;
+
+      await service.touchLastSeen('agent-1', 'ws-1');
+
+      expect(update).toHaveBeenCalledWith(
+        { id: 'agent-1', workspaceId: 'ws-1' },
+        { lastSeenAt: expect.any(Date) },
+      );
+    });
   });
 });
