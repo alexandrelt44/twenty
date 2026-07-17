@@ -186,3 +186,22 @@ Estende as superfícies de Settings existentes (`pages/settings/developers`, `..
   HTTP do Proof e evita infra de realtime na v1.
 - Manter o `ConnectedAgent` **separado** do `AgentEntity` interno para não herdar o runtime de IA do
   Twenty (modelo/prompt/execução), que não se aplica a agente externo.
+
+---
+
+## Verificação M1 (2026-07-16)
+
+Executado contra o servidor rodando do fonte (localhost:3000), com token de API key gerado via
+`workspace:generate-api-key` e um `ConnectedAgent` (ProofBot) ligado à key. Resultados reais:
+
+- **Agente cria registro** → `createdBy = AGENT / ProofBot`, `createdByContext = {"connectedAgentId": "..."}`.
+- **Agente edita registro** → `updatedBy = AGENT / ProofBot`.
+- **Não-regressão** — API key comum (sem ConnectedAgent) cria registro → `createdBy = API / <nome da key>`.
+- **Boot/DI**: servidor sobe limpo (healthz 200) após corrigir o import de `PermissionsModule` no
+  `ConnectedAgentProvisioningModule` (o `nx build` não pega erro de DI; só o boot pega).
+
+Escopo verificado end-to-end: identidade do agente + proveniência de create e update (Tasks 1–4) e a
+resolução de DI da mutation de provisionamento (Task 5). A chamada da mutation `createConnectedAgent`
+com um JWT de usuário admin não foi exercida (exige login de usuário); está coberta por unit tests
+(incluindo o rollback da key e o token-uma-vez), pelo boot com DI válida e pela presença do guard de
+permissão. Dados e credenciais de teste foram removidos após a verificação.
