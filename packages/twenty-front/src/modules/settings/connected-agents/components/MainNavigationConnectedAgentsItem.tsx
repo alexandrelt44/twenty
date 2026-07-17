@@ -49,6 +49,7 @@ export const MainNavigationConnectedAgentsItem = () => {
           <Pill label={String(connectedCount)} />
         ) : undefined
       }
+      alwaysShowRightOptions={connectedCount > 0}
     />
   );
 };
