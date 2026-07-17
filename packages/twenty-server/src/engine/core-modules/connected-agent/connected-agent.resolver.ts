@@ -4,6 +4,7 @@ import { Args, Mutation } from '@nestjs/graphql';
 import { PermissionFlagType } from 'twenty-shared/constants';
 
 import { MetadataResolver } from 'src/engine/api/graphql/graphql-config/decorators/metadata-resolver.decorator';
+import { apiKeyGraphqlApiExceptionHandler } from 'src/engine/core-modules/api-key/utils/api-key-graphql-api-exception-handler.util';
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { ConnectedAgentWithTokenDTO } from 'src/engine/core-modules/connected-agent/dtos/connected-agent-with-token.dto';
 import { CreateConnectedAgentInput } from 'src/engine/core-modules/connected-agent/dtos/create-connected-agent.input';
@@ -28,12 +29,19 @@ export class ConnectedAgentResolver {
     @AuthWorkspace() workspace: WorkspaceEntity,
     @Args('input') input: CreateConnectedAgentInput,
   ): Promise<ConnectedAgentWithTokenDTO> {
-    return this.connectedAgentProvisioningService.provisionConnectedAgent({
-      name: input.name,
-      description: input.description ?? null,
-      roleId: input.roleId,
-      workspaceId: workspace.id,
-      expiresAt: new Date(input.expiresAt),
-    });
+    try {
+      return await this.connectedAgentProvisioningService.provisionConnectedAgent(
+        {
+          name: input.name,
+          description: input.description ?? null,
+          roleId: input.roleId,
+          workspaceId: workspace.id,
+          expiresAt: new Date(input.expiresAt),
+        },
+      );
+    } catch (error) {
+      apiKeyGraphqlApiExceptionHandler(error);
+      throw error;
+    }
   }
 }

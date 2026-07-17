@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 
-import { type ActorMetadata } from 'twenty-shared/types';
+import { type ActorMetadata, FieldActorSource } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
 import { buildCreatedByFromAgent } from 'src/engine/core-modules/actor/utils/build-created-by-from-agent.util';
@@ -147,7 +147,13 @@ export class ActorFromAuthContextService {
     const existingValue = record[fieldName] as ActorMetadata | undefined;
 
     if (fieldName === 'createdBy') {
-      if (actorMetadata && (!existingValue || !existingValue.name)) {
+      const isAgentActor = actorMetadata?.source === FieldActorSource.AGENT;
+
+      if (isAgentActor) {
+        // Agent provenance is authoritative: never let a client-supplied
+        // createdBy (source or name) suppress or spoof it on the agent's own writes.
+        record[fieldName] = actorMetadata;
+      } else if (actorMetadata && (!existingValue || !existingValue.name)) {
         record[fieldName] = {
           ...actorMetadata,
           source: existingValue?.source ?? actorMetadata.source,

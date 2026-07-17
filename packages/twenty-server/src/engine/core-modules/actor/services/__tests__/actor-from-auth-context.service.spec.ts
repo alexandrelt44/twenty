@@ -195,6 +195,50 @@ describe('ActorFromAuthContextService', () => {
       ]);
     });
 
+    it('should overwrite a client-supplied createdBy with agent provenance when the apiKey belongs to a connected agent', async () => {
+      connectedAgentService.findActiveByApiKeyId.mockResolvedValue({
+        id: '20202020-1111-4444-8888-000000000001',
+        name: 'ProofBot',
+      } as never);
+
+      const authContext = {
+        type: 'apiKey',
+        apiKey: {
+          id: '20202020-56c2-471b-925d-31ed3ecd0951',
+          name: 'API Key Name',
+        },
+        workspace: { id: '20202020-bdec-497f-847a-1bb334fefe58' },
+      } as unknown as WorkspaceAuthContext;
+
+      const result = await service.injectCreatedBy({
+        records: [
+          {
+            createdBy: {
+              source: FieldActorSource.MANUAL,
+              name: 'Someone Else',
+              workspaceMemberId: null,
+              context: {},
+            },
+          },
+        ],
+        objectMetadataNameSingular: 'person',
+        authContext,
+      });
+
+      expect(result).toEqual<ExpectedResult>([
+        {
+          createdBy: {
+            source: FieldActorSource.AGENT,
+            workspaceMemberId: null,
+            name: 'ProofBot',
+            context: {
+              connectedAgentId: '20202020-1111-4444-8888-000000000001',
+            },
+          },
+        },
+      ]);
+    });
+
     it('should throw error when no valid actor information is found', async () => {
       const authContext = {
         type: 'system',
