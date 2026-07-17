@@ -4,6 +4,7 @@ import { type FlatApiKey } from 'src/engine/core-modules/api-key/types/flat-api-
 import { type ApplicationEntity } from 'src/engine/core-modules/application/application.entity';
 import { type RawAuthContext } from 'src/engine/core-modules/auth/types/auth-context.type';
 import { type FlatAuthContextUser } from 'src/engine/core-modules/auth/types/flat-auth-context-user.type';
+import { type ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { type FlatUserWorkspace } from 'src/engine/core-modules/user-workspace/types/flat-user-workspace.type';
 import { type FlatWorkspace } from 'src/engine/core-modules/workspace/types/flat-workspace.type';
 import { type AuthProviderEnum } from 'src/engine/core-modules/workspace/types/workspace.type';
@@ -24,5 +25,6 @@ declare module 'express-serve-static-core' {
     userWorkspaceId?: string;
     authProvider?: AuthProviderEnum | null;
     impersonationContext?: RawAuthContext['impersonationContext'];
+    connectedAgent?: ConnectedAgentEntity | null;
   }
 }

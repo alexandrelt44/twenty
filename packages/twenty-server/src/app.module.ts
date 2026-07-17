@@ -13,6 +13,7 @@ import { join } from 'path';
 import { YogaDriver, type YogaDriverConfig } from '@graphql-yoga/nestjs';
 import { SentryModule } from '@sentry/nestjs/setup';
 
+import { AgentBridgeModule } from 'src/engine/api/agent-bridge/agent-bridge.module';
 import { AdminPanelGraphQLApiModule } from 'src/engine/api/graphql/admin-panel-graphql-api.module';
 import { CoreGraphQLApiModule } from 'src/engine/api/graphql/core-graphql-api.module';
 import { GraphQLConfigModule } from 'src/engine/api/graphql/graphql-config/graphql-config.module';
@@ -69,6 +70,7 @@ const MIGRATED_REST_METHODS = [
     AdminPanelGraphQLApiModule,
     RestApiModule,
     McpModule,
+    AgentBridgeModule,
     MiddlewareModule,
     WorkspaceMetadataVersionModule,
     // I18n module for translations
