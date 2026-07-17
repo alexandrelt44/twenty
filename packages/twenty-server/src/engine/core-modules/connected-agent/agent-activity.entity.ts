@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
+import GraphQLJSON from 'graphql-type-json';
 import { IDField } from '@ptc-org/nestjs-query-graphql';
 import {
   Column,
@@ -41,7 +42,7 @@ export class AgentActivityEntity extends WorkspaceRelatedEntity {
   @Column({ type: 'text' })
   summary: string;
 
-  @Field(() => String, { nullable: true })
+  @Field(() => GraphQLJSON, { nullable: true })
   @Column({ type: 'jsonb', nullable: true })
   payload: Record<string, unknown> | null;
 
