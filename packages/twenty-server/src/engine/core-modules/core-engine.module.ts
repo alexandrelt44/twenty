@@ -4,6 +4,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 
 import { WorkspaceQueryRunnerModule } from 'src/engine/api/graphql/workspace-query-runner/workspace-query-runner.module';
 import { ActorModule } from 'src/engine/core-modules/actor/actor.module';
+import { AgentSessionGuardModule } from 'src/engine/core-modules/connected-agent/agent-session-guard.module';
 import { ApplicationLogsModule } from 'src/engine/core-modules/application-logs/application-logs.module';
 import { applicationLogsModuleFactory } from 'src/engine/core-modules/application-logs/application-logs.module-factory';
 import { AdminPanelModule } from 'src/engine/core-modules/admin-panel/admin-panel.module';
@@ -119,6 +120,7 @@ import { FileModule } from './file/file.module';
     WorkflowApiModule,
     WorkspaceEventEmitterModule,
     ActorModule,
+    AgentSessionGuardModule,
     TelemetryModule,
     AdminPanelModule,
     LabModule,
