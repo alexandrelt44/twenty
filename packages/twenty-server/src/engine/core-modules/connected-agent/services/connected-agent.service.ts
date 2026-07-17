@@ -36,4 +36,36 @@ export class ConnectedAgentService {
       { lastSeenAt: new Date() },
     );
   }
+
+  async findByWorkspaceId(
+    workspaceId: string,
+  ): Promise<ConnectedAgentEntity[]> {
+    return this.connectedAgentRepository.find({
+      where: { workspaceId },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  async findById(
+    id: string,
+    workspaceId: string,
+  ): Promise<ConnectedAgentEntity | null> {
+    return this.connectedAgentRepository.findOne({
+      where: { id, workspaceId },
+    });
+  }
+
+  async setStatus(
+    id: string,
+    workspaceId: string,
+    status: ConnectedAgentStatus,
+  ): Promise<ConnectedAgentEntity | null> {
+    await this.connectedAgentRepository.update({ id, workspaceId }, { status });
+
+    return this.findById(id, workspaceId);
+  }
+
+  async softDelete(id: string, workspaceId: string): Promise<void> {
+    await this.connectedAgentRepository.softDelete({ id, workspaceId });
+  }
 }

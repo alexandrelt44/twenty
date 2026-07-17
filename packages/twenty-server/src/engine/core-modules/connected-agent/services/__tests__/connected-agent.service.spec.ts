@@ -17,7 +17,12 @@ describe('ConnectedAgentService', () => {
         ConnectedAgentService,
         {
           provide: getRepositoryToken(ConnectedAgentEntity),
-          useValue: { findOne: jest.fn(), update: jest.fn() },
+          useValue: {
+            find: jest.fn(),
+            findOne: jest.fn(),
+            update: jest.fn(),
+            softDelete: jest.fn(),
+          },
         },
       ],
     }).compile();
@@ -62,6 +67,71 @@ describe('ConnectedAgentService', () => {
         { id: 'agent-1', workspaceId: 'ws-1' },
         { lastSeenAt: expect.any(Date) },
       );
+    });
+  });
+
+  describe('findByWorkspaceId', () => {
+    it('lists non-deleted agents for the workspace, newest first', async () => {
+      const rows = [{ id: 'a1' }] as ConnectedAgentEntity[];
+
+      (repository.find as jest.Mock).mockResolvedValue(rows);
+
+      const result = await service.findByWorkspaceId('ws-1');
+
+      expect(repository.find).toHaveBeenCalledWith({
+        where: { workspaceId: 'ws-1' },
+        order: { createdAt: 'DESC' },
+      });
+      expect(result).toBe(rows);
+    });
+  });
+
+  describe('findById', () => {
+    it('finds one agent scoped by workspace', async () => {
+      const agent = { id: 'a1' } as ConnectedAgentEntity;
+
+      (repository.findOne as jest.Mock).mockResolvedValue(agent);
+
+      const result = await service.findById('a1', 'ws-1');
+
+      expect(repository.findOne).toHaveBeenCalledWith({
+        where: { id: 'a1', workspaceId: 'ws-1' },
+      });
+      expect(result).toBe(agent);
+    });
+  });
+
+  describe('setStatus', () => {
+    it('updates status scoped by id+workspace and returns the reloaded agent', async () => {
+      const updated = {
+        id: 'a1',
+        status: ConnectedAgentStatus.DISABLED,
+      } as ConnectedAgentEntity;
+
+      (repository.update as jest.Mock).mockResolvedValue(undefined);
+      (repository.findOne as jest.Mock).mockResolvedValue(updated);
+
+      const result = await service.setStatus(
+        'a1',
+        'ws-1',
+        ConnectedAgentStatus.DISABLED,
+      );
+
+      expect(repository.update).toHaveBeenCalledWith(
+        { id: 'a1', workspaceId: 'ws-1' },
+        { status: ConnectedAgentStatus.DISABLED },
+      );
+      expect(result).toBe(updated);
+    });
+  });
+
+  describe('softDelete', () => {
+    it('soft-deletes the agent scoped by id+workspace', async () => {
+      const softDelete = repository.softDelete as jest.Mock;
+
+      await service.softDelete('a1', 'ws-1');
+
+      expect(softDelete).toHaveBeenCalledWith({ id: 'a1', workspaceId: 'ws-1' });
     });
   });
 });
