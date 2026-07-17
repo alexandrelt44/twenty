@@ -7,6 +7,6 @@ import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/s
 @Module({
   imports: [TypeOrmModule.forFeature([ConnectedAgentEntity])],
   providers: [ConnectedAgentService],
-  exports: [ConnectedAgentService, TypeOrmModule],
+  exports: [ConnectedAgentService],
 })
 export class ConnectedAgentModule {}
