@@ -4,6 +4,7 @@ import { IconHelpCircle, IconSettings } from 'twenty-ui/display';
 import { AnimatedExpandableContainer } from 'twenty-ui/layout';
 
 import { currentWorkspaceMemberState } from '@/auth/states/currentWorkspaceMemberState';
+import { MainNavigationConnectedAgentsItem } from '@/settings/connected-agents/components/MainNavigationConnectedAgentsItem';
 import { getDocumentationUrl } from '@/support/utils/getDocumentationUrl';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 
@@ -59,6 +60,7 @@ export const NavigationDrawerOtherSection = () => {
           })}
           Icon={IconHelpCircle}
         />
+        <MainNavigationConnectedAgentsItem />
       </AnimatedExpandableContainer>
     </NavigationDrawerSection>
   );
