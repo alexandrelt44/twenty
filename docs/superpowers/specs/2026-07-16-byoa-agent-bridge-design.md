@@ -220,3 +220,6 @@ Executado contra o servidor rodando do fonte (localhost:3000). Resultados reais:
 - **Não-regressão:** API key comum (sem `ConnectedAgent`) escreve sem qualquer sessão → 201, `createdBy = API`.
 
 Dados e credenciais de teste removidos; servidor encerrado após a verificação.
+
+### Fix pós-review (final whole-branch review): gate cobria só soft-delete
+O review final pegou que o gate cobria `create/update/delete` mas NÃO `destroyOne/destroyMany/mergeMany/restoreOne/restoreMany` — e o `DELETE /rest/...` **padrão** (sem `?soft_delete=true`) é um hard `destroyOne`. Ou seja, um agente sem sessão ainda podia **apagar registros de verdade**. Corrigido (commit 06c29041a8): +5 hooks, totalizando 11 (todas as operações mutantes). Re-verificado e2e: com sessão expirada, `DELETE /rest/companies/:id` → 400 `PERMISSION_DENIED`, registro preservado; após `heartbeat` → DELETE 200. Leituras seguem livres.
