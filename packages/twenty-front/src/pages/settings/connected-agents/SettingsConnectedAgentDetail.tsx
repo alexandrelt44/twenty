@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ConnectedAgentActivityFeed } from '@/settings/connected-agents/components/ConnectedAgentActivityFeed';
+import { ConnectedAgentConnectionSnippet } from '@/settings/connected-agents/components/ConnectedAgentConnectionSnippet';
 import { connectedAgentTokenFamilyState } from '@/settings/connected-agents/states/connectedAgentTokenFamilyState';
 import { SettingsPageContainer } from '@/settings/components/SettingsPageContainer';
 import { SettingsSkeletonLoader } from '@/settings/components/SettingsSkeletonLoader';
@@ -184,6 +185,13 @@ export const SettingsConnectedAgentDetail = () => {
               <ApiKeyInput apiKey={connectedAgentToken} />
             </Section>
           )}
+          <Section>
+            <H2Title
+              title={t`Connection`}
+              description={t`How to connect your agent to the bridge`}
+            />
+            <ConnectedAgentConnectionSnippet token={connectedAgentToken} />
+          </Section>
           <Section>
             <H2Title title={t`Name`} description={t`Name of your agent`} />
             <SettingsTextInput
