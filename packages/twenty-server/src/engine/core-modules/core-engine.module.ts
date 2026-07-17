@@ -18,6 +18,7 @@ import { ApplicationUpgradeModule } from 'src/engine/core-modules/application/ap
 import { ApplicationModule } from 'src/engine/core-modules/application/application.module';
 import { PreInstalledAppsModule } from 'src/engine/core-modules/application/pre-installed-apps/pre-installed-apps.module';
 import { ApprovedAccessDomainModule } from 'src/engine/core-modules/approved-access-domain/approved-access-domain.module';
+import { ConnectedAgentProvisioningModule } from 'src/engine/core-modules/connected-agent/connected-agent-provisioning.module';
 import { AuthModule } from 'src/engine/core-modules/auth/auth.module';
 import { BillingWebhookModule } from 'src/engine/core-modules/billing-webhook/billing-webhook.module';
 import { AppBillingModule } from 'src/engine/core-modules/billing/app-billing/app-billing.module';
@@ -159,6 +160,7 @@ import { FileModule } from './file/file.module';
     CodeInterpreterModule.forRoot(),
     SearchModule,
     ApiKeyModule,
+    ConnectedAgentProvisioningModule,
     PageLayoutModule,
     ImpersonationModule,
     TrashCleanupModule,
