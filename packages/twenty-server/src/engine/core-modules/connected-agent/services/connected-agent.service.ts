@@ -27,6 +27,15 @@ export class ConnectedAgentService {
     });
   }
 
+  async findByApiKeyId(
+    apiKeyId: string,
+    workspaceId: string,
+  ): Promise<ConnectedAgentEntity | null> {
+    return this.connectedAgentRepository.findOne({
+      where: { apiKeyId, workspaceId },
+    });
+  }
+
   async touchLastSeen(
     connectedAgentId: string,
     workspaceId: string,

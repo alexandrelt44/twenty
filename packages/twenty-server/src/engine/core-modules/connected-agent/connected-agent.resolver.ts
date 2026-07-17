@@ -118,8 +118,9 @@ export class ConnectedAgentResolver {
     @Args('input') input: DeleteConnectedAgentInput,
     @AuthWorkspace() workspace: WorkspaceEntity,
   ): Promise<boolean> {
-    await this.connectedAgentService.softDelete(input.id, workspace.id);
-
-    return true;
+    return this.connectedAgentProvisioningService.deleteConnectedAgent(
+      input.id,
+      workspace.id,
+    );
   }
 }

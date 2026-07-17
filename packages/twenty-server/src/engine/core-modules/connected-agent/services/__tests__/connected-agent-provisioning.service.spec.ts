@@ -6,10 +6,12 @@ import { Repository } from 'typeorm';
 import { ApiKeyService } from 'src/engine/core-modules/api-key/services/api-key.service';
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { ConnectedAgentProvisioningService } from 'src/engine/core-modules/connected-agent/services/connected-agent-provisioning.service';
+import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
 
 describe('ConnectedAgentProvisioningService', () => {
   let service: ConnectedAgentProvisioningService;
   let apiKeyService: jest.Mocked<ApiKeyService>;
+  let connectedAgentService: jest.Mocked<ConnectedAgentService>;
   let repository: jest.Mocked<Repository<ConnectedAgentEntity>>;
 
   const expiresAt = new Date('2027-01-01T00:00:00.000Z');
@@ -27,6 +29,13 @@ describe('ConnectedAgentProvisioningService', () => {
           },
         },
         {
+          provide: ConnectedAgentService,
+          useValue: {
+            findById: jest.fn(),
+            softDelete: jest.fn(),
+          },
+        },
+        {
           provide: getRepositoryToken(ConnectedAgentEntity),
           useValue: { save: jest.fn() },
         },
@@ -35,6 +44,7 @@ describe('ConnectedAgentProvisioningService', () => {
 
     service = module.get(ConnectedAgentProvisioningService);
     apiKeyService = module.get(ApiKeyService);
+    connectedAgentService = module.get(ConnectedAgentService);
     repository = module.get(getRepositoryToken(ConnectedAgentEntity));
   });
 
@@ -152,5 +162,41 @@ describe('ConnectedAgentProvisioningService', () => {
     ).rejects.toThrow(originalError);
 
     expect(apiKeyService.revoke).toHaveBeenCalledWith('key-1', 'ws-1');
+  });
+
+  describe('deleteConnectedAgent', () => {
+    it('revokes the api key and soft-deletes the agent when it exists', async () => {
+      const agent = {
+        id: 'agent-1',
+        apiKeyId: 'key-1',
+      } as ConnectedAgentEntity;
+
+      connectedAgentService.findById.mockResolvedValue(agent);
+      apiKeyService.revoke.mockResolvedValue(null);
+      connectedAgentService.softDelete.mockResolvedValue(undefined);
+
+      const result = await service.deleteConnectedAgent('agent-1', 'ws-1');
+
+      expect(connectedAgentService.findById).toHaveBeenCalledWith(
+        'agent-1',
+        'ws-1',
+      );
+      expect(apiKeyService.revoke).toHaveBeenCalledWith('key-1', 'ws-1');
+      expect(connectedAgentService.softDelete).toHaveBeenCalledWith(
+        'agent-1',
+        'ws-1',
+      );
+      expect(result).toBe(true);
+    });
+
+    it('returns false and does nothing when the agent does not exist', async () => {
+      connectedAgentService.findById.mockResolvedValue(null);
+
+      const result = await service.deleteConnectedAgent('agent-1', 'ws-1');
+
+      expect(apiKeyService.revoke).not.toHaveBeenCalled();
+      expect(connectedAgentService.softDelete).not.toHaveBeenCalled();
+      expect(result).toBe(false);
+    });
   });
 });

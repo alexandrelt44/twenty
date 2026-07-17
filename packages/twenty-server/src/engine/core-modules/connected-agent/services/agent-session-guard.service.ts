@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { AGENT_SESSION_TTL_MS } from 'src/engine/core-modules/connected-agent/constants/agent-session.const';
+import { ConnectedAgentStatus } from 'src/engine/core-modules/connected-agent/enums/connected-agent-status.enum';
 import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
 import { isApiKeyAuthContext } from 'src/engine/core-modules/auth/guards/is-api-key-auth-context.guard';
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
@@ -29,13 +30,20 @@ export class AgentSessionGuardService {
     }
 
     const connectedAgent =
-      await this.connectedAgentService.findActiveByApiKeyId(
+      await this.connectedAgentService.findByApiKeyId(
         authContext.apiKey.id,
         authContext.workspace.id,
       );
 
     if (connectedAgent === null) {
       return;
+    }
+
+    if (connectedAgent.status === ConnectedAgentStatus.DISABLED) {
+      throw new PermissionsException(
+        'This connected agent is disabled',
+        PermissionsExceptionCode.PERMISSION_DENIED,
+      );
     }
 
     if (!this.isSessionActive(connectedAgent.lastSeenAt)) {

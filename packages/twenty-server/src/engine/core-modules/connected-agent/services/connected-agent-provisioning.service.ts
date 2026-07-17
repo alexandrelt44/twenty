@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 
 import { ApiKeyService } from 'src/engine/core-modules/api-key/services/api-key.service';
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
+import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
 
 type ProvisionConnectedAgentArgs = {
   name: string;
@@ -27,6 +28,7 @@ export class ConnectedAgentProvisioningService {
     @InjectRepository(ConnectedAgentEntity)
     private readonly connectedAgentRepository: Repository<ConnectedAgentEntity>,
     private readonly apiKeyService: ApiKeyService,
+    private readonly connectedAgentService: ConnectedAgentService,
   ) {}
 
   async provisionConnectedAgent({
@@ -76,5 +78,24 @@ export class ConnectedAgentProvisioningService {
 
       throw error;
     }
+  }
+
+  async deleteConnectedAgent(
+    id: string,
+    workspaceId: string,
+  ): Promise<boolean> {
+    const connectedAgent = await this.connectedAgentService.findById(
+      id,
+      workspaceId,
+    );
+
+    if (connectedAgent === null) {
+      return false;
+    }
+
+    await this.apiKeyService.revoke(connectedAgent.apiKeyId, workspaceId);
+    await this.connectedAgentService.softDelete(id, workspaceId);
+
+    return true;
   }
 }
