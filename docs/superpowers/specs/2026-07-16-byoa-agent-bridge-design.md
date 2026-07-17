@@ -223,3 +223,14 @@ Dados e credenciais de teste removidos; servidor encerrado após a verificação
 
 ### Fix pós-review (final whole-branch review): gate cobria só soft-delete
 O review final pegou que o gate cobria `create/update/delete` mas NÃO `destroyOne/destroyMany/mergeMany/restoreOne/restoreMany` — e o `DELETE /rest/...` **padrão** (sem `?soft_delete=true`) é um hard `destroyOne`. Ou seja, um agente sem sessão ainda podia **apagar registros de verdade**. Corrigido (commit 06c29041a8): +5 hooks, totalizando 11 (todas as operações mutantes). Re-verificado e2e: com sessão expirada, `DELETE /rest/companies/:id` → 400 `PERMISSION_DENIED`, registro preservado; após `heartbeat` → DELETE 200. Leituras seguem livres.
+
+---
+## Verificação M3b (2026-07-17) — visual, no navegador
+Backend+front do fonte (localhost:3001), logado como alexandre@desenro.la. Confirmado ao vivo:
+- Nav de Settings mostra a seção de topo "Connected Agents" (ícone de robô), gated por permissão.
+- Lista: título/descrição + empty state "No connected agents yet" + botão "New agent".
+- New agent: Nome + Função (role, default Admin) + Data de Expiração (Never); criar → navega ao detalhe.
+- Detalhe: **token exibido uma vez** ("Copy this token, it won't be shown again" + Copiar); campos Nome/Função/Last seen; Status toggle; Zona de Perigo; feed de Activity.
+- Feed populou (após inserir atividade + lastSeenAt): tabela Tipo/Summary/Payload/When com pills "Prompt"/"Action", **payload como JSON inerte** `{"records":42}`, "When" = agora; Last seen = "agora".
+- Toggle desativar → texto "Disabled — this agent is blocked from writing... re-enable at any time"; persistiu `status=DISABLED` no banco.
+- Delete (danger zone): modal "This will revoke the agent's API key and permanently remove its access", digitar "sim" → agente some da lista; no banco: agente soft-deleted **E a API key revogada** (revokedAt not null) — prova do delete-revoga via a mutation real (que invalida o cache). Dados de teste removidos; servidores encerrados.
