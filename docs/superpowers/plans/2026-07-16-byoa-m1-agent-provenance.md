@@ -16,9 +16,12 @@
 - Enum de proveniência já existe: `FieldActorSource` em `twenty-shared/types` (`actor.composite-type.ts`) contém `AGENT`. **Não criar enum novo.**
 - Permissões do agente vêm **exclusivamente** de `apiKey → roleId` (via `RoleTargetEntity`). O `ConnectedAgent` **não** duplica role.
 - **Desvio deliberado do spec:** o M1 **exige um `roleId` existente** no provisionamento (o operador cria a Role em Settings → Roles, que já existe). O spec mencionava criar Role automaticamente "se não informada" — fica fora do M1 (YAGNI).
-- Rodar testes unitários: `npx nx test twenty-server --testPathPattern=<padrão>` (config `packages/twenty-server/jest.config.mjs`).
+- Rodar testes unitários: `cd packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=<padrão>` (~1s). NÃO usar `nx test` — o executor do nx ignora o filtro e roda a suíte inteira (538 suites, ~224s).
 - Rodar migrations: `npx nx run twenty-server:database:migrate` (executa `run-instance-commands --force`; depende de `build`).
 - Imports usam o alias `src/...` (não caminhos relativos longos), seguindo o padrão do `twenty-server`.
+- **`ActorMetadata['context']` foi alargado** (commit 681421afa2) em `packages/twenty-shared/src/types/composite-types/actor.composite-type.ts` para aceitar `connectedAgentId?: string` — originalmente só aceitava `provider?`. Isso é o que permite `context: { connectedAgentId }` compilar. Não reverter.
+- **Typecheck não é coberto pelos testes:** o jest usa `@swc/jest`, que remove tipos SEM checá-los. Um erro de tipo passa nos testes e só aparece no `tsc`. Ao mexer em tipos, rode: `cd packages/twenty-server && npx tsc --noEmit -p tsconfig.json --skipLibCheck 2>&1 | grep <seu-arquivo>` (o repo tem erros pré-existentes NÃO relacionados — ex.: `@file-type/pdf`, `is-psl-parsed-domain` — ignore-os).
+- **Pegadinha:** `twenty-server` resolve `twenty-shared/types` contra `packages/twenty-shared/dist/` (buildado, gitignored). Se alterar `twenty-shared`, rode `npx nx build twenty-shared` na raiz, senão o `tsc` continua vendo o tipo antigo.
 
 ---
 
@@ -240,7 +243,7 @@ describe('buildCreatedByFromAgent', () => {
 
 - [ ] **Step 2: Rodar o teste e confirmar que falha**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=build-created-by-from-agent`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=build-created-by-from-agent`
 Expected: FAIL — não consegue resolver o módulo `build-created-by-from-agent.util`.
 
 - [ ] **Step 3: Implementar o builder**
@@ -268,7 +271,7 @@ export const buildCreatedByFromAgent = ({
 
 - [ ] **Step 4: Rodar o teste e confirmar que passa**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=build-created-by-from-agent`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=build-created-by-from-agent`
 Expected: PASS (1 test).
 
 - [ ] **Step 5: Commit**
@@ -292,7 +295,7 @@ git commit -m "feat(byoa): add buildCreatedByFromAgent actor builder"
 - Consumes: `ConnectedAgentEntity`, `ConnectedAgentStatus` (Task 1).
 - Produces:
   - `ConnectedAgentService.findActiveByApiKeyId(apiKeyId: string, workspaceId: string): Promise<ConnectedAgentEntity | null>`
-  - `ConnectedAgentModule` — exporta `ConnectedAgentService` e `TypeOrmModule`. **Não importa `ApiKeyModule`** (evita ciclo quando `ActorModule` importar este módulo).
+  - `ConnectedAgentModule` — exporta APENAS `ConnectedAgentService` (boundary fechado: importadores não injetam o repositório direto). **Não importa `ApiKeyModule`** (evita ciclo quando `ActorModule` importar este módulo).
 
 - [ ] **Step 1: Escrever o teste que falha**
 
@@ -357,7 +360,7 @@ describe('ConnectedAgentService', () => {
 
 - [ ] **Step 2: Rodar o teste e confirmar que falha**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=connected-agent.service`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=connected-agent.service`
 Expected: FAIL — não consegue resolver `connected-agent.service`.
 
 - [ ] **Step 3: Implementar o service**
@@ -410,14 +413,14 @@ import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/s
 @Module({
   imports: [TypeOrmModule.forFeature([ConnectedAgentEntity])],
   providers: [ConnectedAgentService],
-  exports: [ConnectedAgentService, TypeOrmModule],
+  exports: [ConnectedAgentService],
 })
 export class ConnectedAgentModule {}
 ```
 
 - [ ] **Step 5: Rodar o teste e confirmar que passa**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=connected-agent.service`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=connected-agent.service`
 Expected: PASS (2 tests).
 
 - [ ] **Step 6: Commit**
@@ -530,7 +533,7 @@ describe('ActorFromAuthContextService', () => {
 
 - [ ] **Step 2: Rodar o teste e confirmar que falha**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=actor-from-auth-context.service`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=actor-from-auth-context.service`
 Expected: FAIL — `Nest can't resolve dependencies of ActorFromAuthContextService` (o `ConnectedAgentService` ainda não é uma dependência).
 
 - [ ] **Step 3: Injetar o `ConnectedAgentService` e adicionar o ramo AGENT**
@@ -626,12 +629,12 @@ e incluí-lo no array `imports`:
 
 - [ ] **Step 5: Rodar o teste e confirmar que passa**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=actor-from-auth-context.service`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=actor-from-auth-context.service`
 Expected: PASS (2 tests).
 
 - [ ] **Step 6: Rodar os testes do módulo actor inteiro (não quebrar o existente)**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=core-modules/actor`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=core-modules/actor`
 Expected: PASS — inclusive quaisquer specs de query-hooks existentes.
 
 - [ ] **Step 7: Commit**
@@ -757,7 +760,7 @@ describe('ConnectedAgentProvisioningService', () => {
 
 - [ ] **Step 2: Rodar o teste e confirmar que falha**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=connected-agent-provisioning.service`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=connected-agent-provisioning.service`
 Expected: FAIL — não consegue resolver `connected-agent-provisioning.service`.
 
 - [ ] **Step 3: Implementar o service de provisionamento**
@@ -832,7 +835,7 @@ export class ConnectedAgentProvisioningService {
 
 - [ ] **Step 4: Rodar o teste e confirmar que passa**
 
-Run: `cd ~/Projetos/twenty && npx nx test twenty-server --testPathPattern=connected-agent-provisioning.service`
+Run: `cd ~/Projetos/twenty/packages/twenty-server && npx jest --config jest.config.mjs --coverage=false --testPathPatterns=connected-agent-provisioning.service`
 Expected: PASS (2 tests).
 
 - [ ] **Step 5: Criar os DTOs**
