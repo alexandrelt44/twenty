@@ -205,3 +205,18 @@ resolução de DI da mutation de provisionamento (Task 5). A chamada da mutation
 com um JWT de usuário admin não foi exercida (exige login de usuário); está coberta por unit tests
 (incluindo o rollback da key e o token-uma-vez), pelo boot com DI válida e pela presença do guard de
 permissão. Dados e credenciais de teste foram removidos após a verificação.
+
+---
+
+## Verificação M2 (2026-07-17)
+
+Executado contra o servidor rodando do fonte (localhost:3000). Resultados reais:
+
+- **Boot limpo** (healthz 200, sem `UnknownDependenciesException`) — DI de `AgentSessionGuardModule` (6 hooks) + `AgentBridgeModule` OK.
+- **Escrita sem sessão → BLOQUEADA:** `POST /rest/companies` com token de agente sem `lastSeenAt` → `{"code":"PERMISSION_DENIED","messages":["Agent must connect to the bridge before writing"]}` (HTTP 400); company NÃO criada.
+- **`connect` → escrita PASSA:** `POST /agent-bridge/connect` → `{connectedAgentId, name:"M2Bot", sessionTtlMs:300000, connectedAt}`; em seguida `POST /rest/companies` → 201, `createdBy = AGENT / M2Bot` (proveniência do M1 intacta).
+- **`events` grava atividade:** `POST /agent-bridge/events` → 202; `core.agentActivity` = `PROMPT | user asked to create a company`.
+- **Expiração → bloqueia → heartbeat → passa:** envelhecer `lastSeenAt` (−10min) → escrita 400; `POST /agent-bridge/heartbeat` → 204; escrita → 201.
+- **Não-regressão:** API key comum (sem `ConnectedAgent`) escreve sem qualquer sessão → 201, `createdBy = API`.
+
+Dados e credenciais de teste removidos; servidor encerrado após a verificação.
