@@ -424,3 +424,11 @@ O schema metadata expõe `connectedAgents`/`connectedAgent`/`connectedAgentActiv
 - `createConnectedAgent` (M1) já retorna o token → fluxo de token-uma-vez mais simples que o de api-keys.
 - Documentos gql em `modules/settings/**/graphql/`; regenerar com `npx nx run twenty-front:graphql:generate --configuration=metadata` (precisa do backend no ar). Tipos em `~/generated-metadata/graphql`.
 - 4 pontos de permissão (rota `SettingsProtectedRouteWrapper`, nav `isHidden`, hook `useHasPermissionFlag`, guard backend) com `API_KEYS_AND_WEBHOOKS`.
+
+---
+## Verificação M3a (2026-07-17) — via boot + introspection do schema metadata
+Servidor sobe limpo (healthz 200, 0 UnknownDependenciesException/schema error). Introspection confirmou:
+- Query: `connectedAgents`, `connectedAgent`, `connectedAgentActivity` presentes.
+- Mutation: `setConnectedAgentStatus`, `deleteConnectedAgent` (+ `createConnectedAgent` do M1).
+- Type `ConnectedAgent`: campos id/name/description/status/lastSeenAt/createdAt/updatedAt/**role** (resolve-field).
+- `AgentActivity.payload` tipo **JSON** (fix do scalar OK).
