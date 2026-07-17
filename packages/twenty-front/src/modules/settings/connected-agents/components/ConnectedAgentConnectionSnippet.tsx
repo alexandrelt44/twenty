@@ -1,5 +1,6 @@
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
+import { isDefined } from 'twenty-shared/utils';
 import { IconCopy } from 'twenty-ui/display';
 import { Button } from 'twenty-ui/input';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
@@ -32,45 +33,65 @@ const StyledButtonRow = styled.div`
 `;
 
 type ConnectedAgentConnectionSnippetProps = {
+  agentName: string;
+  roleLabel?: string | null;
   token?: string | null;
 };
 
 export const ConnectedAgentConnectionSnippet = ({
+  agentName,
+  roleLabel,
   token,
 }: ConnectedAgentConnectionSnippetProps) => {
   const { t } = useLingui();
   const { copyToClipboard } = useCopyToClipboard();
 
-  const bearer = token ?? '$AGENT_TOKEN';
   const base = REACT_APP_SERVER_BASE_URL;
+  const name = agentName;
+  const role = roleLabel ?? 'the role assigned to your API key';
+  const bearer = token ?? '$AGENT_TOKEN';
 
-  const snippet = `# 1) Connect — opens the agent's session (required before it can write)
-curl -X POST ${base}/agent-bridge/connect \\
-  -H "Authorization: Bearer ${bearer}"
+  const tokenNote = isDefined(token)
+    ? ''
+    : `Note: the real token was only shown once, at creation time. Replace $AGENT_TOKEN below with it.\n\n`;
 
-# 2) Heartbeat every ~2 min to keep the session alive
-curl -X POST ${base}/agent-bridge/heartbeat \\
-  -H "Authorization: Bearer ${bearer}"
+  const prompt = `${tokenNote}You are a Connected Agent named "${name}" operating inside a Twenty CRM workspace (role: ${role}).
+Authenticate every request with the header:  Authorization: Bearer ${bearer}
+Base URL: ${base}
 
-# 3) Write to the CRM — attributed to this agent (e.g. create a company)
-curl -X POST ${base}/rest/companies \\
-  -H "Authorization: Bearer ${bearer}" -H "Content-Type: application/json" \\
-  -d '{"name":"Acme Inc"}'
+# 1. Open a session (required before writing)
+Your writes are BLOCKED until you have an active bridge session.
+  POST ${base}/agent-bridge/connect      -> returns your identity + role
+Keep the session alive by sending a heartbeat every ~2 minutes:
+  POST ${base}/agent-bridge/heartbeat
+If a write ever returns 403 "connect to the bridge", reconnect and heartbeat.
 
-# 4) Report activity — shows in this agent's feed
-curl -X POST ${base}/agent-bridge/events \\
-  -H "Authorization: Bearer ${bearer}" -H "Content-Type: application/json" \\
-  -d '{"type":"ACTION","summary":"Created a company"}'`;
+# 2. Read and write CRM records
+Use the Twenty REST API with your Bearer token. Everything you create or update is
+attributed to you (createdBy/updatedBy = AGENT) and appears in the workspace history.
+  GET   ${base}/rest/companies                 # read
+  POST  ${base}/rest/companies  {"name":"Acme Inc"}     # create
+  PATCH ${base}/rest/companies/:id  {"name":"Acme"}     # update
+API reference: ${base}/rest (REST) or ${base}/graphql (GraphQL). Stay within your role's permissions (${role}).
+
+# 3. Report what you are doing
+Post short activity events — they show in this agent's Activity feed for the operator:
+  POST ${base}/agent-bridge/events  {"type":"ACTION","summary":"Created a company","payload":{}}
+  (type is one of PROMPT, ACTION, NOTE)
+
+# Notes
+- The operator can disable you (writes blocked, reversible) or delete you (token revoked) at any time.
+- Never expose or log this token; it grants your role's access to the workspace.`;
 
   return (
     <StyledContainer>
-      <StyledCodeBlock>{snippet}</StyledCodeBlock>
+      <StyledCodeBlock>{prompt}</StyledCodeBlock>
       <StyledButtonRow>
         <Button
           Icon={IconCopy}
-          title={t`Copy`}
+          title={t`Copy prompt`}
           onClick={() => {
-            copyToClipboard(snippet, t`Connection snippet copied to clipboard`);
+            copyToClipboard(prompt, t`Agent prompt copied to clipboard`);
           }}
         />
       </StyledButtonRow>

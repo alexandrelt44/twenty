@@ -190,7 +190,11 @@ export const SettingsConnectedAgentDetail = () => {
               title={t`Connection`}
               description={t`How to connect your agent to the bridge`}
             />
-            <ConnectedAgentConnectionSnippet token={connectedAgentToken} />
+            <ConnectedAgentConnectionSnippet
+              agentName={connectedAgent.name}
+              roleLabel={connectedAgent.role?.label}
+              token={connectedAgentToken}
+            />
           </Section>
           <Section>
             <H2Title title={t`Name`} description={t`Name of your agent`} />
