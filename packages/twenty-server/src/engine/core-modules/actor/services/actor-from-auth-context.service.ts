@@ -3,9 +3,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { type ActorMetadata } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
+import { buildCreatedByFromAgent } from 'src/engine/core-modules/actor/utils/build-created-by-from-agent.util';
 import { buildCreatedByFromApiKey } from 'src/engine/core-modules/actor/utils/build-created-by-from-api-key.util';
 import { buildCreatedByFromApplication } from 'src/engine/core-modules/actor/utils/build-created-by-from-application.util';
 import { buildCreatedByFromFullNameMetadata } from 'src/engine/core-modules/actor/utils/build-created-by-from-full-name-metadata.util';
+import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
 import { isApiKeyAuthContext } from 'src/engine/core-modules/auth/guards/is-api-key-auth-context.guard';
 import { isApplicationAuthContext } from 'src/engine/core-modules/auth/guards/is-application-auth-context.guard';
 import { isUserAuthContext } from 'src/engine/core-modules/auth/guards/is-user-auth-context.guard';
@@ -29,6 +31,7 @@ export class ActorFromAuthContextService {
 
   constructor(
     private readonly flatEntityMapsCacheService: WorkspaceManyOrAllFlatEntityMapsCacheService,
+    private readonly connectedAgentService: ConnectedAgentService,
   ) {}
 
   async injectCreatedBy({
@@ -127,7 +130,7 @@ export class ActorFromAuthContextService {
 
     const clonedRecords = structuredClone(records);
 
-    const actorMetadata = this.buildActorMetadata(authContext);
+    const actorMetadata = await this.buildActorMetadata(authContext);
 
     for (const record of clonedRecords) {
       this.injectActorToRecord(actorMetadata, record, fieldName);
@@ -155,7 +158,9 @@ export class ActorFromAuthContextService {
     }
   }
 
-  private buildActorMetadata(authContext: WorkspaceAuthContext): ActorMetadata {
+  private async buildActorMetadata(
+    authContext: WorkspaceAuthContext,
+  ): Promise<ActorMetadata> {
     if (isUserAuthContext(authContext)) {
       return buildCreatedByFromFullNameMetadata({
         fullNameMetadata: authContext.workspaceMember.name,
@@ -164,6 +169,16 @@ export class ActorFromAuthContextService {
     }
 
     if (isApiKeyAuthContext(authContext)) {
+      const connectedAgent =
+        await this.connectedAgentService.findActiveByApiKeyId(
+          authContext.apiKey.id,
+          authContext.workspace.id,
+        );
+
+      if (isDefined(connectedAgent)) {
+        return buildCreatedByFromAgent({ connectedAgent });
+      }
+
       return buildCreatedByFromApiKey({
         apiKey: authContext.apiKey,
       });
