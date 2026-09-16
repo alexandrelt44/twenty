@@ -2,7 +2,7 @@
 
 - **Data:** 2026-09-16
 - **Branch base:** `dev` (Twenty v2.42.0 + BYOA)
-- **Status:** design aprovado em conversa, aguardando revisão da spec
+- **Status:** aprovada; revisada no planejamento (logo, cor blue, tema padrão)
 
 ## 1. Contexto e objetivo
 
@@ -22,7 +22,9 @@ VPS openclaw (`https://crm.colaborato.rio`).
 | Público | Uso interno + clientes; marca única, sem white-label por cliente |
 | Profundidade | Identidade leve (sem mexer em cinzas, superfícies, raios, layout) |
 | Ativos | Guia de marca em `~/Projetos/colaboratorio` |
-| Tema | Escuro por padrão; claro disponível com logo em filtro preto |
+| Tema | Default continua `System` (como hoje); nenhuma mudança de tema padrão (revisado no planejamento) |
+| Logo | Só o ícone da lâmpada (favicon) em todos os slots; wordmark não entra no app (revisado) |
+| Cor primária | Sobrescrever também a escala `--t-color-blue*` (botões primários usam blue) (revisado) |
 | Publicação | Imagem Docker própria no GHCR via GitHub Actions |
 | Arquitetura | Camada de marca isolada sobrescrevendo tokens (abordagem 1) |
 
@@ -40,9 +42,11 @@ VPS openclaw (`https://crm.colaborato.rio`).
 De `~/Projetos/colaboratorio/Guia de Marca colaborato.rio.md` e `landing-page/`:
 
 - **Nome:** `colaborato.rio` — sempre minúsculas.
-- **Logo:** `landing-page/public/assets/colaboratorio-logo.png` (tipográfico,
-  "colaborato" branco + ".rio" `#D8B4FE`). Regra: usar o arquivo original, sem recriar.
-- **Favicon:** `landing-page/dist/assets/favicon.png`.
+- **Logo:** `landing-page/public/assets/colaboratorio-logo.png` (801×481, ícone de lâmpada
+  + wordmark empilhado em gradiente rosa/roxo — difere da descrição do guia). Não usado no
+  app (ver Seção 2). Regra: usar arquivos originais, sem recriar.
+- **Ícone:** `landing-page/dist/assets/favicon.png` (512×512, lâmpada em círculo escuro) —
+  fonte de todos os ícones do app.
 - **Cores:** primária Neon Purple `#D8B4FE`; secundárias `#F472B6`, `#60A5FA`, `#22C55E`.
 - **Tipografia:** Outfit (texto), JetBrains Mono (código/dados).
 
@@ -53,14 +57,15 @@ upstream tocados são poucos, com mudanças de uma ou poucas linhas, listados em
 `BRANDING.md` (raiz do fork) para orientar merges.
 
 ```
-packages/twenty-front/src/brand/
-  colaboratorio-theme.css        # overrides de tokens (.light / .dark)
-  fonts.ts                       # imports @fontsource (Outfit, JetBrains Mono)
-  __tests__/brand-tokens.test.ts # garante que as variáveis sobrescritas existem
-packages/twenty-front/public/brand/
-  colaboratorio-logo.png         # original
-  email-logo.png                 # versão preta pré-renderizada (e-mails)
-BRANDING.md                      # inventário de pontos de contato com o upstream
+packages/twenty-front/src/modules/brand/
+  colaboratorio-theme.css                  # overrides de tokens (.light / .dark) + fonte do body
+  constants/BrandIdentity.ts               # nome, site, repo, URL do ícone
+  components/BrandSourceAttribution.tsx    # atribuição AGPL em Settings
+  __tests__/colaboratorioTheme.test.ts     # variáveis existem + contraste WCAG
+packages/twenty-front/scripts/brand/
+  brand-icon-source.png                    # favicon original da marca (512px)
+  generate-brand-icons.sh                  # regenera public/images/icons/* (sips)
+BRANDING.md                                # inventário de pontos de contato com o upstream
 .github/workflows/fork-build-image.yaml
 ```
 
@@ -69,6 +74,9 @@ BRANDING.md                      # inventário de pontos de contato com o upstre
 - `colaboratorio-theme.css` é importado **uma vez**, depois do CSS de tema do
   `twenty-ui` (`theme-light.css` / `theme-dark.css`), para vencer por ordem de cascata
   com a mesma especificidade (`.light` / `.dark`).
+- **Blue:** botões primários usam `--t-color-blue*`, então `--t-color-blue` e
+  `--t-color-blue1…12` recebem a mesma escala roxa. Tags/opções "blue" escolhidas pelo
+  usuário têm variáveis próprias (`--t-tag-*-blue`) e continuam azuis.
 - **Accent:** substitui `--t-accent-accent1…12` e os aliases derivados
   (`--t-accent-primary`, `secondary`, `tertiary`, `quaternary`, `accent3570`,
   `accent4060`) por uma escala roxa de 12 passos, uma para `.dark` e outra para `.light`,
@@ -83,31 +91,28 @@ BRANDING.md                      # inventário de pontos de contato com o upstre
   `--t-code-font-family: 'JetBrains Mono', monospace`. Fontes servidas localmente via
   `@fontsource` (pesos 400/500/600/700 do Outfit; 400 do JetBrains Mono), sem CDN.
 - **Não muda:** cinzas, superfícies, bordas, raios, espaçamentos.
-- **Guarda de merge:** `brand-tokens.test.ts` lê os CSS gerados do `twenty-ui` e falha
+- **Guarda de merge:** `colaboratorioTheme.test.ts` lê os CSS gerados do `twenty-ui` e falha
   se alguma variável sobrescrita pela marca deixar de existir.
 - **Risco conhecido:** Outfit é mais largo que Inter — checar truncamento em tabelas e
   sidebar no checklist visual.
 
-## 5. Seção 2 — Logo, favicon e tema escuro padrão
+## 5. Seção 2 — Logo e favicon
 
-- **Ícones de app** (`public/images/icons/android|ios|windows11`) regenerados a partir do
-  favicon da marca, **com os mesmos nomes de arquivo**, sem alterar caminhos em
-  `index.html` e `manifest.json`.
-- **Login:** o placeholder de `auth/components/Logo.tsx` passa a ser o logo da marca;
-  workspaces com logo próprio continuam exibindo o seu.
-- **Sidebar / seletor de workspace:** `DEFAULT_WORKSPACE_LOGO` deixa de apontar para
-  `twentyhq.github.io/.../twenty-logo.png` e passa a apontar para `/brand/…` local.
-- **Modo claro:** logo com `filter: brightness(0)` (monocromático preto, incluindo o
-  ".rio"). Aceito explicitamente.
-- **Escuro por padrão:**
-  - Front, pré-login: default de `persistedColorSchemeState` passa de `'System'` para
-    `'Dark'`.
-  - Server: default do campo `colorScheme` do workspace member passa para `'Dark'`
-    (apenas novos membros). **Verificar no plano** se mudar esse default da definição
-    standard dispara sync de metadados / exige upgrade command. Se sim, **fallback:**
-    manter o server intocado e fazer o front tratar ausência de escolha explícita como
-    `'Dark'`.
-  - Usuários podem trocar em Settings → Experience.
+Revisado no planejamento: o logo real é um ícone de lâmpada + wordmark empilhado, e todos
+os slots de logo do app são quadrados e pequenos (login 48px, avatar do workspace,
+favicon, e-mail). Usa-se **só o ícone** (lâmpada em círculo escuro, 512px), que funciona
+igual em claro e escuro, sem filtro. O wordmark não entra no app.
+
+- **Ícones de app** (`public/images/icons/android|ios|windows11`, 112 PNGs) regenerados
+  a partir do ícone da marca por `scripts/brand/generate-brand-icons.sh`, **com os mesmos
+  nomes e dimensões**, sem alterar caminhos em `index.html` e `manifest.json`.
+- **Login:** `auth/components/Logo.tsx` já usa `android-launchericon-192-192.png` como
+  placeholder, portanto passa a exibir o ícone da marca sem mudança de código.
+  Workspaces com logo próprio continuam exibindo o seu.
+- **Sidebar / seletor de workspace / favicon dinâmico:** `DEFAULT_WORKSPACE_LOGO` deixa
+  de apontar para `twentyhq.github.io/.../twenty-logo.png` e passa a apontar para o
+  ícone local `${window.location.origin}/images/icons/android/android-launchericon-192-192.png` (absoluto, pois `getImageAbsoluteURI` reescreve caminhos relativos para `/files`).
+- **Tema padrão:** continua `System` (sem mudança).
 
 ## 6. Seção 3 — Textos e e-mails
 
@@ -116,23 +121,26 @@ BRANDING.md                      # inventário de pontos de contato com o upstre
 - `index.html`: `<title>`, `og:title`, `twitter:title` e descrições → `colaborato.rio`.
 - `public/manifest.json`: `name`, `short_name` → `colaborato.rio`.
 
-### Strings da interface (apenas 3)
+### Strings da interface (apenas 2)
 
 - "Welcome to Twenty" → "Welcome to colaborato.rio"
-- "By using Twenty, you agree to the" → "By using colaborato.rio, you agree to the"
 - "Page Not Found | Twenty" → "Page Not Found | colaborato.rio"
 
+"By using Twenty, you agree to the Terms of Service…" (`FooterNote.tsx`) **fica como
+está** (revisado no planejamento): o texto linka os termos do Twenty, e trocar só o nome
+apontaria o usuário para termos de outra empresa. Revisitar quando colaborato.rio tiver
+páginas legais próprias.
+
 Mensagens-fonte editadas e traduções atualizadas em **en, pt-BR, pt-PT**. Demais
-locales caem em inglês nessas 3 entradas (aceito). Esta é uma exceção deliberada à regra
+locales caem em inglês nessas entradas (aceito). Esta é uma exceção deliberada à regra
 de "não commitar catálogos": commitar apenas as entradas afetadas nesses locales. Conflitos
 futuros nos `.po` são resolvidos aceitando o upstream e reaplicando.
 
 ### E-mails (`packages/twenty-emails`)
 
-- `components/Logo.tsx`: `src` passa a ser a URL pública da instância
-  (`https://crm.colaborato.rio/brand/email-logo.png`), `alt="colaborato.rio"`.
-  `email-logo.png` é o logo original com filtro preto aplicado (pré-renderizado, pois
-  clientes de e-mail não suportam CSS filter).
+- `components/Logo.tsx`: `src` passa a ser o ícone da marca servido pela instância
+  (`https://crm.colaborato.rio/images/icons/windows11/Square150x150Logo.scale-100.png`,
+  mesmo caminho que o upstream usa em app.twenty.com), `alt="colaborato.rio logo"`.
 - `components/Footer.tsx`: links do Twenty → site colaborato.rio; "Twenty.com, Public
   Benefit Corporation" → "colaborato.rio"; linha de atribuição AGPL (ver abaixo).
 - `components/WhatIsTwenty.tsx` (convite): "What is Twenty?" → "O que é o
@@ -163,8 +171,8 @@ futuros nos `.po` são resolvidos aceitando o upstream e reaplicando.
   cache do GitHub Actions.
 - Publica em `ghcr.io/alexandrelt44/colaboratorio-crm` com tags `release`,
   `<twentyVersion>-colab.<run>` e `sha-<shortsha>`.
-- Workflows herdados do upstream são **desabilitados via GitHub Actions** no fork
-  (`gh workflow disable`), sem apagar arquivos, para não gerar conflitos.
+- Workflows herdados do upstream ficam **desabilitados** no fork (`gh workflow disable`),
+  sem apagar arquivos, para não gerar conflitos; só `fork-build-image` fica ativo.
 
 ### Deploy na VPS openclaw
 
@@ -181,14 +189,16 @@ Estado atual: `x86_64`, 7.8 GB RAM, Twenty v2.2.0 oficial, compose em
 4. `docker compose pull && docker compose up -d` — o entrypoint executa o upgrade
    (cross-version suportado desde v1.23), incluindo os upgrade commands BYOA 2-42.
 5. Verificar `yarn command:prod upgrade:status` e smoke test (login, sidebar, Connected
-   Agents, tema escuro, logo).
+   Agents, ícone, ambos os temas).
 6. **Rollback:** restaurar `image`/`TAG` anteriores e o dump (upgrades não são revertidos
    automaticamente).
 
 ## 8. Testes e verificação
 
-- `brand-tokens.test.ts`: variáveis sobrescritas existem nos CSS do `twenty-ui`.
-- Teste de componente do logo: usa o asset da marca e aplica filtro no modo claro.
+- `colaboratorioTheme.test.ts`: variáveis sobrescritas existem nos CSS do `twenty-ui` e
+  pares de cor passam WCAG AA.
+- Teste de componente de `BrandSourceAttribution` (texto e link do repositório).
+- Script de ícones valida que cada PNG regenerado mantém as dimensões originais.
 - Snapshot/render de e-mails do upstream atualizado para a marca.
 - Typecheck (`tsgo`) e lint nos pacotes tocados (front, emails, server se aplicável).
 - Checklist visual manual (app rodando, ambos os temas): login, sidebar, tabela, botão
@@ -199,8 +209,7 @@ Estado atual: `x86_64`, 7.8 GB RAM, Twenty v2.2.0 oficial, compose em
 
 | Risco | Mitigação |
 |---|---|
-| Upstream renomeia tokens e override silencia | `brand-tokens.test.ts` no CI |
-| Default `colorScheme` no server exige sync/migration | Fallback front-only (Seção 2) |
+| Upstream renomeia tokens e override silencia | `colaboratorioTheme.test.ts` |
 | Conflitos em `.po` a cada merge | Só 3 entradas; resolução documentada em `BRANDING.md` |
 | Outfit trunca textos | Checklist visual; ajuste de tamanho se necessário |
 | Upgrade v2.2 → v2.42 falha na VPS | Backup obrigatório + rollback documentado |
