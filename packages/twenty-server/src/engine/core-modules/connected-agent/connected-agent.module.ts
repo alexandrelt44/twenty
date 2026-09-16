@@ -5,12 +5,18 @@ import { AgentActivityEntity } from 'src/engine/core-modules/connected-agent/age
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { AgentActivityService } from 'src/engine/core-modules/connected-agent/services/agent-activity.service';
 import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
+import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/provide-workspace-scoped-repository';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ConnectedAgentEntity, AgentActivityEntity]),
   ],
-  providers: [ConnectedAgentService, AgentActivityService],
+  providers: [
+    ConnectedAgentService,
+    AgentActivityService,
+    provideWorkspaceScopedRepository(ConnectedAgentEntity),
+    provideWorkspaceScopedRepository(AgentActivityEntity),
+  ],
   exports: [ConnectedAgentService, AgentActivityService],
 })
 export class ConnectedAgentModule {}

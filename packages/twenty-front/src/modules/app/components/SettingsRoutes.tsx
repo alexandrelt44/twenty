@@ -179,11 +179,11 @@ const SettingsConnectedAgentNew = lazy(() =>
 );
 
 const SettingsConnectedAgentDetail = lazy(() =>
-  import(
-    '~/pages/settings/connected-agents/SettingsConnectedAgentDetail'
-  ).then((module) => ({
-    default: module.SettingsConnectedAgentDetail,
-  })),
+  import('~/pages/settings/connected-agents/SettingsConnectedAgentDetail').then(
+    (module) => ({
+      default: module.SettingsConnectedAgentDetail,
+    }),
+  ),
 );
 
 const SettingsLogicFunctionDetail = lazy(() =>

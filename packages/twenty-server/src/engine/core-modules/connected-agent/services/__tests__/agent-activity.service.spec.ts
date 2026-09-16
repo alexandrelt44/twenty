@@ -1,33 +1,36 @@
 import { Test, type TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-
-import { Repository } from 'typeorm';
 
 import { AgentActivityEntity } from 'src/engine/core-modules/connected-agent/agent-activity.entity';
 import { AgentActivityType } from 'src/engine/core-modules/connected-agent/enums/agent-activity-type.enum';
 import { AgentActivityService } from 'src/engine/core-modules/connected-agent/services/agent-activity.service';
+import { getWorkspaceScopedRepositoryToken } from 'src/engine/twenty-orm/workspace-scoped-repository/get-workspace-scoped-repository-token.util';
+import { type WorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/workspace-scoped-repository';
 
 describe('AgentActivityService', () => {
   let service: AgentActivityService;
-  let repository: jest.Mocked<Repository<AgentActivityEntity>>;
+  let repository: jest.Mocked<WorkspaceScopedRepository<AgentActivityEntity>>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AgentActivityService,
         {
-          provide: getRepositoryToken(AgentActivityEntity),
-          useValue: { save: jest.fn(), find: jest.fn() },
+          provide: getWorkspaceScopedRepositoryToken(AgentActivityEntity),
+          useValue: { insertAndReturnOne: jest.fn(), find: jest.fn() },
         },
       ],
     }).compile();
 
     service = module.get(AgentActivityService);
-    repository = module.get(getRepositoryToken(AgentActivityEntity));
+    repository = module.get(
+      getWorkspaceScopedRepositoryToken(AgentActivityEntity),
+    );
   });
 
   it('should persist an activity with the given fields', async () => {
-    repository.save.mockImplementation(async (a) => ({ id: 'act-1', ...a }) as never);
+    repository.insertAndReturnOne.mockImplementation(
+      async (_workspaceId, activity) => ({ id: 'act-1', ...activity }) as never,
+    );
 
     const result = await service.record({
       connectedAgentId: 'agent-1',
@@ -37,9 +40,8 @@ describe('AgentActivityService', () => {
       payload: { foo: 'bar' },
     });
 
-    expect(repository.save).toHaveBeenCalledWith({
+    expect(repository.insertAndReturnOne).toHaveBeenCalledWith('ws-1', {
       connectedAgentId: 'agent-1',
-      workspaceId: 'ws-1',
       type: AgentActivityType.PROMPT,
       summary: 'received a prompt',
       payload: { foo: 'bar' },
@@ -54,8 +56,8 @@ describe('AgentActivityService', () => {
 
     const result = await service.listForAgent('agent-1', 'ws-1', 10);
 
-    expect(repository.find).toHaveBeenCalledWith({
-      where: { connectedAgentId: 'agent-1', workspaceId: 'ws-1' },
+    expect(repository.find).toHaveBeenCalledWith('ws-1', {
+      where: { connectedAgentId: 'agent-1' },
       order: { createdAt: 'DESC' },
       take: 10,
     });

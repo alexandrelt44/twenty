@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/client/react';
 import { useLingui } from '@lingui/react/macro';
 import { SettingsPath } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
-import { Pill } from 'twenty-ui/components';
-import { IconRobot } from 'twenty-ui/display';
+import { IconRobot } from 'twenty-ui/icon';
+import { Pill } from 'twenty-ui/primitives/data-display';
 
 import { useHasPermissionFlag } from '@/settings/roles/hooks/useHasPermissionFlag';
 import { NavigationDrawerItem } from '@/ui/navigation/navigation-drawer/components/NavigationDrawerItem';
@@ -45,9 +45,7 @@ export const MainNavigationConnectedAgentsItem = () => {
       Icon={IconRobot}
       onClick={() => navigateSettings(SettingsPath.ConnectedAgents)}
       rightOptions={
-        connectedCount > 0 ? (
-          <Pill label={String(connectedCount)} />
-        ) : undefined
+        connectedCount > 0 ? <Pill label={String(connectedCount)} /> : undefined
       }
       alwaysShowRightOptions={connectedCount > 0}
     />

@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 
-import { Repository } from 'typeorm';
+import { type QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 import { AgentActivityEntity } from 'src/engine/core-modules/connected-agent/agent-activity.entity';
 import { AgentActivityType } from 'src/engine/core-modules/connected-agent/enums/agent-activity-type.enum';
+import { InjectWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/inject-workspace-scoped-repository.decorator';
+import { WorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/workspace-scoped-repository';
 
 type RecordActivityArgs = {
   connectedAgentId: string;
@@ -17,8 +18,8 @@ type RecordActivityArgs = {
 @Injectable()
 export class AgentActivityService {
   constructor(
-    @InjectRepository(AgentActivityEntity)
-    private readonly agentActivityRepository: Repository<AgentActivityEntity>,
+    @InjectWorkspaceScopedRepository(AgentActivityEntity)
+    private readonly agentActivityRepository: WorkspaceScopedRepository<AgentActivityEntity>,
   ) {}
 
   async record({
@@ -28,13 +29,12 @@ export class AgentActivityService {
     summary,
     payload = null,
   }: RecordActivityArgs): Promise<AgentActivityEntity> {
-    return this.agentActivityRepository.save({
+    return this.agentActivityRepository.insertAndReturnOne(workspaceId, {
       connectedAgentId,
-      workspaceId,
       type,
       summary,
       payload,
-    });
+    } as QueryDeepPartialEntity<AgentActivityEntity>);
   }
 
   async listForAgent(
@@ -42,8 +42,8 @@ export class AgentActivityService {
     workspaceId: string,
     limit = 50,
   ): Promise<AgentActivityEntity[]> {
-    return this.agentActivityRepository.find({
-      where: { connectedAgentId, workspaceId },
+    return this.agentActivityRepository.find(workspaceId, {
+      where: { connectedAgentId },
       order: { createdAt: 'DESC' },
       take: limit,
     });

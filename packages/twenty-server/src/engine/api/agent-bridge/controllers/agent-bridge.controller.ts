@@ -19,11 +19,19 @@ import { AgentBridgeService } from 'src/engine/api/agent-bridge/services/agent-b
 import { type ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { AuthWorkspace } from 'src/engine/decorators/auth/auth-workspace.decorator';
 import { FlatWorkspace } from 'src/engine/core-modules/workspace/types/flat-workspace.type';
+import { CustomPermissionGuard } from 'src/engine/guards/custom-permission.guard';
 import { JwtAuthGuard } from 'src/engine/guards/jwt-auth.guard';
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
 
 @Controller('agent-bridge')
-@UseGuards(JwtAuthGuard, WorkspaceAuthGuard, AgentBridgeGuard)
+// AgentBridgeGuard is the permission check: only API keys bound to an active
+// connected agent may reach these endpoints.
+@UseGuards(
+  JwtAuthGuard,
+  WorkspaceAuthGuard,
+  AgentBridgeGuard,
+  CustomPermissionGuard,
+)
 export class AgentBridgeController {
   constructor(private readonly agentBridgeService: AgentBridgeService) {}
 

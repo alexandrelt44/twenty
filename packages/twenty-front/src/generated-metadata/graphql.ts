@@ -54,10 +54,10 @@ export type Agent = {
 
 export type AgentActivity = {
   __typename?: 'AgentActivity';
-  createdAt: Scalars['DateTime'];
-  id: Scalars['UUID'];
-  payload?: Maybe<Scalars['JSON']>;
-  summary: Scalars['String'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['UUID']['output'];
+  payload?: Maybe<Scalars['JSON']['output']>;
+  summary: Scalars['String']['output'];
   type: AgentActivityType;
 };
 
@@ -1232,14 +1232,14 @@ export type ConnectedAccountPublicDto = {
 
 export type ConnectedAgent = {
   __typename?: 'ConnectedAgent';
-  createdAt: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  id: Scalars['UUID'];
-  lastSeenAt?: Maybe<Scalars['DateTime']>;
-  name: Scalars['String'];
+  createdAt: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['UUID']['output'];
+  lastSeenAt?: Maybe<Scalars['DateTime']['output']>;
+  name: Scalars['String']['output'];
   role?: Maybe<Role>;
   status: ConnectedAgentStatus;
-  updatedAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export enum ConnectedAgentStatus {
@@ -1251,7 +1251,7 @@ export type ConnectedAgentWithToken = {
   __typename?: 'ConnectedAgentWithToken';
   connectedAgent: ConnectedAgent;
   /** Only returned once, at creation time. Store it securely. */
-  token: Scalars['String'];
+  token: Scalars['String']['output'];
 };
 
 export type ConnectedImapSmtpCaldavAccount = {
@@ -1389,10 +1389,10 @@ export type CreateEmailingDomainInput = {
 };
 
 export type CreateConnectedAgentInput = {
-  description?: InputMaybe<Scalars['String']>;
-  expiresAt: Scalars['String'];
-  name: Scalars['String'];
-  roleId: Scalars['UUID'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  expiresAt: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  roleId: Scalars['UUID']['input'];
 };
 
 export type CreateFieldInput = {
@@ -1685,7 +1685,7 @@ export type DeleteApprovedAccessDomainInput = {
 };
 
 export type DeleteConnectedAgentInput = {
-  id: Scalars['UUID'];
+  id: Scalars['UUID']['input'];
 };
 
 export type DeleteOneFieldInput = {
@@ -2376,11 +2376,11 @@ export type GetAuthorizationUrlForSsoInput = {
 };
 
 export type GetConnectedAgentActivityInput = {
-  connectedAgentId: Scalars['UUID'];
+  connectedAgentId: Scalars['UUID']['input'];
 };
 
 export type GetConnectedAgentInput = {
-  id: Scalars['UUID'];
+  id: Scalars['UUID']['input'];
 };
 
 /** Order by options for graph widgets */
@@ -3083,7 +3083,7 @@ export type Mutation = {
   deleteChatThread: Scalars['Boolean']['output'];
   deleteCommandMenuItem: CommandMenuItem;
   deleteConnectedAccount: ConnectedAccountPublicDto;
-  deleteConnectedAgent: Scalars['Boolean'];
+  deleteConnectedAgent: Scalars['Boolean']['output'];
   deleteCurrentWorkspace: Workspace;
   deleteEmailGroupChannel: MessageChannel;
   deleteEmailingDomain: Scalars['Boolean']['output'];
@@ -6028,7 +6028,7 @@ export type SetAppKeyValueInput = {
 };
 
 export type SetConnectedAgentStatusInput = {
-  id: Scalars['UUID'];
+  id: Scalars['UUID']['input'];
   status: ConnectedAgentStatus;
 };
 

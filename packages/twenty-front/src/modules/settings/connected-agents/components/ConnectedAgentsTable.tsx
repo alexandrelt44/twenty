@@ -10,7 +10,7 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import { useContext } from 'react';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
-import { IconChevronRight } from 'twenty-ui/display';
+import { IconChevronRight } from 'twenty-ui/icon';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 import { useQuery } from '@apollo/client/react';
 import { GetConnectedAgentsDocument } from '~/generated-metadata/graphql';

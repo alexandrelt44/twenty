@@ -1,11 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-
-import { Repository } from 'typeorm';
-
 import { ApiKeyService } from 'src/engine/core-modules/api-key/services/api-key.service';
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
+import { InjectWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/inject-workspace-scoped-repository.decorator';
+import { WorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/workspace-scoped-repository';
 
 type ProvisionConnectedAgentArgs = {
   name: string;
@@ -25,8 +23,8 @@ export class ConnectedAgentProvisioningService {
   private readonly logger = new Logger(ConnectedAgentProvisioningService.name);
 
   constructor(
-    @InjectRepository(ConnectedAgentEntity)
-    private readonly connectedAgentRepository: Repository<ConnectedAgentEntity>,
+    @InjectWorkspaceScopedRepository(ConnectedAgentEntity)
+    private readonly connectedAgentRepository: WorkspaceScopedRepository<ConnectedAgentEntity>,
     private readonly apiKeyService: ApiKeyService,
     private readonly connectedAgentService: ConnectedAgentService,
   ) {}
@@ -56,12 +54,12 @@ export class ConnectedAgentProvisioningService {
         throw new Error('Failed to generate token for connected agent');
       }
 
-      const connectedAgent = await this.connectedAgentRepository.save({
-        name,
-        description,
-        apiKeyId: apiKey.id,
-        workspaceId,
-      });
+      const connectedAgent =
+        await this.connectedAgentRepository.insertAndReturnOne(workspaceId, {
+          name,
+          description,
+          apiKeyId: apiKey.id,
+        });
 
       return { connectedAgent, token: apiKeyToken.token };
     } catch (error) {

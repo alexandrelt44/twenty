@@ -6,9 +6,7 @@ import { AgentSessionGuardService } from 'src/engine/core-modules/connected-agen
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
 
 @WorkspaceQueryHook(`*.createMany`)
-export class AgentSessionGateCreateManyPreQueryHook
-  implements WorkspacePreQueryHookInstance
-{
+export class AgentSessionGateCreateManyPreQueryHook implements WorkspacePreQueryHookInstance {
   constructor(
     private readonly agentSessionGuardService: AgentSessionGuardService,
   ) {}

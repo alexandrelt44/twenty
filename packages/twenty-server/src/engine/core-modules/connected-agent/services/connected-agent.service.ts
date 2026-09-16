@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { ConnectedAgentStatus } from 'src/engine/core-modules/connected-agent/enums/connected-agent-status.enum';
+import { InjectWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/inject-workspace-scoped-repository.decorator';
+import { WorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/workspace-scoped-repository';
 
 @Injectable()
 export class ConnectedAgentService {
   constructor(
-    @InjectRepository(ConnectedAgentEntity)
-    private readonly connectedAgentRepository: Repository<ConnectedAgentEntity>,
+    @InjectWorkspaceScopedRepository(ConnectedAgentEntity)
+    private readonly connectedAgentRepository: WorkspaceScopedRepository<ConnectedAgentEntity>,
   ) {}
 
   async findActiveByApiKeyId(
     apiKeyId: string,
     workspaceId: string,
   ): Promise<ConnectedAgentEntity | null> {
-    return this.connectedAgentRepository.findOne({
+    return this.connectedAgentRepository.findOne(workspaceId, {
       where: {
         apiKeyId,
-        workspaceId,
         status: ConnectedAgentStatus.ACTIVE,
         deletedAt: IsNull(),
       },
@@ -31,8 +30,8 @@ export class ConnectedAgentService {
     apiKeyId: string,
     workspaceId: string,
   ): Promise<ConnectedAgentEntity | null> {
-    return this.connectedAgentRepository.findOne({
-      where: { apiKeyId, workspaceId },
+    return this.connectedAgentRepository.findOne(workspaceId, {
+      where: { apiKeyId },
     });
   }
 
@@ -41,7 +40,8 @@ export class ConnectedAgentService {
     workspaceId: string,
   ): Promise<void> {
     await this.connectedAgentRepository.update(
-      { id: connectedAgentId, workspaceId },
+      workspaceId,
+      { id: connectedAgentId },
       { lastSeenAt: new Date() },
     );
   }
@@ -49,8 +49,7 @@ export class ConnectedAgentService {
   async findByWorkspaceId(
     workspaceId: string,
   ): Promise<ConnectedAgentEntity[]> {
-    return this.connectedAgentRepository.find({
-      where: { workspaceId },
+    return this.connectedAgentRepository.find(workspaceId, {
       order: { createdAt: 'DESC' },
     });
   }
@@ -59,8 +58,8 @@ export class ConnectedAgentService {
     id: string,
     workspaceId: string,
   ): Promise<ConnectedAgentEntity | null> {
-    return this.connectedAgentRepository.findOne({
-      where: { id, workspaceId },
+    return this.connectedAgentRepository.findOne(workspaceId, {
+      where: { id },
     });
   }
 
@@ -69,12 +68,12 @@ export class ConnectedAgentService {
     workspaceId: string,
     status: ConnectedAgentStatus,
   ): Promise<ConnectedAgentEntity | null> {
-    await this.connectedAgentRepository.update({ id, workspaceId }, { status });
+    await this.connectedAgentRepository.update(workspaceId, { id }, { status });
 
     return this.findById(id, workspaceId);
   }
 
   async softDelete(id: string, workspaceId: string): Promise<void> {
-    await this.connectedAgentRepository.softDelete({ id, workspaceId });
+    await this.connectedAgentRepository.softDelete(workspaceId, { id });
   }
 }

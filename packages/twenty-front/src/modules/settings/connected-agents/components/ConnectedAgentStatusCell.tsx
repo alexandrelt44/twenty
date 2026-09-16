@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
 
-import { Status } from 'twenty-ui/display';
+import { Status } from 'twenty-ui/primitives/data-display';
 
 const AGENT_SESSION_TTL_MS = 300000;
 
@@ -16,7 +16,7 @@ export const ConnectedAgentStatusCell = ({
   const { t } = useLingui();
 
   if (status === 'DISABLED') {
-    return <Status color="gray" text={t`Disabled`} />;
+    return <Status color="gray">{t`Disabled`}</Status>;
   }
 
   const isSessionActive =
@@ -24,8 +24,8 @@ export const ConnectedAgentStatusCell = ({
     Date.now() - new Date(lastSeenAt).getTime() < AGENT_SESSION_TTL_MS;
 
   if (isSessionActive) {
-    return <Status color="green" text={t`Connected`} />;
+    return <Status color="green">{t`Connected`}</Status>;
   }
 
-  return <Status color="orange" text={t`Idle`} />;
+  return <Status color="orange">{t`Idle`}</Status>;
 };

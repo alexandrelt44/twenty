@@ -12,9 +12,7 @@ import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/s
 
 @Injectable()
 export class AgentBridgeGuard implements CanActivate {
-  constructor(
-    private readonly connectedAgentService: ConnectedAgentService,
-  ) {}
+  constructor(private readonly connectedAgentService: ConnectedAgentService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = getRequest(context);

@@ -6,9 +6,7 @@ import { AgentSessionGuardService } from 'src/engine/core-modules/connected-agen
 import { type WorkspaceAuthContext } from 'src/engine/core-modules/auth/types/workspace-auth-context.type';
 
 @WorkspaceQueryHook(`*.deleteOne`)
-export class AgentSessionGateDeleteOnePreQueryHook
-  implements WorkspacePreQueryHookInstance
-{
+export class AgentSessionGateDeleteOnePreQueryHook implements WorkspacePreQueryHookInstance {
   constructor(
     private readonly agentSessionGuardService: AgentSessionGuardService,
   ) {}

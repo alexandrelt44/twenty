@@ -1,18 +1,17 @@
 import { Test, type TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
-
-import { Repository } from 'typeorm';
 
 import { ApiKeyService } from 'src/engine/core-modules/api-key/services/api-key.service';
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { ConnectedAgentProvisioningService } from 'src/engine/core-modules/connected-agent/services/connected-agent-provisioning.service';
 import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
+import { getWorkspaceScopedRepositoryToken } from 'src/engine/twenty-orm/workspace-scoped-repository/get-workspace-scoped-repository-token.util';
+import { type WorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/workspace-scoped-repository';
 
 describe('ConnectedAgentProvisioningService', () => {
   let service: ConnectedAgentProvisioningService;
   let apiKeyService: jest.Mocked<ApiKeyService>;
   let connectedAgentService: jest.Mocked<ConnectedAgentService>;
-  let repository: jest.Mocked<Repository<ConnectedAgentEntity>>;
+  let repository: jest.Mocked<WorkspaceScopedRepository<ConnectedAgentEntity>>;
 
   const expiresAt = new Date('2027-01-01T00:00:00.000Z');
 
@@ -36,8 +35,8 @@ describe('ConnectedAgentProvisioningService', () => {
           },
         },
         {
-          provide: getRepositoryToken(ConnectedAgentEntity),
-          useValue: { save: jest.fn() },
+          provide: getWorkspaceScopedRepositoryToken(ConnectedAgentEntity),
+          useValue: { insertAndReturnOne: jest.fn() },
         },
       ],
     }).compile();
@@ -45,14 +44,16 @@ describe('ConnectedAgentProvisioningService', () => {
     service = module.get(ConnectedAgentProvisioningService);
     apiKeyService = module.get(ApiKeyService);
     connectedAgentService = module.get(ConnectedAgentService);
-    repository = module.get(getRepositoryToken(ConnectedAgentEntity));
+    repository = module.get(
+      getWorkspaceScopedRepositoryToken(ConnectedAgentEntity),
+    );
   });
 
   it('should create an api key with the role, persist the agent and return the token once', async () => {
     apiKeyService.create.mockResolvedValue({ id: 'key-1' } as never);
     apiKeyService.generateApiKeyToken.mockResolvedValue({ token: 'jwt-token' });
-    repository.save.mockImplementation(
-      async (agent) => ({ id: 'agent-1', ...agent }) as never,
+    repository.insertAndReturnOne.mockImplementation(
+      async (_workspaceId, agent) => ({ id: 'agent-1', ...agent }) as never,
     );
 
     const result = await service.provisionConnectedAgent({
@@ -74,11 +75,10 @@ describe('ConnectedAgentProvisioningService', () => {
       'key-1',
       expiresAt,
     );
-    expect(repository.save).toHaveBeenCalledWith({
+    expect(repository.insertAndReturnOne).toHaveBeenCalledWith('ws-1', {
       name: 'ProofBot',
       description: 'my agent',
       apiKeyId: 'key-1',
-      workspaceId: 'ws-1',
     });
     expect(result.token).toBe('jwt-token');
     expect(result.connectedAgent.id).toBe('agent-1');
@@ -120,7 +120,7 @@ describe('ConnectedAgentProvisioningService', () => {
     ).rejects.toThrow(originalError);
 
     expect(apiKeyService.revoke).toHaveBeenCalledWith('key-1', 'ws-1');
-    expect(repository.save).not.toHaveBeenCalled();
+    expect(repository.insertAndReturnOne).not.toHaveBeenCalled();
   });
 
   it('should revoke the created api key and rethrow the original error when the connected agent save fails', async () => {
@@ -128,7 +128,7 @@ describe('ConnectedAgentProvisioningService', () => {
     apiKeyService.generateApiKeyToken.mockResolvedValue({ token: 'jwt-token' });
     const originalError = new Error('save failed');
 
-    repository.save.mockRejectedValue(originalError);
+    repository.insertAndReturnOne.mockRejectedValue(originalError);
     apiKeyService.revoke.mockResolvedValue(null);
 
     await expect(

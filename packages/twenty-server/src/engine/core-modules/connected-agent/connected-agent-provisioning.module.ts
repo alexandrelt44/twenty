@@ -7,6 +7,7 @@ import { ConnectedAgentModule } from 'src/engine/core-modules/connected-agent/co
 import { ConnectedAgentResolver } from 'src/engine/core-modules/connected-agent/connected-agent.resolver';
 import { ConnectedAgentProvisioningService } from 'src/engine/core-modules/connected-agent/services/connected-agent-provisioning.service';
 import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permissions.module';
+import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/provide-workspace-scoped-repository';
 
 @Module({
   imports: [
@@ -15,7 +16,11 @@ import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permi
     ConnectedAgentModule,
     PermissionsModule,
   ],
-  providers: [ConnectedAgentProvisioningService, ConnectedAgentResolver],
+  providers: [
+    ConnectedAgentProvisioningService,
+    ConnectedAgentResolver,
+    provideWorkspaceScopedRepository(ConnectedAgentEntity),
+  ],
   exports: [ConnectedAgentProvisioningService],
 })
 export class ConnectedAgentProvisioningModule {}

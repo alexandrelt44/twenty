@@ -16,7 +16,10 @@ describe('AgentBridgeService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AgentBridgeService,
-        { provide: ConnectedAgentService, useValue: { touchLastSeen: jest.fn() } },
+        {
+          provide: ConnectedAgentService,
+          useValue: { touchLastSeen: jest.fn() },
+        },
         { provide: AgentActivityService, useValue: { record: jest.fn() } },
       ],
     }).compile();
@@ -29,7 +32,10 @@ describe('AgentBridgeService', () => {
   it('connect refreshes lastSeenAt and returns the agent identity + ttl', async () => {
     const result = await service.connect(agent, 'ws-1');
 
-    expect(connectedAgentService.touchLastSeen).toHaveBeenCalledWith('agent-1', 'ws-1');
+    expect(connectedAgentService.touchLastSeen).toHaveBeenCalledWith(
+      'agent-1',
+      'ws-1',
+    );
     expect(result.connectedAgentId).toBe('agent-1');
     expect(result.name).toBe('ProofBot');
     expect(result.sessionTtlMs).toBe(300_000);
@@ -37,7 +43,10 @@ describe('AgentBridgeService', () => {
 
   it('heartbeat refreshes lastSeenAt', async () => {
     await service.heartbeat(agent, 'ws-1');
-    expect(connectedAgentService.touchLastSeen).toHaveBeenCalledWith('agent-1', 'ws-1');
+    expect(connectedAgentService.touchLastSeen).toHaveBeenCalledWith(
+      'agent-1',
+      'ws-1',
+    );
   });
 
   it('reportEvent refreshes lastSeenAt and records the activity', async () => {
@@ -47,7 +56,10 @@ describe('AgentBridgeService', () => {
       payload: { a: 1 },
     });
 
-    expect(connectedAgentService.touchLastSeen).toHaveBeenCalledWith('agent-1', 'ws-1');
+    expect(connectedAgentService.touchLastSeen).toHaveBeenCalledWith(
+      'agent-1',
+      'ws-1',
+    );
     expect(agentActivityService.record).toHaveBeenCalledWith({
       connectedAgentId: 'agent-1',
       workspaceId: 'ws-1',

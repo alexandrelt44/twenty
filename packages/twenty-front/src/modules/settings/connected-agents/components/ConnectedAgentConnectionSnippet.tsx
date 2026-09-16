@@ -1,8 +1,8 @@
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
 import { isDefined } from 'twenty-shared/utils';
-import { IconCopy } from 'twenty-ui/display';
-import { Button } from 'twenty-ui/input';
+import { IconCopy } from 'twenty-ui/icon';
+import { Button } from 'twenty-ui/primitives/input';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 import { REACT_APP_SERVER_BASE_URL } from '~/config';
 import { useCopyToClipboard } from '~/hooks/useCopyToClipboard';
@@ -88,12 +88,11 @@ Post short activity events — they show in this agent's Activity feed for the o
       <StyledCodeBlock>{prompt}</StyledCodeBlock>
       <StyledButtonRow>
         <Button
-          Icon={IconCopy}
-          title={t`Copy prompt`}
+          startIcon={<IconCopy />}
           onClick={() => {
             copyToClipboard(prompt, t`Agent prompt copied to clipboard`);
           }}
-        />
+        >{t`Copy prompt`}</Button>
       </StyledButtonRow>
     </StyledContainer>
   );

@@ -1,22 +1,23 @@
 import { Test, type TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { IsNull, Repository } from 'typeorm';
+import { IsNull } from 'typeorm';
 
 import { ConnectedAgentEntity } from 'src/engine/core-modules/connected-agent/connected-agent.entity';
 import { ConnectedAgentStatus } from 'src/engine/core-modules/connected-agent/enums/connected-agent-status.enum';
 import { ConnectedAgentService } from 'src/engine/core-modules/connected-agent/services/connected-agent.service';
+import { getWorkspaceScopedRepositoryToken } from 'src/engine/twenty-orm/workspace-scoped-repository/get-workspace-scoped-repository-token.util';
+import { type WorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/workspace-scoped-repository';
 
 describe('ConnectedAgentService', () => {
   let service: ConnectedAgentService;
-  let repository: jest.Mocked<Repository<ConnectedAgentEntity>>;
+  let repository: jest.Mocked<WorkspaceScopedRepository<ConnectedAgentEntity>>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         ConnectedAgentService,
         {
-          provide: getRepositoryToken(ConnectedAgentEntity),
+          provide: getWorkspaceScopedRepositoryToken(ConnectedAgentEntity),
           useValue: {
             find: jest.fn(),
             findOne: jest.fn(),
@@ -28,7 +29,9 @@ describe('ConnectedAgentService', () => {
     }).compile();
 
     service = module.get(ConnectedAgentService);
-    repository = module.get(getRepositoryToken(ConnectedAgentEntity));
+    repository = module.get(
+      getWorkspaceScopedRepositoryToken(ConnectedAgentEntity),
+    );
   });
 
   it('should find an active agent scoped by apiKeyId and workspaceId', async () => {
@@ -39,10 +42,9 @@ describe('ConnectedAgentService', () => {
     const result = await service.findActiveByApiKeyId('key-1', 'ws-1');
 
     expect(result).toBe(agent);
-    expect(repository.findOne).toHaveBeenCalledWith({
+    expect(repository.findOne).toHaveBeenCalledWith('ws-1', {
       where: {
         apiKeyId: 'key-1',
-        workspaceId: 'ws-1',
         status: ConnectedAgentStatus.ACTIVE,
         deletedAt: IsNull(),
       },
@@ -64,7 +66,8 @@ describe('ConnectedAgentService', () => {
       await service.touchLastSeen('agent-1', 'ws-1');
 
       expect(update).toHaveBeenCalledWith(
-        { id: 'agent-1', workspaceId: 'ws-1' },
+        'ws-1',
+        { id: 'agent-1' },
         { lastSeenAt: expect.any(Date) },
       );
     });
@@ -78,8 +81,7 @@ describe('ConnectedAgentService', () => {
 
       const result = await service.findByWorkspaceId('ws-1');
 
-      expect(repository.find).toHaveBeenCalledWith({
-        where: { workspaceId: 'ws-1' },
+      expect(repository.find).toHaveBeenCalledWith('ws-1', {
         order: { createdAt: 'DESC' },
       });
       expect(result).toBe(rows);
@@ -94,8 +96,8 @@ describe('ConnectedAgentService', () => {
 
       const result = await service.findById('a1', 'ws-1');
 
-      expect(repository.findOne).toHaveBeenCalledWith({
-        where: { id: 'a1', workspaceId: 'ws-1' },
+      expect(repository.findOne).toHaveBeenCalledWith('ws-1', {
+        where: { id: 'a1' },
       });
       expect(result).toBe(agent);
     });
@@ -118,7 +120,8 @@ describe('ConnectedAgentService', () => {
       );
 
       expect(repository.update).toHaveBeenCalledWith(
-        { id: 'a1', workspaceId: 'ws-1' },
+        'ws-1',
+        { id: 'a1' },
         { status: ConnectedAgentStatus.DISABLED },
       );
       expect(result).toBe(updated);
@@ -131,7 +134,7 @@ describe('ConnectedAgentService', () => {
 
       await service.softDelete('a1', 'ws-1');
 
-      expect(softDelete).toHaveBeenCalledWith({ id: 'a1', workspaceId: 'ws-1' });
+      expect(softDelete).toHaveBeenCalledWith('ws-1', { id: 'a1' });
     });
   });
 });

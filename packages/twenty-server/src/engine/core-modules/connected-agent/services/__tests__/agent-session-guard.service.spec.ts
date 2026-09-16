@@ -43,7 +43,9 @@ describe('AgentSessionGuardService', () => {
 
   it('is a no-op when the apiKey does not belong to a connected agent', async () => {
     connectedAgentService.findByApiKeyId.mockResolvedValue(null);
-    await expect(service.assertActiveSession(apiKeyCtx)).resolves.toBeUndefined();
+    await expect(
+      service.assertActiveSession(apiKeyCtx),
+    ).resolves.toBeUndefined();
   });
 
   it('passes when the agent session is fresh', async () => {
@@ -52,7 +54,9 @@ describe('AgentSessionGuardService', () => {
       status: ConnectedAgentStatus.ACTIVE,
       lastSeenAt: new Date(),
     } as never);
-    await expect(service.assertActiveSession(apiKeyCtx)).resolves.toBeUndefined();
+    await expect(
+      service.assertActiveSession(apiKeyCtx),
+    ).resolves.toBeUndefined();
   });
 
   it('throws PermissionsException when the agent has never connected (lastSeenAt null)', async () => {

@@ -12,9 +12,7 @@ import {
 
 @Injectable()
 export class AgentSessionGuardService {
-  constructor(
-    private readonly connectedAgentService: ConnectedAgentService,
-  ) {}
+  constructor(private readonly connectedAgentService: ConnectedAgentService) {}
 
   isSessionActive(lastSeenAt: Date | null): boolean {
     if (lastSeenAt === null) {
@@ -29,11 +27,10 @@ export class AgentSessionGuardService {
       return;
     }
 
-    const connectedAgent =
-      await this.connectedAgentService.findByApiKeyId(
-        authContext.apiKey.id,
-        authContext.workspace.id,
-      );
+    const connectedAgent = await this.connectedAgentService.findByApiKeyId(
+      authContext.apiKey.id,
+      authContext.workspace.id,
+    );
 
     if (connectedAgent === null) {
       return;

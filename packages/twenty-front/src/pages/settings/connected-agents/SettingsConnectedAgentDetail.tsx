@@ -9,17 +9,18 @@ import { SettingsPageContainer } from '@/settings/components/SettingsPageContain
 import { SettingsSkeletonLoader } from '@/settings/components/SettingsSkeletonLoader';
 import { ApiKeyInput } from '@/settings/developers/components/ApiKeyInput';
 import { useAtomFamilyStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomFamilyStateValue';
-import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
 import { SettingsTextInput } from '@/ui/input/components/SettingsTextInput';
 import { ConfirmationModal } from '@/ui/layout/modal/components/ConfirmationModal';
 import { useModal } from '@/ui/layout/modal/hooks/useModal';
-import { SubMenuTopBarContainer } from '@/ui/layout/page/components/SubMenuTopBarContainer';
+import { SettingsPageLayout } from '@/settings/components/layout/SettingsPageLayout';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath, isDefined } from 'twenty-shared/utils';
-import { H2Title, IconTrash } from 'twenty-ui/display';
-import { Button, Toggle } from 'twenty-ui/input';
-import { Section } from 'twenty-ui/layout';
+import { IconTrash } from 'twenty-ui/icon';
+import { useToast } from 'twenty-ui/primitives/feedback';
+import { Button, Switch } from 'twenty-ui/primitives/input';
+import { Section } from 'twenty-ui/primitives/layout';
+import { H2Title } from 'twenty-ui/primitives/typography';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 import { useMutation, useQuery } from '@apollo/client/react';
 import {
@@ -48,7 +49,7 @@ const DELETE_CONNECTED_AGENT_MODAL_ID = 'delete-connected-agent-modal';
 
 export const SettingsConnectedAgentDetail = () => {
   const { t } = useLingui();
-  const { enqueueErrorSnackBar } = useSnackBar();
+  const { enqueueToast } = useToast();
   const { openModal, closeModal } = useModal();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -72,7 +73,9 @@ export const SettingsConnectedAgentDetail = () => {
     },
   });
 
-  const [setConnectedAgentStatus] = useMutation(SetConnectedAgentStatusDocument);
+  const [setConnectedAgentStatus] = useMutation(
+    SetConnectedAgentStatusDocument,
+  );
   const [deleteConnectedAgent] = useMutation(DeleteConnectedAgentDocument);
 
   const connectedAgent = connectedAgentData?.connectedAgent;
@@ -98,8 +101,9 @@ export const SettingsConnectedAgentDetail = () => {
       });
       await refetch();
     } catch {
-      enqueueErrorSnackBar({
-        message: t`Error updating agent status`,
+      enqueueToast({
+        variant: 'error',
+        children: t`Error updating agent status`,
       });
     } finally {
       setIsLoading(false);
@@ -119,7 +123,10 @@ export const SettingsConnectedAgentDetail = () => {
       closeModal(DELETE_CONNECTED_AGENT_MODAL_ID);
       navigateSettings(SettingsPath.ConnectedAgents);
     } catch {
-      enqueueErrorSnackBar({ message: t`Error deleting connected agent.` });
+      enqueueToast({
+        variant: 'error',
+        children: t`Error deleting connected agent.`,
+      });
     } finally {
       setIsLoading(false);
     }
@@ -131,12 +138,12 @@ export const SettingsConnectedAgentDetail = () => {
 
   if (!isDefined(connectedAgent)) {
     return (
-      <SubMenuTopBarContainer
+      <SettingsPageLayout
         title={t`Agent not found`}
         links={[
           {
             children: t`Workspace`,
-            href: getSettingsPath(SettingsPath.Workspace),
+            href: getSettingsPath(SettingsPath.General),
           },
           {
             children: t`Connected Agents`,
@@ -153,7 +160,7 @@ export const SettingsConnectedAgentDetail = () => {
             />
           </Section>
         </SettingsPageContainer>
-      </SubMenuTopBarContainer>
+      </SettingsPageLayout>
     );
   }
 
@@ -161,12 +168,12 @@ export const SettingsConnectedAgentDetail = () => {
 
   return (
     <>
-      <SubMenuTopBarContainer
+      <SettingsPageLayout
         title={connectedAgent.name || t`Unnamed agent`}
         links={[
           {
             children: t`Workspace`,
-            href: getSettingsPath(SettingsPath.Workspace),
+            href: getSettingsPath(SettingsPath.General),
           },
           {
             children: t`Connected Agents`,
@@ -206,10 +213,7 @@ export const SettingsConnectedAgentDetail = () => {
             />
           </Section>
           <Section>
-            <H2Title
-              title={t`Role`}
-              description={t`What this agent can do`}
-            />
+            <H2Title title={t`Role`} description={t`What this agent can do`} />
             <SettingsTextInput
               instanceId={`connected-agent-role-${connectedAgent.id}`}
               value={connectedAgent.role?.label ?? t`No role assigned`}
@@ -218,7 +222,10 @@ export const SettingsConnectedAgentDetail = () => {
             />
           </Section>
           <Section>
-            <H2Title title={t`Last seen`} description={t`Last activity from this agent`} />
+            <H2Title
+              title={t`Last seen`}
+              description={t`Last activity from this agent`}
+            />
             <SettingsTextInput
               instanceId={`connected-agent-last-seen-${connectedAgent.id}`}
               value={
@@ -238,9 +245,10 @@ export const SettingsConnectedAgentDetail = () => {
               description={t`Enable or disable this agent`}
             />
             <StyledToggleRow>
-              <Toggle
-                value={isActive}
-                onChange={handleStatusToggle}
+              <Switch
+                aria-label={t`Agent status`}
+                checked={isActive}
+                onCheckedChange={handleStatusToggle}
                 disabled={isLoading}
               />
               <StyledHelperText>
@@ -256,12 +264,11 @@ export const SettingsConnectedAgentDetail = () => {
               description={t`Delete this connected agent`}
             />
             <Button
-              accent="danger"
-              variant="secondary"
-              title={t`Delete`}
-              Icon={IconTrash}
+              startIcon={<IconTrash />}
               onClick={() => openModal(DELETE_CONNECTED_AGENT_MODAL_ID)}
-            />
+              variant="outline"
+              color="danger"
+            >{t`Delete`}</Button>
           </Section>
           <Section>
             <H2Title
@@ -271,7 +278,7 @@ export const SettingsConnectedAgentDetail = () => {
             <ConnectedAgentActivityFeed connectedAgentId={connectedAgentId} />
           </Section>
         </SettingsPageContainer>
-      </SubMenuTopBarContainer>
+      </SettingsPageLayout>
       <ConfirmationModal
         confirmationPlaceholder={confirmationValue}
         confirmationValue={confirmationValue}
@@ -279,9 +286,9 @@ export const SettingsConnectedAgentDetail = () => {
         title={t`Delete connected agent`}
         subtitle={
           <Trans>
-            Please type {`"${confirmationValue}"`} to confirm you want to
-            delete this connected agent. This will revoke the agent's API key
-            and permanently remove its access to your workspace.
+            Please type {`"${confirmationValue}"`} to confirm you want to delete
+            this connected agent. This will revoke the agent's API key and
+            permanently remove its access to your workspace.
           </Trans>
         }
         onConfirmClick={handleDelete}

@@ -127,9 +127,7 @@ export const ConnectedAgentActivityFeed = ({
                 textOverflow="ellipsis"
               >
                 <StyledEllipsisLabel>
-                  {beautifyPastDateRelativeToNowShort(
-                    new Date(item.createdAt),
-                  )}
+                  {beautifyPastDateRelativeToNowShort(new Date(item.createdAt))}
                 </StyledEllipsisLabel>
               </TableCell>
             </TableRow>
