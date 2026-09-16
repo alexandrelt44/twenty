@@ -17,25 +17,92 @@ export const DOCUMENTATION_PATHS = {
   DEVELOPERS_CONTRIBUTE_COMMANDS: '/developers/contribute/commands',
   DEVELOPERS_CONTRIBUTE_STYLE_GUIDE: '/developers/contribute/style-guide',
   DEVELOPERS_EXTEND_API: '/developers/extend/api',
-  DEVELOPERS_EXTEND_APPS_BUILDING: '/developers/extend/apps/building',
-  DEVELOPERS_EXTEND_APPS_CLI_AND_TESTING:
-    '/developers/extend/apps/cli-and-testing',
-  DEVELOPERS_EXTEND_APPS_DATA_MODEL: '/developers/extend/apps/data-model',
-  DEVELOPERS_EXTEND_APPS_FRONT_COMPONENTS:
-    '/developers/extend/apps/front-components',
-  DEVELOPERS_EXTEND_APPS_GETTING_STARTED:
-    '/developers/extend/apps/getting-started',
-  DEVELOPERS_EXTEND_APPS_LAYOUT: '/developers/extend/apps/layout',
-  DEVELOPERS_EXTEND_APPS_LOGIC_FUNCTIONS:
-    '/developers/extend/apps/logic-functions',
-  DEVELOPERS_EXTEND_APPS_PUBLISHING: '/developers/extend/apps/publishing',
-  DEVELOPERS_EXTEND_APPS_SKILLS_AND_AGENTS:
-    '/developers/extend/apps/skills-and-agents',
+  DEVELOPERS_EXTEND_APPS_CONFIG_APPLICATION:
+    '/developers/extend/apps/config/application',
+  DEVELOPERS_EXTEND_APPS_CONFIG_INSTALL_HOOKS:
+    '/developers/extend/apps/config/install-hooks',
+  DEVELOPERS_EXTEND_APPS_CONFIG_OVERVIEW:
+    '/developers/extend/apps/config/overview',
+  DEVELOPERS_EXTEND_APPS_CONFIG_PUBLIC_ASSETS:
+    '/developers/extend/apps/config/public-assets',
+  DEVELOPERS_EXTEND_APPS_CONFIG_ROLES: '/developers/extend/apps/config/roles',
+  DEVELOPERS_EXTEND_APPS_DATA_EXTENDING_OBJECTS:
+    '/developers/extend/apps/data/extending-objects',
+  DEVELOPERS_EXTEND_APPS_DATA_OBJECTS: '/developers/extend/apps/data/objects',
+  DEVELOPERS_EXTEND_APPS_DATA_OVERVIEW: '/developers/extend/apps/data/overview',
+  DEVELOPERS_EXTEND_APPS_DATA_RELATIONS:
+    '/developers/extend/apps/data/relations',
+  DEVELOPERS_EXTEND_APPS_DATA_SYSTEM_FIELDS:
+    '/developers/extend/apps/data/system-fields',
+  DEVELOPERS_EXTEND_APPS_DATA_TIMELINE_ACTIVITY_TYPES:
+    '/developers/extend/apps/data/timeline-activity-types',
+  DEVELOPERS_EXTEND_APPS_GETTING_STARTED_CONCEPTS:
+    '/developers/extend/apps/getting-started/concepts',
+  DEVELOPERS_EXTEND_APPS_GETTING_STARTED_LOCAL_SERVER:
+    '/developers/extend/apps/getting-started/local-server',
+  DEVELOPERS_EXTEND_APPS_GETTING_STARTED_PROJECT_STRUCTURE:
+    '/developers/extend/apps/getting-started/project-structure',
+  DEVELOPERS_EXTEND_APPS_GETTING_STARTED_QUICK_START:
+    '/developers/extend/apps/getting-started/quick-start',
+  DEVELOPERS_EXTEND_APPS_GETTING_STARTED_SCAFFOLDING:
+    '/developers/extend/apps/getting-started/scaffolding',
+  DEVELOPERS_EXTEND_APPS_GETTING_STARTED_TROUBLESHOOTING:
+    '/developers/extend/apps/getting-started/troubleshooting',
+  DEVELOPERS_EXTEND_APPS_LAYOUT_COMMAND_MENU_ITEMS:
+    '/developers/extend/apps/layout/command-menu-items',
+  DEVELOPERS_EXTEND_APPS_LAYOUT_FRONT_COMPONENTS:
+    '/developers/extend/apps/layout/front-components',
+  DEVELOPERS_EXTEND_APPS_LAYOUT_NAVIGATION_MENU_ITEMS:
+    '/developers/extend/apps/layout/navigation-menu-items',
+  DEVELOPERS_EXTEND_APPS_LAYOUT_OVERVIEW:
+    '/developers/extend/apps/layout/overview',
+  DEVELOPERS_EXTEND_APPS_LAYOUT_PAGE_LAYOUTS:
+    '/developers/extend/apps/layout/page-layouts',
+  DEVELOPERS_EXTEND_APPS_LAYOUT_VIEWS: '/developers/extend/apps/layout/views',
+  DEVELOPERS_EXTEND_APPS_LOGIC_BACKGROUND_JOBS:
+    '/developers/extend/apps/logic/background-jobs',
+  DEVELOPERS_EXTEND_APPS_LOGIC_CONNECTIONS:
+    '/developers/extend/apps/logic/connections',
+  DEVELOPERS_EXTEND_APPS_LOGIC_CREDITS: '/developers/extend/apps/logic/credits',
+  DEVELOPERS_EXTEND_APPS_LOGIC_KEY_VALUE_STORE:
+    '/developers/extend/apps/logic/key-value-store',
+  DEVELOPERS_EXTEND_APPS_LOGIC_LOGIC_FUNCTIONS:
+    '/developers/extend/apps/logic/logic-functions',
+  DEVELOPERS_EXTEND_APPS_LOGIC_MESSAGING_CHANNELS:
+    '/developers/extend/apps/logic/messaging-channels',
+  DEVELOPERS_EXTEND_APPS_LOGIC_OVERVIEW:
+    '/developers/extend/apps/logic/overview',
+  DEVELOPERS_EXTEND_APPS_LOGIC_SKILLS_AND_AGENTS:
+    '/developers/extend/apps/logic/skills-and-agents',
+  DEVELOPERS_EXTEND_APPS_OPERATIONS_CLI:
+    '/developers/extend/apps/operations/cli',
+  DEVELOPERS_EXTEND_APPS_OPERATIONS_OVERVIEW:
+    '/developers/extend/apps/operations/overview',
+  DEVELOPERS_EXTEND_APPS_OPERATIONS_PUBLISHING:
+    '/developers/extend/apps/operations/publishing',
+  DEVELOPERS_EXTEND_APPS_OPERATIONS_SYNC_AND_RECOVERY:
+    '/developers/extend/apps/operations/sync-and-recovery',
+  DEVELOPERS_EXTEND_APPS_OPERATIONS_TESTING:
+    '/developers/extend/apps/operations/testing',
+  DEVELOPERS_EXTEND_APPS_OPERATIONS_TRANSLATIONS:
+    '/developers/extend/apps/operations/translations',
+  DEVELOPERS_EXTEND_APPS_TUTORIALS_DOCUMENT_GENERATOR_AI_AGENT:
+    '/developers/extend/apps/tutorials/document-generator/ai-agent',
+  DEVELOPERS_EXTEND_APPS_TUTORIALS_DOCUMENT_GENERATOR_BUILDING_THE_UI:
+    '/developers/extend/apps/tutorials/document-generator/building-the-ui',
+  DEVELOPERS_EXTEND_APPS_TUTORIALS_DOCUMENT_GENERATOR_DATA_MODEL:
+    '/developers/extend/apps/tutorials/document-generator/data-model',
+  DEVELOPERS_EXTEND_APPS_TUTORIALS_DOCUMENT_GENERATOR_GENERATING_DOCUMENTS:
+    '/developers/extend/apps/tutorials/document-generator/generating-documents',
+  DEVELOPERS_EXTEND_APPS_TUTORIALS_DOCUMENT_GENERATOR_HTTP_ROUTES:
+    '/developers/extend/apps/tutorials/document-generator/http-routes',
+  DEVELOPERS_EXTEND_APPS_TUTORIALS_DOCUMENT_GENERATOR_OVERVIEW:
+    '/developers/extend/apps/tutorials/document-generator/overview',
+  DEVELOPERS_EXTEND_APPS_TUTORIALS_DOCUMENT_GENERATOR_PUBLISHING:
+    '/developers/extend/apps/tutorials/document-generator/publishing',
   DEVELOPERS_EXTEND_OAUTH: '/developers/extend/oauth',
   DEVELOPERS_EXTEND_WEBHOOKS: '/developers/extend/webhooks',
   DEVELOPERS_INTRODUCTION: '/developers/introduction',
-  DEVELOPERS_SELF_HOST_CAPABILITIES_CLOUD_PROVIDERS:
-    '/developers/self-host/capabilities/cloud-providers',
   DEVELOPERS_SELF_HOST_CAPABILITIES_DOCKER_COMPOSE:
     '/developers/self-host/capabilities/docker-compose',
   DEVELOPERS_SELF_HOST_CAPABILITIES_SETUP:
@@ -60,6 +127,40 @@ export const DOCUMENTATION_PATHS = {
   GETTING_STARTED_INTRODUCTION: '/getting-started/introduction',
   GETTING_STARTED_KEY_FEATURES: '/getting-started/key-features',
   GETTING_STARTED_QUICKSTART: '/getting-started/quickstart',
+  UI_ACCESSIBILITY: '/ui/accessibility',
+  UI_COMPONENTS_INPUT_ICON_BUTTON: '/ui/components/input/icon-button',
+  UI_COMPONENTS_INPUT_LIGHT_BUTTON: '/ui/components/input/light-button',
+  UI_COMPONENTS_INPUT_MAIN_BUTTON: '/ui/components/input/main-button',
+  UI_COMPONENTS_OVERVIEW: '/ui/components/overview',
+  UI_DARK_MODE: '/ui/dark-mode',
+  UI_GETTING_STARTED: '/ui/getting-started',
+  UI_PRIMITIVES_DATA_DISPLAY_AVATAR: '/ui/primitives/data-display/avatar',
+  UI_PRIMITIVES_DATA_DISPLAY_CHIP: '/ui/primitives/data-display/chip',
+  UI_PRIMITIVES_DATA_DISPLAY_STATUS: '/ui/primitives/data-display/status',
+  UI_PRIMITIVES_DATA_DISPLAY_TAG: '/ui/primitives/data-display/tag',
+  UI_PRIMITIVES_FEEDBACK_TOAST: '/ui/primitives/feedback/toast',
+  UI_PRIMITIVES_INPUT_BUTTON: '/ui/primitives/input/button',
+  UI_PRIMITIVES_INPUT_BUTTON_GROUP: '/ui/primitives/input/button-group',
+  UI_PRIMITIVES_INPUT_CHECKBOX: '/ui/primitives/input/checkbox',
+  UI_PRIMITIVES_INPUT_FIELD: '/ui/primitives/input/field',
+  UI_PRIMITIVES_INPUT_INPUT: '/ui/primitives/input/input',
+  UI_PRIMITIVES_INPUT_INPUT_GROUP: '/ui/primitives/input/input-group',
+  UI_PRIMITIVES_INPUT_RADIO: '/ui/primitives/input/radio',
+  UI_PRIMITIVES_INPUT_RADIO_GROUP: '/ui/primitives/input/radio-group',
+  UI_PRIMITIVES_INPUT_SELECT: '/ui/primitives/input/select',
+  UI_PRIMITIVES_INPUT_SLIDER: '/ui/primitives/input/slider',
+  UI_PRIMITIVES_INPUT_SWITCH: '/ui/primitives/input/switch',
+  UI_PRIMITIVES_INPUT_TEXTAREA: '/ui/primitives/input/textarea',
+  UI_PRIMITIVES_NAVIGATION_LIST_ITEM: '/ui/primitives/navigation/list-item',
+  UI_PRIMITIVES_NAVIGATION_TABS: '/ui/primitives/navigation/tabs',
+  UI_PRIMITIVES_OVERVIEW: '/ui/primitives/overview',
+  UI_PRIMITIVES_SURFACES_ALERT_DIALOG: '/ui/primitives/surfaces/alert-dialog',
+  UI_PRIMITIVES_SURFACES_MENU: '/ui/primitives/surfaces/menu',
+  UI_PRIMITIVES_SURFACES_POPOVER: '/ui/primitives/surfaces/popover',
+  UI_PRIMITIVES_TYPOGRAPHY_TEXT: '/ui/primitives/typography/text',
+  UI_SSR: '/ui/ssr',
+  UI_THEMING: '/ui/theming',
+  UI_TOKENS: '/ui/tokens',
   USER_GUIDE_AI_CAPABILITIES_AI_AGENTS: '/user-guide/ai/capabilities/ai-agents',
   USER_GUIDE_AI_CAPABILITIES_AI_CHATBOT:
     '/user-guide/ai/capabilities/ai-chatbot',
@@ -86,6 +187,12 @@ export const DOCUMENTATION_PATHS = {
     '/user-guide/calendar-emails/how-tos/can-i-track-email-activity-on-all-objects',
   USER_GUIDE_CALENDAR_EMAILS_HOW_TOS_CONNECT_SEVERAL_MAILBOXES_PER_USER:
     '/user-guide/calendar-emails/how-tos/connect-several-mailboxes-per-user',
+  USER_GUIDE_CALENDAR_EMAILS_HOW_TOS_FORWARD_A_SHARED_INBOX_FROM_ANY_MAIL_PROVIDER:
+    '/user-guide/calendar-emails/how-tos/forward-a-shared-inbox-from-any-mail-provider',
+  USER_GUIDE_CALENDAR_EMAILS_HOW_TOS_FORWARD_A_SHARED_INBOX_FROM_GOOGLE_WORKSPACE:
+    '/user-guide/calendar-emails/how-tos/forward-a-shared-inbox-from-google-workspace',
+  USER_GUIDE_CALENDAR_EMAILS_HOW_TOS_FORWARD_A_SHARED_INBOX_FROM_MICROSOFT_365:
+    '/user-guide/calendar-emails/how-tos/forward-a-shared-inbox-from-microsoft-365',
   USER_GUIDE_CALENDAR_EMAILS_HOW_TOS_I_DONT_SEE_EMAILS_ON_RECORDS:
     '/user-guide/calendar-emails/how-tos/i-dont-see-emails-on-records',
   USER_GUIDE_CALENDAR_EMAILS_HOW_TOS_LIMIT_EMAILS_IMPORTED:
@@ -158,6 +265,8 @@ export const DOCUMENTATION_PATHS = {
   USER_GUIDE_LAYOUT_CAPABILITIES_RECORD_PAGES:
     '/user-guide/layout/capabilities/record-pages',
   USER_GUIDE_LAYOUT_OVERVIEW: '/user-guide/layout/overview',
+  USER_GUIDE_LEGAL_HOW_TOS_LEGAL_FAQ: '/user-guide/legal/how-tos/legal-faq',
+  USER_GUIDE_LEGAL_OVERVIEW: '/user-guide/legal/overview',
   USER_GUIDE_PERMISSIONS_ACCESS_CAPABILITIES_PERMISSIONS:
     '/user-guide/permissions-access/capabilities/permissions',
   USER_GUIDE_PERMISSIONS_ACCESS_CAPABILITIES_SSO_CONFIGURATION:
@@ -166,6 +275,8 @@ export const DOCUMENTATION_PATHS = {
     '/user-guide/permissions-access/how-tos/permissions-faq',
   USER_GUIDE_PERMISSIONS_ACCESS_OVERVIEW:
     '/user-guide/permissions-access/overview',
+  USER_GUIDE_SETTINGS_CAPABILITIES_COMMUNITY_SETTINGS:
+    '/user-guide/settings/capabilities/community-settings',
   USER_GUIDE_SETTINGS_CAPABILITIES_DOMAINS_SETTINGS:
     '/user-guide/settings/capabilities/domains-settings',
   USER_GUIDE_SETTINGS_CAPABILITIES_EXPERIENCE_SETTINGS:
@@ -174,8 +285,6 @@ export const DOCUMENTATION_PATHS = {
     '/user-guide/settings/capabilities/member-management',
   USER_GUIDE_SETTINGS_CAPABILITIES_PROFILE_SETTINGS:
     '/user-guide/settings/capabilities/profile-settings',
-  USER_GUIDE_SETTINGS_CAPABILITIES_UPDATES_SETTINGS:
-    '/user-guide/settings/capabilities/updates-settings',
   USER_GUIDE_SETTINGS_CAPABILITIES_WORKSPACE_SETTINGS:
     '/user-guide/settings/capabilities/workspace-settings',
   USER_GUIDE_SETTINGS_HOW_TOS_SETTINGS_FAQ:

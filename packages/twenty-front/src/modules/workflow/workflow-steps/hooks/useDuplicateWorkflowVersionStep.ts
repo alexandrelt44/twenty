@@ -1,10 +1,9 @@
+import { getToastOptionsFromError } from '@/error-handler/utils/getToastOptionsFromError';
 import { useApolloCoreClient } from '@/object-metadata/hooks/useApolloCoreClient';
-import { useSetAtomComponentState } from '@/ui/utilities/state/jotai/hooks/useSetAtomComponentState';
 import { DUPLICATE_WORKFLOW_VERSION_STEP } from '@/workflow/graphql/mutations/duplicateWorkflowVersionStep';
-import { flowComponentState } from '@/workflow/states/flowComponentState';
-import { useUpdateWorkflowVersionCache } from '@/workflow/workflow-steps/hooks/useUpdateWorkflowVersionCache';
+import { useApplyWorkflowVersionStepChanges } from '@/workflow/workflow-steps/hooks/useApplyWorkflowVersionStepChanges';
 import { useMutation } from '@apollo/client/react';
-import { isDefined } from 'twenty-shared/utils';
+import { useToast } from 'twenty-ui/primitives/feedback';
 import {
   type DuplicateWorkflowVersionStepInput,
   type DuplicateWorkflowVersionStepMutation,
@@ -14,9 +13,10 @@ import {
 export const useDuplicateWorkflowVersionStep = () => {
   const apolloCoreClient = useApolloCoreClient();
 
-  const { updateWorkflowVersionCache } = useUpdateWorkflowVersionCache();
+  const { applyWorkflowVersionStepChanges } =
+    useApplyWorkflowVersionStepChanges();
 
-  const setFlow = useSetAtomComponentState(flowComponentState);
+  const { enqueueToast } = useToast();
 
   const [mutate] = useMutation<
     DuplicateWorkflowVersionStepMutation,
@@ -30,23 +30,18 @@ export const useDuplicateWorkflowVersionStep = () => {
   ) => {
     const result = await mutate({
       variables: { input },
+      onError: (error) => {
+        enqueueToast(getToastOptionsFromError({ error }));
+      },
     });
 
     const workflowVersionStepChanges =
       result?.data?.duplicateWorkflowVersionStep;
 
-    const updatedWorkflowVersion = updateWorkflowVersionCache({
+    applyWorkflowVersionStepChanges({
       workflowVersionStepChanges,
       workflowVersionId: input.workflowVersionId,
     });
-
-    if (isDefined(updatedWorkflowVersion)) {
-      setFlow({
-        workflowVersionId: updatedWorkflowVersion.id,
-        trigger: updatedWorkflowVersion.trigger,
-        steps: updatedWorkflowVersion.steps,
-      });
-    }
 
     return result;
   };

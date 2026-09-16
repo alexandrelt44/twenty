@@ -1,11 +1,12 @@
 import { type WorkflowCodeAction } from '@/workflow/types/Workflow';
 import { WorkflowEditActionCode } from '@/workflow/workflow-steps/workflow-actions/code-action/components/WorkflowEditActionCode';
 import { type Meta, type StoryObj } from '@storybook/react-vite';
-import { graphql, HttpResponse } from 'msw';
+import { HttpResponse, graphql } from 'msw';
 import { fn } from 'storybook/test';
 import { ComponentDecorator, RouterDecorator } from 'twenty-ui/testing';
+import { ARGOS_CAPTURE_DISABLED } from '~/testing/constants/ArgosCaptureDisabled';
 import { ObjectMetadataItemsDecorator } from '~/testing/decorators/ObjectMetadataItemsDecorator';
-import { SnackBarDecorator } from '~/testing/decorators/SnackBarDecorator';
+import { ToastDecorator } from '~/testing/decorators/ToastDecorator';
 import { WorkflowStepActionDrawerDecorator } from '~/testing/decorators/WorkflowStepActionDrawerDecorator';
 import { WorkflowStepDecorator } from '~/testing/decorators/WorkflowStepDecorator';
 import { WorkspaceDecorator } from '~/testing/decorators/WorkspaceDecorator';
@@ -25,7 +26,7 @@ const DEFAULT_ACTION: WorkflowCodeAction = {
     outputSchema: {},
     errorHandlingOptions: {
       retryOnFailure: {
-        value: false,
+        value: 0,
       },
       continueOnFailure: {
         value: false,
@@ -64,7 +65,7 @@ const CONFIGURED_ACTION: WorkflowCodeAction = {
     },
     errorHandlingOptions: {
       retryOnFailure: {
-        value: true,
+        value: 3,
       },
       continueOnFailure: {
         value: false,
@@ -77,6 +78,7 @@ const meta: Meta<typeof WorkflowEditActionCode> = {
   title: 'Modules/Workflow/Actions/Code/EditAction',
   component: WorkflowEditActionCode,
   parameters: {
+    argos: ARGOS_CAPTURE_DISABLED,
     msw: {
       handlers: [
         ...graphqlMocks.handlers,
@@ -128,7 +130,7 @@ const meta: Meta<typeof WorkflowEditActionCode> = {
     WorkflowStepDecorator,
     ComponentDecorator,
     ObjectMetadataItemsDecorator,
-    SnackBarDecorator,
+    ToastDecorator,
     RouterDecorator,
     WorkspaceDecorator,
   ],

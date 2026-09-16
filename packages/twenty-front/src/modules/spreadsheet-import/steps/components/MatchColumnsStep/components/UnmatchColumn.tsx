@@ -11,7 +11,7 @@ import { t } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
 import { isDefined } from 'twenty-shared/utils';
-import { AnimatedExpandableContainer } from 'twenty-ui/layout';
+import { AnimatedExpandableContainer } from 'twenty-ui/primitives/layout';
 
 const getExpandableContainerTitle = (
   fields: SpreadsheetImportFields,
@@ -22,10 +22,12 @@ const getExpandableContainerTitle = (
   )?.label;
 
   const unmatchedCount =
-    'matchedOptions' in column &&
-    column.matchedOptions?.filter((option) => !isDefined(option.value)).length;
+    'matchedOptions' in column
+      ? column.matchedOptions.filter((option) => !isDefined(option.value))
+          .length
+      : 0;
 
-  return t`Match ${fieldLabel} (${unmatchedCount} Unmatched)`;
+  return t`Match ${fieldLabel ?? ''} (${unmatchedCount} Unmatched)`;
 };
 
 type UnmatchColumnProps = {

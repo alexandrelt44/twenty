@@ -1,16 +1,22 @@
-import { Button } from 'twenty-ui/input';
+import { NavigationButton } from '@/ui/input/components/NavigationButton';
+import { isNonEmptyString } from '@sniptt/guards';
+import { SettingsApplicationInstallPermissionValidationModal } from '@/marketplace/components/SettingsApplicationInstallPermissionValidationModal';
+import { useInstallMarketplaceAppWithPermissionValidation } from '@/marketplace/hooks/useInstallMarketplaceAppWithPermissionValidation';
+import { getMarketplaceAppDefaultRoleManifest } from '@/marketplace/utils/getMarketplaceAppDefaultRoleManifest';
+import { styled } from '@linaria/react';
+import { useLingui } from '@lingui/react/macro';
+import { useQuery } from '@apollo/client/react';
+import { isDefined } from 'twenty-shared/utils';
 import {
   IconArrowUpRight,
   IconCopy,
   IconDownload,
   IconInfoCircle,
-} from 'twenty-ui/display';
-import { styled } from '@linaria/react';
+} from 'twenty-ui/icon';
+import { Button } from 'twenty-ui/primitives/input';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+import { FindMarketplaceAppDetailDocument } from '~/generated-metadata/graphql';
 import { useCopyToClipboard } from '~/hooks/useCopyToClipboard';
-import { useLingui } from '@lingui/react/macro';
-import { useInstallMarketplaceApp } from '@/marketplace/hooks/useInstallMarketplaceApp';
-import { isDefined } from 'twenty-shared/utils';
 
 const StyledButtonGroup = styled.div`
   display: flex;
@@ -34,35 +40,49 @@ export const SettingsApplicationRegistrationShareLinkButtons = ({
 
   const { copyToClipboard } = useCopyToClipboard();
 
-  const { install, isInstalling } = useInstallMarketplaceApp();
-
   const installable =
     isDefined(isInstalled) && isDefined(universalIdentifier) && !isInstalled;
 
-  const handleInstall = async () => {
-    if (installable) {
-      await install({
-        universalIdentifier,
-      });
-    }
-  };
+  const { requestInstall, install, isInstalling, modalInstanceId } =
+    useInstallMarketplaceAppWithPermissionValidation({
+      universalIdentifier,
+    });
+
+  const { data: detailData } = useQuery(FindMarketplaceAppDetailDocument, {
+    variables: { universalIdentifier: universalIdentifier ?? '' },
+    skip: !installable || !isDefined(universalIdentifier),
+  });
+
+  const detail = detailData?.findMarketplaceAppDetail;
+  const displayName = detail?.name ?? '';
+
+  const defaultRole = getMarketplaceAppDefaultRoleManifest(detail);
 
   return (
     <StyledButtonGroup>
       {installable && (
-        <Button
-          Icon={IconDownload}
-          title={isInstalling ? t`Installing...` : t`Install`}
-          variant={'secondary'}
-          onClick={handleInstall}
-          disabled={isInstalling}
-        />
+        <>
+          <Button
+            startIcon={<IconDownload />}
+            onClick={requestInstall}
+            disabled={isInstalling}
+            variant="outline"
+          >
+            {isInstalling ? t`Installing...` : t`Install`}
+          </Button>
+          <SettingsApplicationInstallPermissionValidationModal
+            modalInstanceId={modalInstanceId}
+            appDisplayName={displayName}
+            appLogoUrl={detail?.logoUrl ?? undefined}
+            defaultRole={defaultRole}
+            onAuthorize={install}
+            isInstalling={isInstalling}
+          />
+        </>
       )}
       {withCopyButton && (
         <Button
-          Icon={IconCopy}
-          title={t`Copy sharing link`}
-          variant="secondary"
+          startIcon={<IconCopy />}
           disabled={!shareLink}
           onClick={async () => {
             if (shareLink) {
@@ -72,15 +92,17 @@ export const SettingsApplicationRegistrationShareLinkButtons = ({
               );
             }
           }}
-        />
+          variant="outline"
+        >{t`Copy sharing link`}</Button>
       )}
-      <Button
-        Icon={isNpmSource ? IconArrowUpRight : IconInfoCircle}
-        title={isNpmSource ? t`See on marketplace` : t`See app page`}
-        variant="secondary"
+      <NavigationButton
+        startIcon={isNpmSource ? <IconArrowUpRight /> : <IconInfoCircle />}
         disabled={!shareLink}
-        to={shareLink}
-      />
+        to={isNonEmptyString(shareLink) ? shareLink : undefined}
+        variant="outline"
+      >
+        {isNpmSource ? t`See on marketplace` : t`See app page`}
+      </NavigationButton>
     </StyledButtonGroup>
   );
 };

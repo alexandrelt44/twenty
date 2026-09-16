@@ -3,12 +3,12 @@ import { expect, userEvent, within } from 'storybook/test';
 
 import { CoreObjectNameSingular } from 'twenty-shared/types';
 import { ObjectMetadataItemsDecorator } from '~/testing/decorators/ObjectMetadataItemsDecorator';
-import { SnackBarDecorator } from '~/testing/decorators/SnackBarDecorator';
+import { ToastDecorator } from '~/testing/decorators/ToastDecorator';
 import { graphqlMocks } from '~/testing/graphqlMocks';
 import { sleep } from '~/utils/sleep';
 
 import { SingleRecordPicker } from '@/object-record/record-picker/single-record-picker/components/SingleRecordPicker';
-import { IconUserCircle } from 'twenty-ui/display';
+import { IconUserCircle } from 'twenty-ui/icon';
 import { ComponentDecorator } from 'twenty-ui/testing';
 
 // const records = allMockPersonRecords.map<SearchRecord>((person) => ({
@@ -36,7 +36,7 @@ const meta: Meta<typeof SingleRecordPicker> = {
   decorators: [
     ComponentDecorator,
     ObjectMetadataItemsDecorator,
-    SnackBarDecorator,
+    ToastDecorator,
   ],
   args: {
     objectNameSingulars: [CoreObjectNameSingular.WorkspaceMember],

@@ -2,8 +2,8 @@ import * as fs from 'fs-extra';
 import { join } from 'path';
 import { v4 } from 'uuid';
 
+import { TEMPLATE_FIRST_PARTY_PACKAGES } from '@/constants/template-packages';
 import createTwentyAppPackageJson from 'package.json';
-import chalk from 'chalk';
 
 const SRC_FOLDER = 'src';
 
@@ -12,25 +12,33 @@ export const copyBaseApplicationProject = async ({
   appDisplayName,
   appDescription,
   appDirectory,
+  onProgress,
 }: {
   appName: string;
   appDisplayName: string;
   appDescription: string;
   appDirectory: string;
+  onProgress?: (message: string) => void;
 }) => {
-  console.log(chalk.gray('Generating application project...'));
+  onProgress?.('Copying base template');
   await fs.copy(join(__dirname, './constants/template'), appDirectory);
 
+  onProgress?.('Configuring dotfiles (.gitignore, .github, .yarnrc.yml)');
   await renameDotfiles({ appDirectory });
+
+  onProgress?.('Mirroring AGENTS.md to CLAUDE.md');
+  await mirrorAgentsToClaude({ appDirectory });
 
   await addEmptyPublicDirectory({ appDirectory });
 
+  onProgress?.('Generating unique application identifiers');
   await generateUniversalIdentifiers({
     appDisplayName,
     appDescription,
     appDirectory,
   });
 
+  onProgress?.('Updating package.json');
   await updatePackageJson({ appName, appDirectory });
 };
 
@@ -40,6 +48,7 @@ const renameDotfiles = async ({ appDirectory }: { appDirectory: string }) => {
   const renames = [
     { from: 'gitignore', to: '.gitignore' },
     { from: 'github', to: '.github' },
+    { from: 'yarnrc.yml', to: '.yarnrc.yml' },
   ];
 
   for (const { from, to } of renames) {
@@ -49,6 +58,19 @@ const renameDotfiles = async ({ appDirectory }: { appDirectory: string }) => {
       await fs.rename(sourcePath, join(appDirectory, to));
     }
   }
+};
+
+// AGENTS.md is the cross-tool standard; Claude Code prefers CLAUDE.md and only
+// falls back to AGENTS.md, so we mirror the file to keep a single source of truth.
+const mirrorAgentsToClaude = async ({
+  appDirectory,
+}: {
+  appDirectory: string;
+}) => {
+  await fs.copy(
+    join(appDirectory, 'AGENTS.md'),
+    join(appDirectory, 'CLAUDE.md'),
+  );
 };
 
 const addEmptyPublicDirectory = async ({
@@ -98,10 +120,16 @@ const updatePackageJson = async ({
 }) => {
   const packageJson = await fs.readJson(join(appDirectory, 'package.json'));
 
+  // The template yarn.lock keeps its placeholder workspace name: the only entry
+  // naming the project is the workspace root, which the scaffolder's `yarn install`
+  // rewrites from package.json without re-resolving a single dependency. Renaming
+  // it here would move the entry out of sort order and break `--immutable`.
   packageJson.name = appName;
-  packageJson.dependencies['twenty-sdk'] = createTwentyAppPackageJson.version;
-  packageJson.dependencies['twenty-client-sdk'] =
-    createTwentyAppPackageJson.version;
+
+  for (const packageName of TEMPLATE_FIRST_PARTY_PACKAGES) {
+    packageJson.devDependencies[packageName] =
+      createTwentyAppPackageJson.version;
+  }
 
   await fs.writeFile(
     join(appDirectory, 'package.json'),

@@ -1,25 +1,26 @@
 import { type MessageFolder } from '@/accounts/types/MessageFolder';
+import { getToastOptionsFromError } from '@/error-handler/utils/getToastOptionsFromError';
 import { SettingsMessageFoldersEmptyStateCard } from '@/settings/accounts/components/message-folders/SettingsMessageFoldersEmptyStateCard';
 import { SettingsMessageFoldersSkeletonLoader } from '@/settings/accounts/components/message-folders/SettingsMessageFoldersSkeletonLoader';
 import { SettingsMessageFoldersTreeItem } from '@/settings/accounts/components/message-folders/SettingsMessageFoldersTreeItem';
-import { computeFolderIdsForSyncToggle } from '@/settings/accounts/components/message-folders/utils/computeFolderIdsForSyncToggle';
 import { computeMessageFolderTree } from '@/settings/accounts/components/message-folders/utils/computeMessageFolderTree';
+import { computeToggleAllFoldersState } from '@/settings/accounts/components/message-folders/utils/computeToggleAllFoldersState';
 import { useMyMessageFolders } from '@/settings/accounts/hooks/useMyMessageFolders';
 import { useUpdateMessageFoldersSyncStatus } from '@/settings/accounts/hooks/useUpdateMessageFoldersSyncStatus';
 import { settingsAccountsSelectedMessageChannelState } from '@/settings/accounts/states/settingsAccountsSelectedMessageChannelState';
-import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
 import { SettingsTextInput } from '@/ui/input/components/SettingsTextInput';
 import { Table } from '@/ui/layout/table/components/Table';
 import { TableCell } from '@/ui/layout/table/components/TableCell';
-import { CombinedGraphQLErrors } from '@apollo/client/errors';
+import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
-import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { useMemo, useState } from 'react';
-import { Label } from 'twenty-ui/display';
-import { Checkbox, CheckboxSize } from 'twenty-ui/input';
-import { Section } from 'twenty-ui/layout';
+import { Checkbox } from 'twenty-ui/primitives/input';
+import { Section } from 'twenty-ui/primitives/layout';
+import { Label } from 'twenty-ui/primitives/typography';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+
+import { useToast } from 'twenty-ui/primitives/feedback';
 
 const StyledTreeList = styled.ul`
   list-style: none;
@@ -63,7 +64,7 @@ export const SettingsAccountsMessageFoldersCard = () => {
   const { t } = useLingui();
   const [search, setSearch] = useState('');
 
-  const { enqueueErrorSnackBar } = useSnackBar();
+  const { enqueueToast } = useToast();
 
   const settingsAccountsSelectedMessageChannel = useAtomStateValue(
     settingsAccountsSelectedMessageChannelState,
@@ -86,47 +87,34 @@ export const SettingsAccountsMessageFoldersCard = () => {
     return computeMessageFolderTree(filteredMessageFolders);
   }, [filteredMessageFolders]);
 
-  const allFoldersToggled = useMemo(() => {
-    return filteredMessageFolders.every((folder) => folder.isSynced);
-  }, [filteredMessageFolders]);
+  const { allSynced, messageFolderIds, targetSyncState } = useMemo(
+    () => computeToggleAllFoldersState(messageFolders),
+    [messageFolders],
+  );
 
-  const handleToggleAllFolders = async (
-    messageFoldersToToggle: MessageFolder[],
-  ) => {
-    if (messageFoldersToToggle.length === 0) return;
-
-    const allSynced = messageFoldersToToggle.every((folder) => folder.isSynced);
-    const targetSyncState = !allSynced;
+  const handleToggleAllFolders = async () => {
+    if (messageFolderIds.length === 0) return;
 
     try {
       await updateMessageFoldersSyncStatus({
-        messageFolderIds: messageFoldersToToggle.map((folder) => folder.id),
+        messageFolderIds,
         isSynced: targetSyncState,
       });
     } catch (error) {
-      enqueueErrorSnackBar({
-        ...(CombinedGraphQLErrors.is(error) ? { apolloError: error } : {}),
-      });
+      enqueueToast(getToastOptionsFromError({ error }));
     }
   };
 
   const handleToggleFolder = async (folderToToggle: MessageFolder) => {
     const isSynced = !folderToToggle.isSynced;
-    const folderIdsToToggle = computeFolderIdsForSyncToggle({
-      folderId: folderToToggle.id,
-      allFolders: messageFolders,
-      isSynced,
-    });
 
     try {
       await updateMessageFoldersSyncStatus({
-        messageFolderIds: folderIdsToToggle,
+        messageFolderIds: [folderToToggle.id],
         isSynced,
       });
     } catch (error) {
-      enqueueErrorSnackBar({
-        ...(CombinedGraphQLErrors.is(error) ? { apolloError: error } : {}),
-      });
+      enqueueToast(getToastOptionsFromError({ error }));
     }
   };
 
@@ -166,9 +154,9 @@ export const SettingsAccountsMessageFoldersCard = () => {
             padding={`0 ${themeCssVariables.spacing[1]} 0 ${themeCssVariables.spacing[2]}`}
           >
             <Checkbox
-              checked={allFoldersToggled}
-              onChange={() => handleToggleAllFolders(messageFolders)}
-              size={CheckboxSize.Small}
+              checked={allSynced}
+              onCheckedChange={() => handleToggleAllFolders()}
+              size={'sm'}
             />
           </TableCell>
         </StyledSectionHeader>

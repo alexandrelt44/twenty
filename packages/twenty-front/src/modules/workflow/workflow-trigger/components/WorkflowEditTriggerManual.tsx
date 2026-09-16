@@ -15,8 +15,8 @@ import { useLingui } from '@lingui/react/macro';
 import { QUERY_MAX_RECORDS } from 'twenty-shared/constants';
 import { isDefined } from 'twenty-shared/utils';
 import { TRIGGER_STEP_ID } from 'twenty-shared/workflow';
-import { useIcons } from 'twenty-ui/display';
-import { type SelectOption } from 'twenty-ui/input';
+import { useIcons } from 'twenty-ui/icon';
+import { type SelectOption } from 'twenty-ui/primitives/input';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
 type WorkflowEditTriggerManualProps = {
@@ -146,6 +146,7 @@ export const WorkflowEditTriggerManual = ({
             }}
             dropdownOffset={{ y: 4 }}
             dropdownWidth={GenericDropdownContentWidth.ExtraLarge}
+            withSearchInput
           />
         ) : null}
 

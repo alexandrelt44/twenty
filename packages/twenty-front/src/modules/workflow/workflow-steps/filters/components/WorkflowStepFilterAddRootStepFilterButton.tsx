@@ -3,8 +3,8 @@ import { WorkflowStepFilterContext } from '@/workflow/workflow-steps/filters/sta
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
 import { useContext } from 'react';
-import { IconFilter } from 'twenty-ui/display';
-import { Button } from 'twenty-ui/input';
+import { IconFilter } from 'twenty-ui/icon';
+import { Button } from 'twenty-ui/primitives/input';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
 const StyledButtonContainer = styled.div`
@@ -19,15 +19,13 @@ export const WorkflowStepFilterAddRootStepFilterButton = () => {
   return (
     <StyledButtonContainer>
       <Button
-        Icon={IconFilter}
-        size="small"
-        variant="secondary"
-        accent="default"
+        startIcon={<IconFilter />}
+        size="sm"
         onClick={addRootStepFilter}
-        ariaLabel={t`Add first filter`}
-        title={t`Add first filter`}
+        aria-label={t`Add first filter`}
         disabled={readonly}
-      />
+        variant="outline"
+      >{t`Add first filter`}</Button>
     </StyledButtonContainer>
   );
 };

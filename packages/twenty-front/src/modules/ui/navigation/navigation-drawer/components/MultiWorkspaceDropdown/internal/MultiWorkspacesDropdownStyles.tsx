@@ -1,5 +1,6 @@
+import { NAVIGATION_DRAWER_COLLAPSED_BUTTON_SIZE } from '@/ui/navigation/navigation-drawer/constants/NavigationDrawerCollapsedButtonSize';
 import { styled } from '@linaria/react';
-import { IconChevronDown } from 'twenty-ui/display';
+import { IconChevronDown } from 'twenty-ui/icon';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
 export const StyledContainer = styled.div<{
@@ -8,28 +9,37 @@ export const StyledContainer = styled.div<{
 }>`
   align-items: center;
   border: 1px solid transparent;
-  border-radius: ${themeCssVariables.border.radius.sm};
+  border-radius: ${themeCssVariables.border.radius.md};
   box-sizing: border-box;
   color: ${themeCssVariables.font.color.primary};
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   display: flex;
   gap: ${({ isNavigationDrawerExpanded }) =>
     isNavigationDrawerExpanded ? themeCssVariables.spacing[2] : '0'};
+  height: ${({ isNavigationDrawerExpanded }) =>
+    isNavigationDrawerExpanded
+      ? themeCssVariables.spacing[7]
+      : `${NAVIGATION_DRAWER_COLLAPSED_BUTTON_SIZE}px`};
   max-width: 100%;
   min-width: 0;
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
-  padding: calc(${themeCssVariables.spacing[1]} - 1px);
+  padding: ${({ isNavigationDrawerExpanded }) =>
+    isNavigationDrawerExpanded
+      ? `calc(${themeCssVariables.spacing[1]} - 1px)`
+      : `calc(${themeCssVariables.spacing[2]} - 1px)`};
   pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
-  width: fit-content;
+  width: ${({ isNavigationDrawerExpanded }) =>
+    isNavigationDrawerExpanded
+      ? 'fit-content'
+      : `${NAVIGATION_DRAWER_COLLAPSED_BUTTON_SIZE}px`};
 
   &:hover {
     background-color: ${({ disabled }) =>
       disabled
         ? 'transparent'
         : themeCssVariables.background.transparent.lighter};
-    border: 1px solid
-      ${({ disabled }) =>
-        disabled ? 'transparent' : themeCssVariables.border.color.medium};
+    border-color: ${({ disabled }) =>
+      disabled ? 'transparent' : themeCssVariables.border.color.medium};
   }
 `;
 

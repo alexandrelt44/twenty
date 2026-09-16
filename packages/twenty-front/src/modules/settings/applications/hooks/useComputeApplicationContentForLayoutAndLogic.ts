@@ -1,9 +1,11 @@
 import { objectMetadataItemsSelector } from '@/object-metadata/states/objectMetadataItemsSelector';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
+import { getViewTypeLabel } from '@/views/types/ViewType';
+import { i18n } from '@lingui/core';
 import { t } from '@lingui/core/macro';
 import { type Manifest } from 'twenty-shared/application';
 import { SettingsPath } from 'twenty-shared/types';
-import { capitalize, getSettingsPath, isDefined } from 'twenty-shared/utils';
+import { getSettingsPath, isDefined } from 'twenty-shared/utils';
 import { type Application } from '~/generated-metadata/graphql';
 import { type ApplicationContentRow } from '~/pages/settings/applications/components/SettingsApplicationContentSubtable';
 
@@ -60,7 +62,7 @@ export const useComputeApplicationContentForLayoutAndLogic = ({
   const viewRows: ApplicationContentRow[] = (manifestContent?.views ?? []).map(
     (view) => {
       const objectLabel = resolveLabel(view.objectUniversalIdentifier);
-      const formattedType = capitalize((view.type ?? 'TABLE').toLowerCase());
+      const formattedType = i18n._(getViewTypeLabel(view.type));
 
       return {
         key: view.universalIdentifier,
@@ -173,6 +175,27 @@ export const useComputeApplicationContentForLayoutAndLogic = ({
     }),
   );
 
+  const connectionProviderRows: ApplicationContentRow[] = (
+    manifestContent?.connectionProviders ?? []
+  ).map((provider) => {
+    const parts: string[] = [];
+
+    if (provider.type === 'oauth') {
+      parts.push(t`OAuth 2.0`);
+      const scopeCount = provider.oauth.scopes.length;
+      if (scopeCount > 0) {
+        parts.push(scopeCount === 1 ? t`1 scope` : t`${scopeCount} scopes`);
+      }
+    }
+
+    return {
+      key: provider.universalIdentifier,
+      name: provider.displayName,
+      icon: undefined,
+      secondary: parts.length > 0 ? parts.join(' · ') : undefined,
+    };
+  });
+
   return {
     pageLayoutRows,
     viewRows,
@@ -180,5 +203,6 @@ export const useComputeApplicationContentForLayoutAndLogic = ({
     agentRows,
     skillRows,
     roleRows,
+    connectionProviderRows,
   };
 };

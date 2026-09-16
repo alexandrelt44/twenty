@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react/macro';
-import { IconSettings, TintedIconTile } from 'twenty-ui/display';
+import { IconSettings } from 'twenty-ui/icon';
 
 import { CommandMenuItem } from '@/command-menu/components/CommandMenuItem';
 import { ObjectMetadataIcon } from '@/object-metadata/components/ObjectMetadataIcon';
@@ -71,7 +71,7 @@ export const SidePanelNewSidebarItemViewObjectPickerSubView = ({
           {showSystemObjectsOption && (
             <SelectableListItem itemId="system" onEnter={onOpenSystemPicker}>
               <CommandMenuItem
-                Icon={() => <TintedIconTile Icon={IconSettings} />}
+                Icon={IconSettings}
                 label={t`System objects`}
                 id="system"
                 hasSubMenu={true}

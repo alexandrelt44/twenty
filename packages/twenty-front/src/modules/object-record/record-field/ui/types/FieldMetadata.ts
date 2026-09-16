@@ -13,10 +13,11 @@ import { z } from 'zod';
 import { type RelationType } from '~/generated-metadata/graphql';
 
 type BaseFieldMetadata = {
+  description?: string | null;
   fieldName: string;
   objectMetadataNameSingular?: string;
-  isCustom?: boolean;
-  isUIReadOnly?: boolean;
+  applicationId?: string | null;
+  isUIEditable?: boolean;
 };
 
 export type FieldUuidMetadata = BaseFieldMetadata & {
@@ -256,7 +257,7 @@ export type FormFieldCurrencyValue = {
 };
 export type FieldFullNameValue = { firstName: string; lastName: string };
 export type FieldAddressValue = {
-  addressStreet1: string;
+  addressStreet1: string | null;
   addressStreet2: string | null;
   addressCity: string | null;
   addressState: string | null;
@@ -275,6 +276,19 @@ export type FieldRelationFromManyValue = ObjectRecord[];
 export type FieldRelationValue<
   T extends FieldRelationToOneValue | FieldRelationFromManyValue,
 > = T;
+
+export type FieldMorphRelationManyToOneValue = {
+  objectNameSingular: string;
+  objectNamePlural: string;
+  value?: ObjectRecord;
+  foreignKeyFieldValue: string;
+} | null;
+
+export type FieldMorphRelationOneToManyValue = {
+  objectNameSingular: string;
+  objectNamePlural: string;
+  value: ObjectRecord[];
+}[];
 
 export type Json = ZodHelperLiteral | { [key: string]: Json } | Json[];
 export type FieldJsonValue = Record<string, Json> | Json[] | null;
@@ -303,7 +317,8 @@ export const FieldActorValueSchema = z.object({
   name: z.string(),
   context: z
     .object({
-      provider: z.enum(ConnectedAccountProvider).optional(),
+      // GraphQL ActorContext returns provider: null for MANUAL/SYSTEM/… actors
+      provider: z.enum(ConnectedAccountProvider).nullish(),
     })
     .nullable(),
 });

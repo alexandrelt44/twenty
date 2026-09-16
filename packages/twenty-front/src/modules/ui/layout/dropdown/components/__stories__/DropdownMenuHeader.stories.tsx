@@ -5,13 +5,9 @@ import { DropdownContent } from '@/ui/layout/dropdown/components/DropdownContent
 import { DropdownMenuHeader } from '@/ui/layout/dropdown/components/DropdownMenuHeader/DropdownMenuHeader';
 import { DropdownMenuHeaderLeftComponent } from '@/ui/layout/dropdown/components/DropdownMenuHeader/internal/DropdownMenuHeaderLeftComponent';
 import { DropdownMenuItemsContainer } from '@/ui/layout/dropdown/components/DropdownMenuItemsContainer';
-import {
-  Avatar,
-  IconChevronLeft,
-  IconChevronRight,
-  IconPlus,
-} from 'twenty-ui/display';
-import { MenuItem } from 'twenty-ui/navigation';
+import { Avatar } from 'twenty-ui/primitives/data-display';
+import { IconChevronLeft, IconChevronRight, IconPlus } from 'twenty-ui/icon';
+import { MenuItem } from 'twenty-ui/primitives/navigation';
 import { AVATAR_URL_MOCK, ComponentDecorator } from 'twenty-ui/testing';
 
 const meta: Meta<typeof DropdownMenuHeader> = {
@@ -46,9 +42,7 @@ export const StartAndEndIcon: Story = {
 
 export const StartAvatar: Story = {
   args: {
-    StartComponent: (
-      <Avatar placeholder="placeholder" avatarUrl={AVATAR_URL_MOCK} />
-    ),
+    StartComponent: <Avatar name="placeholder" src={AVATAR_URL_MOCK} />,
     children: 'Avatar',
   },
 };
@@ -56,9 +50,7 @@ export const StartAvatar: Story = {
 export const ContextDropdownAndAvatar: Story = {
   args: {
     children: 'Context Dropdown',
-    StartComponent: (
-      <Avatar placeholder="placeholder" avatarUrl={AVATAR_URL_MOCK} />
-    ),
+    StartComponent: <Avatar name="placeholder" src={AVATAR_URL_MOCK} />,
     EndComponent: (
       <Dropdown
         dropdownId="story-dropdown-id-context-menu"

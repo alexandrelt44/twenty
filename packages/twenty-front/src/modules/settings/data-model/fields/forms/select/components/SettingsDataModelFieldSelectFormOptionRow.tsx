@@ -9,20 +9,20 @@ import { useCloseDropdown } from '@/ui/layout/dropdown/hooks/useCloseDropdown';
 import { styled } from '@linaria/react';
 import { useContext } from 'react';
 import { t } from '@lingui/core/macro';
+import { ColorSample } from 'twenty-ui/primitives/data-display';
 import {
-  ColorSample,
   IconCheck,
   IconDotsVertical,
   IconGripVertical,
   IconTrash,
   IconX,
-} from 'twenty-ui/display';
-import { LightIconButton } from 'twenty-ui/input';
+} from 'twenty-ui/icon';
+import { LightIconButton } from 'twenty-ui/primitives/input';
 import {
   type ColorLabels,
   MenuItem,
   MenuItemSelectColor,
-} from 'twenty-ui/navigation';
+} from 'twenty-ui/primitives/navigation';
 import { computeOptionValueFromLabel } from '~/pages/settings/data-model/utils/computeOptionValueFromLabel';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 import { MAIN_COLOR_NAMES } from 'twenty-ui/theme';
@@ -71,7 +71,7 @@ type SettingsDataModelFieldSelectFormOptionRowProps = {
 const StyledRow = styled.div`
   align-items: center;
   display: flex;
-  height: ${themeCssVariables.spacing[6]};
+  min-height: ${themeCssVariables.spacing[6]};
   padding: ${themeCssVariables.spacing['1.5']} 0;
 `;
 

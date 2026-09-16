@@ -1,7 +1,9 @@
 import { useLingui } from '@lingui/react/macro';
-import { CommandBlock, H2Title, IconCopy } from 'twenty-ui/display';
-import { Button } from 'twenty-ui/input';
-import { Section } from 'twenty-ui/layout';
+import { CommandBlock, Tag } from 'twenty-ui/primitives/data-display';
+import { IconCopy } from 'twenty-ui/icon';
+import { H2Title } from 'twenty-ui/primitives/typography';
+import { Button } from 'twenty-ui/primitives/input';
+import { Section } from 'twenty-ui/primitives/layout';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
 import { ApplicationRegistrationSourceType } from '~/generated-metadata/graphql';
@@ -11,8 +13,10 @@ import { SettingsApplicationRegistrationShareLinkButtons } from '~/pages/setting
 
 export const SettingsApplicationRegistrationDistributionTab = ({
   registration,
+  fromAdmin,
 }: {
   registration: ApplicationRegistrationData;
+  fromAdmin?: boolean;
 }) => {
   const { t } = useLingui();
 
@@ -28,10 +32,19 @@ export const SettingsApplicationRegistrationDistributionTab = ({
     availableApplicationId: registration.universalIdentifier,
   });
 
-  const publishCommands = ['yarn twenty publish'];
+  const publishCommands = ['yarn twenty app:publish'];
 
   return (
     <>
+      {isNpmSource && fromAdmin !== true && (
+        <Section>
+          <H2Title
+            title={t`Ownership`}
+            description={t`This application's registration is claimed by your workspace`}
+          />
+          <Tag color="green">{t`Claimed by this workspace`}</Tag>
+        </Section>
+      )}
       <Section>
         <H2Title
           title={t`Public`}
@@ -55,8 +68,8 @@ export const SettingsApplicationRegistrationDistributionTab = ({
                     t`Command copied to clipboard`,
                   );
                 }}
-                ariaLabel={t`Copy command`}
-                Icon={IconCopy}
+                aria-label={t`Copy command`}
+                startIcon={<IconCopy />}
               />
             }
           />

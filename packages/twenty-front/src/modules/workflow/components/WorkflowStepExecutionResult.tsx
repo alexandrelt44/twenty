@@ -5,9 +5,9 @@ import {
   IconLoader,
   IconSquareRoundedCheck,
   IconSquareRoundedX,
-} from 'twenty-ui/display';
-import { CodeEditor, CoreEditorHeader } from 'twenty-ui/input';
-import { AnimatedCircleLoading } from 'twenty-ui/utilities';
+} from 'twenty-ui/icon';
+import { CodeEditor, CoreEditorHeader } from 'twenty-ui/primitives/input';
+import { AnimatedCircleLoading } from 'twenty-ui/primitives/layout';
 import { themeCssVariables, ThemeContext } from 'twenty-ui/theme-constants';
 import { useContext } from 'react';
 const StyledContainer = styled.div`

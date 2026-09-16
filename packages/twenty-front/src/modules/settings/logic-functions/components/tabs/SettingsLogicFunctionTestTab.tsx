@@ -12,16 +12,20 @@ import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
 import { isDefined } from 'twenty-shared/utils';
 import {
-  H2Title,
   IconClock,
   IconDatabase,
   IconPlayerPlay,
   IconTool,
   IconWebhook,
   type IconComponent,
-} from 'twenty-ui/display';
-import { Button, CodeEditor, CoreEditorHeader } from 'twenty-ui/input';
-import { Section } from 'twenty-ui/layout';
+} from 'twenty-ui/icon';
+import { H2Title } from 'twenty-ui/primitives/typography';
+import {
+  Button,
+  CodeEditor,
+  CoreEditorHeader,
+} from 'twenty-ui/primitives/input';
+import { Section } from 'twenty-ui/primitives/layout';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
 type TriggerButton = {
@@ -75,8 +79,7 @@ export const SettingsLogicFunctionTestTab = ({
     httpRouteTriggerSettings,
     cronTriggerSettings,
     databaseEventTriggerSettings,
-    toolInputSchema,
-    isTool,
+    toolTriggerSettings,
   } = formValues;
 
   const triggerButtons: TriggerButton[] = [];
@@ -93,7 +96,7 @@ export const SettingsLogicFunctionTestTab = ({
       Icon: IconDatabase,
     });
   }
-  if (isTool) {
+  if (isDefined(toolTriggerSettings)) {
     triggerButtons.push({ kind: 'tool', label: t`AI tool`, Icon: IconTool });
   }
 
@@ -119,7 +122,7 @@ export const SettingsLogicFunctionTestTab = ({
             ? buildDatabaseEventPayload(databaseEventTriggerSettings)
             : {};
         case 'tool':
-          return buildToolPayloadFromSchema(toolInputSchema);
+          return buildToolPayloadFromSchema(toolTriggerSettings?.inputSchema);
       }
     })();
     updateLogicFunctionInput(payload);
@@ -139,12 +142,15 @@ export const SettingsLogicFunctionTestTab = ({
               {triggerButtons.map((trigger) => (
                 <Button
                   key={trigger.kind}
-                  Icon={trigger.Icon}
-                  title={trigger.label}
-                  variant="secondary"
-                  size="small"
+                  startIcon={
+                    isDefined(trigger.Icon) ? <trigger.Icon /> : undefined
+                  }
+                  size="sm"
                   onClick={() => fillSamplePayload(trigger.kind)}
-                />
+                  variant="outline"
+                >
+                  {trigger.label}
+                </Button>
               ))}
             </StyledTriggerButtonRow>
           </div>
@@ -154,14 +160,13 @@ export const SettingsLogicFunctionTestTab = ({
             title={t`Input`}
             rightNodes={[
               <Button
-                title={t`Run Function`}
-                variant="primary"
-                accent="blue"
-                size="small"
-                Icon={IconPlayerPlay}
+                size="sm"
+                startIcon={<IconPlayerPlay />}
                 onClick={handleExecute}
                 disabled={isTesting}
-              />,
+                variant="solid"
+                color="accent"
+              >{t`Run Function`}</Button>,
             ]}
           />
           <CodeEditor

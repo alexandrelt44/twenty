@@ -1,4 +1,4 @@
-import { AgentChatComponentInstanceContext } from '@/ai/states/AgentChatComponentInstanceContext';
+import { AgentChatComponentInstanceContext } from '@/ai/contexts/AgentChatComponentInstanceContext';
 import { createAtomComponentFamilyState } from '@/ui/utilities/state/jotai/utils/createAtomComponentFamilyState';
 
 export type AgentChatLastMessageUsage = {
@@ -11,6 +11,7 @@ export type AgentChatLastMessageUsage = {
 
 export type AgentChatUsageState = {
   lastMessage: AgentChatLastMessageUsage | null;
+  cachedInputTokens: number;
   conversationSize: number;
   contextWindowTokens: number;
   inputTokens: number;

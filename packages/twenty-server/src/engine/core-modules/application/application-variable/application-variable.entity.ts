@@ -1,70 +1,78 @@
-import { ObjectType } from '@nestjs/graphql';
-
-import { IDField } from '@ptc-org/nestjs-query-graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import {
+  Check,
   Column,
   CreateDateColumn,
   Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
   PrimaryGeneratedColumn,
-  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
+import { FieldMetadataType } from 'twenty-shared/types';
+import {
+  type ApplicationVariableOption,
+  type ApplicationVariableType,
+} from 'twenty-shared/application';
+
+import { ADD_TYPE_AND_OPTIONS_TO_APPLICATION_VARIABLES_UPGRADE_COMMAND_NAME } from 'src/database/commands/upgrade-version-command/2-19/add-type-and-options-to-application-variables-upgrade-command-name.constant';
+import { ADD_IS_DEPRECATED_TO_APPLICATION_VARIABLES_UPGRADE_COMMAND_NAME } from 'src/database/commands/upgrade-version-command/2-31/add-is-deprecated-to-application-variables-upgrade-command-name.constant';
+import { ADD_LABEL_TO_APPLICATION_VARIABLE_UPGRADE_COMMAND_NAME } from 'src/database/commands/upgrade-version-command/2-36/add-label-to-application-variable-upgrade-command-name.constant';
 import { UUIDScalarType } from 'src/engine/api/graphql/workspace-schema-builder/graphql-types/scalars';
-import { ApplicationEntity } from 'src/engine/core-modules/application/application.entity';
-import type { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
-import { EntityRelation } from 'src/engine/workspace-manager/workspace-migration/types/entity-relation.interface';
+import { type EncryptedString } from 'src/engine/core-modules/secret-encryption/branded-strings/encrypted-string.type';
+import { WasIntroducedInUpgrade } from 'src/engine/core-modules/upgrade/decorators/was-introduced-in-upgrade.decorator';
+import { SyncableEntity } from 'src/engine/workspace-manager/types/syncable-entity.interface';
 
 @Entity({
   name: 'applicationVariable',
   schema: 'core',
 })
 @ObjectType('ApplicationVariable')
-@Unique('IDX_APPLICATION_VARIABLE_KEY_APPLICATION_ID_UNIQUE', [
-  'key',
-  'applicationId',
-])
-export class ApplicationVariableEntity {
-  @IDField(() => UUIDScalarType)
+// All values are always encrypted regardless of `isSecret`. The
+// `isSecret` flag only controls display behavior (masked vs plaintext).
+@Check('CHK_applicationVariable_value_encrypted', `"value" LIKE 'enc:v2:%'`)
+export class ApplicationVariableEntity extends SyncableEntity {
+  @Field(() => UUIDScalarType)
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column({ nullable: false, type: 'uuid' })
-  @Index()
-  workspaceId: string;
-
-  @ManyToOne('WorkspaceEntity', { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'workspaceId' })
-  workspace: EntityRelation<WorkspaceEntity>;
 
   @Column({ nullable: false, type: 'text' })
   key: string;
 
-  @Column({ nullable: false, type: 'text', default: '' })
-  value: string;
+  @Column({ nullable: false, type: 'text' })
+  value: EncryptedString;
 
   @Column({ nullable: false, type: 'text', default: '' })
   description: string;
 
+  @WasIntroducedInUpgrade({
+    upgradeCommandName: ADD_LABEL_TO_APPLICATION_VARIABLE_UPGRADE_COMMAND_NAME,
+  })
+  @Column({ nullable: false, type: 'text', default: '' })
+  label: string;
+
   @Column({ nullable: false, type: 'boolean', default: false })
   isSecret: boolean;
 
-  @Column({ nullable: true, type: 'uuid' })
-  applicationId?: string;
+  @WasIntroducedInUpgrade({
+    upgradeCommandName:
+      ADD_IS_DEPRECATED_TO_APPLICATION_VARIABLES_UPGRADE_COMMAND_NAME,
+  })
+  @Column({ nullable: false, type: 'boolean', default: false })
+  isDeprecated: boolean;
 
-  @ManyToOne(
-    () => ApplicationEntity,
-    (application) => application.applicationVariables,
-    {
-      onDelete: 'CASCADE',
-      nullable: true,
-    },
-  )
-  @JoinColumn({ name: 'applicationId' })
-  application: EntityRelation<ApplicationEntity> | null;
+  @WasIntroducedInUpgrade({
+    upgradeCommandName:
+      ADD_TYPE_AND_OPTIONS_TO_APPLICATION_VARIABLES_UPGRADE_COMMAND_NAME,
+  })
+  @Column({ nullable: false, type: 'text', default: FieldMetadataType.TEXT })
+  type: ApplicationVariableType;
+
+  @WasIntroducedInUpgrade({
+    upgradeCommandName:
+      ADD_TYPE_AND_OPTIONS_TO_APPLICATION_VARIABLES_UPGRADE_COMMAND_NAME,
+  })
+  @Column({ nullable: true, type: 'jsonb', default: null })
+  options: ApplicationVariableOption[] | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;

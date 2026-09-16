@@ -1,3 +1,5 @@
+import { NavigationButton } from '@/ui/input/components/NavigationButton';
+
 import { SettingsEmptyPlaceholder } from '@/settings/components/SettingsEmptyPlaceholder';
 import { styled } from '@linaria/react';
 import { t } from '@lingui/core/macro';
@@ -9,19 +11,21 @@ import { TableCell } from '@/ui/layout/table/components/TableCell';
 import { TableHeader } from '@/ui/layout/table/components/TableHeader';
 import { TableRow } from '@/ui/layout/table/components/TableRow';
 import {
-  AppTooltip,
   IconArrowUpRight,
   IconInfoCircle,
   IllustrationIconArray,
+  IllustrationIconCalendarEvent,
+  IllustrationIconCalendarTime,
   IllustrationIconJson,
   IllustrationIconNumbers,
   IllustrationIconText,
   IllustrationIconToggle,
+} from 'twenty-ui/icon';
+import {
+  AppTooltip,
   OverflowingTextWithTooltip,
   TooltipDelay,
-} from 'twenty-ui/display';
-import { Button } from 'twenty-ui/input';
-import { UndecoratedLink } from 'twenty-ui/navigation';
+} from 'twenty-ui/primitives/surfaces';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 
 type SchemaProperty = {
@@ -41,6 +45,8 @@ const PARAMETER_TABLE_GRID = '140px 1fr 80px 24px';
 
 const TYPE_ICON_MAP: Record<string, ComponentType<{ size?: number }>> = {
   string: IllustrationIconText,
+  date: IllustrationIconCalendarEvent,
+  'date-time': IllustrationIconCalendarTime,
   number: IllustrationIconNumbers,
   integer: IllustrationIconNumbers,
   boolean: IllustrationIconToggle,
@@ -81,6 +87,11 @@ const getDisplayType = (property: SchemaProperty): string => {
   return property.type ?? '';
 };
 
+const getTypeIconKey = (property: SchemaProperty): string =>
+  isDefined(property.format) && isDefined(TYPE_ICON_MAP[property.format])
+    ? property.format
+    : (property.type ?? '');
+
 export const SettingsToolParameterTable = ({
   schemaProperties,
   requiredFields,
@@ -110,7 +121,8 @@ export const SettingsToolParameterTable = ({
           <StyledFieldsContainer>
             {entries.map(([paramName, property], index) => {
               const infoIconId = `param-info-${index}`;
-              const TypeIcon = TYPE_ICON_MAP[property.type ?? ''];
+              const displayType = getDisplayType(property);
+              const TypeIcon = TYPE_ICON_MAP[getTypeIconKey(property)];
 
               return (
                 <TableRow
@@ -118,6 +130,7 @@ export const SettingsToolParameterTable = ({
                   gridTemplateColumns={PARAMETER_TABLE_GRID}
                 >
                   <TableCell
+                    color={themeCssVariables.font.color.primary}
                     overflow="hidden"
                     textOverflow="ellipsis"
                     whiteSpace="nowrap"
@@ -128,7 +141,7 @@ export const SettingsToolParameterTable = ({
                     {isDefined(TypeIcon) && (
                       <TypeIcon size={theme.icon.size.md} />
                     )}
-                    {getDisplayType(property)}
+                    {displayType}
                   </TableCell>
                   <TableCell color={themeCssVariables.font.color.tertiary}>
                     {requiredFields?.includes(paramName) ? t`Yes` : ''}
@@ -144,7 +157,7 @@ export const SettingsToolParameterTable = ({
                         />
                         <AppTooltip
                           anchorSelect={`#${infoIconId}`}
-                          content={property.description}
+                          title={property.description}
                           offset={5}
                           noArrow
                           place="bottom"
@@ -162,14 +175,12 @@ export const SettingsToolParameterTable = ({
       )}
       {functionLink && (
         <StyledFooter>
-          <UndecoratedLink to={functionLink}>
-            <Button
-              Icon={IconArrowUpRight}
-              title={t`See function`}
-              size="small"
-              variant="secondary"
-            />
-          </UndecoratedLink>
+          <NavigationButton
+            to={functionLink}
+            startIcon={<IconArrowUpRight />}
+            size="sm"
+            variant="outline"
+          >{t`See function`}</NavigationButton>
         </StyledFooter>
       )}
     </Table>

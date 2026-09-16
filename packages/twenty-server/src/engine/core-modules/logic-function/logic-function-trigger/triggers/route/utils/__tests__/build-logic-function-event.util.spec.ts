@@ -107,6 +107,29 @@ describe('filterRequestHeaders', () => {
       'content-type': 'application/json',
     });
   });
+
+  it('should forward every header when forwardAllHeaders is true', () => {
+    const requestHeaders = {
+      'content-type': 'application/json',
+      authorization: 'Bearer token123',
+      'x-custom-header': 'custom-value',
+      'x-array-header': ['a', 'b'],
+      'x-missing': undefined,
+    };
+
+    const result = filterRequestHeaders({
+      requestHeaders,
+      forwardedRequestHeaders: [],
+      forwardAllHeaders: true,
+    });
+
+    expect(result).toEqual({
+      'content-type': 'application/json',
+      authorization: 'Bearer token123',
+      'x-custom-header': 'custom-value',
+      'x-array-header': 'a, b',
+    });
+  });
 });
 
 describe('extractBody', () => {
@@ -332,6 +355,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: { id: '123' },
       forwardedRequestHeaders: ['content-type', 'authorization'],
+      userWorkspaceId: 'uws-1',
     });
 
     expect(result).toEqual({
@@ -349,6 +373,7 @@ describe('buildLogicFunctionEvent', () => {
           path: '/s/users/123',
         },
       },
+      userWorkspaceId: 'uws-1',
     });
   });
 
@@ -361,6 +386,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: {},
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.requestContext.http.path).toBe('/s/api/users');
@@ -375,6 +401,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: {},
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.requestContext.http.path).toBe('/api/users');
@@ -391,6 +418,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: {},
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.body).toBeNull();
@@ -407,6 +435,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: { userId: '456' },
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.requestContext.http.method).toBe('DELETE');
@@ -427,6 +456,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: {},
       forwardedRequestHeaders: ['x-api-key'],
+      userWorkspaceId: null,
     });
 
     expect(result.headers).toEqual({
@@ -443,6 +473,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: {},
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.isBase64Encoded).toBe(false);
@@ -464,6 +495,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: {},
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.rawBody).toBe(original);
@@ -480,6 +512,7 @@ describe('buildLogicFunctionEvent', () => {
       request,
       pathParameters: {},
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.rawBody).toBeUndefined();
@@ -498,6 +531,7 @@ describe('buildLogicFunctionEvent', () => {
         userId: 'user1',
       },
       forwardedRequestHeaders: [],
+      userWorkspaceId: null,
     });
 
     expect(result.pathParameters).toEqual({

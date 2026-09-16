@@ -1,8 +1,9 @@
 import { SKELETON_LOADER_HEIGHT_SIZES } from '@/activities/components/SkeletonLoader';
 import { Logo } from '@/auth/components/Logo';
+import { StyledOnboardingContentContainer } from '@/auth/components/StyledOnboardingContentContainer';
 import { Title } from '@/auth/components/Title';
 import { useAuth } from '@/auth/hooks/useAuth';
-import { useHasAccessTokenPair } from '@/auth/hooks/useHasAccessTokenPair';
+import { useIsLogged } from '@/auth/hooks/useIsLogged';
 import { currentUserState } from '@/auth/states/currentUserState';
 import { workspacePublicDataState } from '@/auth/states/workspacePublicDataState';
 import { PASSWORD_REGEX } from '@/auth/utils/passwordRegex';
@@ -10,14 +11,15 @@ import { useReadCaptchaToken } from '@/captcha/hooks/useReadCaptchaToken';
 import { useCaptcha } from '@/client-config/hooks/useCaptcha';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { useRedirect } from '@/domain-manager/hooks/useRedirect';
-import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
+import { getToastOptionsFromError } from '@/error-handler/utils/getToastOptionsFromError';
 import { TextInput } from '@/ui/input/components/TextInput';
-import { ModalContent } from 'twenty-ui/layout';
-import { CombinedGraphQLErrors } from '@apollo/client/errors';
-import { styled } from '@linaria/react';
+import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
+import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
+import { useMutation, useQuery } from '@apollo/client/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { msg } from '@lingui/core/macro';
+import { styled } from '@linaria/react';
 import { i18n } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react/macro';
 import { isNonEmptyString } from '@sniptt/guards';
 import { motion } from 'framer-motion';
@@ -25,14 +27,13 @@ import { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useParams } from 'react-router-dom';
-import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
-import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomState';
 import { AppPath } from 'twenty-shared/types';
-import { MainButton } from 'twenty-ui/input';
+import { useToast } from 'twenty-ui/primitives/feedback';
+import { MainButton } from 'twenty-ui/components';
+import { AnimatedEaseIn } from 'twenty-ui/primitives/layout';
+import { ModalContent } from 'twenty-ui/primitives/surfaces';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
-import { AnimatedEaseIn } from 'twenty-ui/utilities';
 import { z } from 'zod';
-import { useMutation, useQuery } from '@apollo/client/react';
 import {
   UpdatePasswordViaResetTokenDocument,
   ValidatePasswordResetTokenDocument,
@@ -40,14 +41,14 @@ import {
 import { useNavigateApp } from '~/hooks/useNavigateApp';
 import { logError } from '~/utils/logError';
 
-const passwordMinLengthMessage = msg`Password must be min. 8 characters`;
+const passwordLengthMessage = msg`Password must be between 8 and 50 characters`;
 
 const validationSchema = z
   .object({
     passwordResetToken: z.string(),
     newPassword: z
       .string()
-      .regex(PASSWORD_REGEX, i18n._(passwordMinLengthMessage)),
+      .regex(PASSWORD_REGEX, i18n._(passwordLengthMessage)),
   })
   .required();
 
@@ -59,12 +60,6 @@ const StyledMainContainer = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   width: 100%;
-`;
-
-const StyledContentContainer = styled.div`
-  margin-bottom: ${themeCssVariables.spacing[8]};
-  margin-top: ${themeCssVariables.spacing[4]};
-  width: 200px;
 `;
 
 const StyledForm = styled.form`
@@ -89,7 +84,7 @@ const StyledMainButtonContainer = styled.div`
 export const PasswordReset = () => {
   const { theme } = useContext(ThemeContext);
   const { t } = useLingui();
-  const { enqueueErrorSnackBar, enqueueSuccessSnackBar } = useSnackBar();
+  const { enqueueToast } = useToast();
 
   const workspacePublicData = useAtomStateValue(workspacePublicDataState);
   const setCurrentUser = useSetAtomState(currentUserState);
@@ -102,7 +97,7 @@ export const PasswordReset = () => {
   const [isTargetUserPasswordSet, setIsTargetUserPasswordSet] = useState(false);
   const passwordResetToken = useParams().passwordResetToken;
 
-  const hasAccessTokenPair = useHasAccessTokenPair();
+  const isLogged = useIsLogged();
 
   const { control, handleSubmit } = useForm<Form>({
     mode: 'onChange',
@@ -125,12 +120,10 @@ export const PasswordReset = () => {
 
   useEffect(() => {
     if (tokenValidationError) {
-      enqueueErrorSnackBar({
-        apolloError: tokenValidationError,
-      });
+      enqueueToast(getToastOptionsFromError({ error: tokenValidationError }));
       navigate(AppPath.Index);
     }
-  }, [tokenValidationError, enqueueErrorSnackBar, navigate]);
+  }, [tokenValidationError, enqueueToast, navigate]);
 
   useEffect(() => {
     if (tokenValidationData) {
@@ -164,8 +157,9 @@ export const PasswordReset = () => {
       });
 
       if (!data?.updatePasswordViaResetToken.success) {
-        enqueueErrorSnackBar({
-          message: t`There was an error while updating password.`,
+        enqueueToast({
+          variant: 'error',
+          children: t`There was an error while updating password.`,
         });
         return;
       }
@@ -179,17 +173,16 @@ export const PasswordReset = () => {
         currentUser ? { ...currentUser, hasPassword: true } : currentUser,
       );
 
-      if (hasAccessTokenPair) {
-        enqueueSuccessSnackBar({
-          message: successMessage,
-        });
+      if (isLogged) {
+        enqueueToast({ variant: 'success', children: successMessage });
         navigate(AppPath.Index);
         return;
       }
 
       if (!isCaptchaReady) {
-        enqueueErrorSnackBar({
-          message: t`Captcha (anti-bot check) is still loading, try again`,
+        enqueueToast({
+          variant: 'error',
+          children: t`Captcha (anti-bot check) is still loading, try again`,
         });
         return;
       }
@@ -209,9 +202,7 @@ export const PasswordReset = () => {
       redirect(AppPath.Index);
     } catch (err) {
       logError(err);
-      enqueueErrorSnackBar({
-        apolloError: CombinedGraphQLErrors.is(err) ? err : undefined,
-      });
+      enqueueToast(getToastOptionsFromError({ error: err }));
     }
   };
 
@@ -229,7 +220,7 @@ export const PasswordReset = () => {
             />
           </AnimatedEaseIn>
           <Title animate>{passwordActionLabel}</Title>
-          <StyledContentContainer>
+          <StyledOnboardingContentContainer>
             {!email ? (
               <SkeletonTheme
                 baseColor={theme.background.quaternary}
@@ -302,16 +293,17 @@ export const PasswordReset = () => {
 
                 <StyledMainButtonContainer>
                   <MainButton
-                    variant="secondary"
-                    title={passwordActionLabel}
                     type="submit"
                     fullWidth
                     disabled={isUpdatingPassword}
-                  />
+                    variant="outline"
+                  >
+                    {passwordActionLabel}
+                  </MainButton>
                 </StyledMainButtonContainer>
               </StyledForm>
             )}
-          </StyledContentContainer>
+          </StyledOnboardingContentContainer>
         </StyledMainContainer>
       </ModalContent>
     )

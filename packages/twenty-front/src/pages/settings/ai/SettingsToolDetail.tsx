@@ -1,34 +1,34 @@
+import { currentWorkspaceState } from '@/auth/states/currentWorkspaceState';
+import { useGetOneLogicFunction } from '@/logic-functions/hooks/useGetOneLogicFunction';
+import { usePersistLogicFunction } from '@/logic-functions/hooks/usePersistLogicFunction';
+import { SettingsPageContainer } from '@/settings/components/SettingsPageContainer';
+import { SettingsPageLayout } from '@/settings/components/layout/SettingsPageLayout';
+import { SettingsLogicFunctionLabelContainer } from '@/settings/logic-functions/components/SettingsLogicFunctionLabelContainer';
+import { TextArea } from '@/ui/input/components/TextArea';
+import { ConfirmationModal } from '@/ui/layout/modal/components/ConfirmationModal';
+import { useModal } from '@/ui/layout/modal/hooks/useModal';
+import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { useQuery } from '@apollo/client/react';
 import { t } from '@lingui/core/macro';
 import { useContext, useState } from 'react';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { currentWorkspaceState } from '@/auth/states/currentWorkspaceState';
-import { useGetOneLogicFunction } from '@/logic-functions/hooks/useGetOneLogicFunction';
-import { usePersistLogicFunction } from '@/logic-functions/hooks/usePersistLogicFunction';
-
-import { SettingsPageContainer } from '@/settings/components/SettingsPageContainer';
-import { SettingsLogicFunctionLabelContainer } from '@/settings/logic-functions/components/SettingsLogicFunctionLabelContainer';
-import { useSnackBar } from '@/ui/feedback/snack-bar-manager/hooks/useSnackBar';
-import { TextArea } from '@/ui/input/components/TextArea';
-import { ConfirmationModal } from '@/ui/layout/modal/components/ConfirmationModal';
-import { useModal } from '@/ui/layout/modal/hooks/useModal';
-import { SubMenuTopBarContainer } from '@/ui/layout/page/components/SubMenuTopBarContainer';
-import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath, isDefined, isValidUuid } from 'twenty-shared/utils';
-import { H2Title, IconTrash } from 'twenty-ui/display';
-import { Button } from 'twenty-ui/input';
-import { Section } from 'twenty-ui/layout';
-
+import { IconTrash } from 'twenty-ui/icon';
+import { Button } from 'twenty-ui/primitives/input';
+import { Section } from 'twenty-ui/primitives/layout';
+import { H2Title } from 'twenty-ui/primitives/typography';
 import { ThemeContext } from 'twenty-ui/theme-constants';
 import { useDebouncedCallback } from 'use-debounce';
 import {
   GetToolIndexDocument,
   GetToolInputSchemaDocument,
 } from '~/generated-metadata/graphql';
+import { SettingsToolIcon } from '~/pages/settings/ai/components/SettingsToolIcon';
 import { SettingsToolParameterTable } from '~/pages/settings/ai/components/SettingsToolParameterTable';
+
+import { useToast } from 'twenty-ui/primitives/feedback';
 
 const DELETE_TOOL_MODAL_ID = 'delete-tool-modal';
 
@@ -36,7 +36,7 @@ export const SettingsToolDetail = () => {
   const { toolIdentifier } = useParams();
   const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
-  const { enqueueSuccessSnackBar, enqueueErrorSnackBar } = useSnackBar();
+  const { enqueueToast } = useToast();
   const { updateLogicFunction, deleteLogicFunction } =
     usePersistLogicFunction();
   const { openModal } = useModal();
@@ -86,13 +86,15 @@ export const SettingsToolDetail = () => {
 
   const isReadOnly = !isCustomTool || isManaged;
 
-  const name = isCustomTool ? logicFunction?.name : toolIdentifier;
+  const displayName = isCustomTool
+    ? logicFunction?.name
+    : (systemTool?.label ?? toolIdentifier);
   const description = isCustomTool
     ? logicFunction?.description
     : systemTool?.description;
 
   const inputSchema = isCustomTool
-    ? logicFunction?.toolInputSchema
+    ? logicFunction?.toolTriggerSettings?.inputSchema
     : schemaData?.getToolInputSchema;
 
   const functionLink = isCustomTool
@@ -121,9 +123,9 @@ export const SettingsToolDetail = () => {
     }
   }, 1_000);
 
-  const handleNameChange = (value: string) => {
-    setEditedName(value);
-    debouncedSaveName(value);
+  const handleNameChange = (newName: string) => {
+    setEditedName(newName);
+    debouncedSaveName(newName);
   };
 
   const debouncedSaveDescription = useDebouncedCallback(
@@ -159,37 +161,44 @@ export const SettingsToolDetail = () => {
     });
 
     if (result.status === 'successful') {
-      enqueueSuccessSnackBar({ message: t`Tool deleted` });
+      enqueueToast({ variant: 'success', children: t`Tool deleted` });
       navigate(getSettingsPath(SettingsPath.AI, undefined, undefined, 'tools'));
     } else {
-      enqueueErrorSnackBar({ message: t`Failed to delete tool` });
+      enqueueToast({ variant: 'error', children: t`Failed to delete tool` });
     }
 
     setIsDeleting(false);
   };
 
   return (
-    <SubMenuTopBarContainer
+    <SettingsPageLayout
       title={
         isCustomTool ? (
           <SettingsLogicFunctionLabelContainer
-            value={editedName ?? name ?? ''}
+            value={editedName ?? displayName ?? ''}
             onChange={handleNameChange}
           />
         ) : (
-          (name ?? '')
+          (displayName ?? '')
         )
+      }
+      icon={
+        <SettingsToolIcon
+          icon={systemTool?.icon}
+          toolName={isCustomTool ? logicFunction?.name : systemTool?.name}
+          objectName={systemTool?.objectName ?? undefined}
+        />
       }
       links={[
         {
           children: t`Workspace`,
-          href: getSettingsPath(SettingsPath.Workspace),
+          href: getSettingsPath(SettingsPath.General),
         },
         {
           children: t`AI`,
           href: getSettingsPath(SettingsPath.AI, undefined, undefined, 'tools'),
         },
-        { children: editedName ?? name ?? '' },
+        { children: editedName ?? displayName ?? '' },
       ]}
     >
       <SettingsPageContainer>
@@ -229,6 +238,7 @@ export const SettingsToolDetail = () => {
                 textAreaId="tool-description-textarea"
                 placeholder={t`Write a description`}
                 minRows={3}
+                maxRows={5}
                 value={editedDescription ?? description ?? ''}
                 onChange={handleDescriptionChange}
                 disabled={isReadOnly}
@@ -242,13 +252,12 @@ export const SettingsToolDetail = () => {
                   description={t`Delete this tool`}
                 />
                 <Button
-                  Icon={IconTrash}
-                  title={t`Delete`}
-                  accent="danger"
-                  size="small"
-                  variant="secondary"
+                  startIcon={<IconTrash />}
+                  size="sm"
                   onClick={() => openModal(DELETE_TOOL_MODAL_ID)}
-                />
+                  variant="outline"
+                  color="danger"
+                >{t`Delete`}</Button>
               </Section>
             )}
           </>
@@ -262,6 +271,6 @@ export const SettingsToolDetail = () => {
         confirmButtonText={t`Delete`}
         loading={isDeleting}
       />
-    </SubMenuTopBarContainer>
+    </SettingsPageLayout>
   );
 };

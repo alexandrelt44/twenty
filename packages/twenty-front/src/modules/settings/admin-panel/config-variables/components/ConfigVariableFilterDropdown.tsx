@@ -4,8 +4,8 @@ import { type ConfigVariableSourceFilter } from '@/settings/admin-panel/config-v
 import { Dropdown } from '@/ui/layout/dropdown/components/Dropdown';
 import { t } from '@lingui/core/macro';
 import { useState } from 'react';
-import { IconSettings } from 'twenty-ui/display';
-import { Button } from 'twenty-ui/input';
+import { IconSettings } from 'twenty-ui/icon';
+import { Button } from 'twenty-ui/primitives/input';
 import { ConfigVariableOptionsDropdownContent } from './ConfigVariableOptionsDropdownContent';
 
 type ConfigVariableFilterDropdownProps = {
@@ -40,11 +40,10 @@ export const ConfigVariableFilterDropdown = ({
     <Dropdown
       clickableComponent={
         <Button
-          variant="secondary"
-          size="medium"
-          title={t`Options`}
-          Icon={IconSettings}
-        />
+          size="md"
+          startIcon={<IconSettings />}
+          variant="outline"
+        >{t`Options`}</Button>
       }
       dropdownId="env-var-options-dropdown"
       dropdownOffset={{ x: 0, y: 10 }}

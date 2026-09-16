@@ -3,9 +3,10 @@ import {
   type FieldMetadataType,
   type FromTo,
 } from 'twenty-shared/types';
-import { computeMorphRelationFieldName } from 'twenty-shared/utils';
+import { capitalize } from 'twenty-shared/utils';
 
 import { computeMorphOrRelationFieldJoinColumnName } from 'src/engine/metadata-modules/field-metadata/utils/compute-morph-or-relation-field-join-column-name.util';
+import { computeMorphRelationFlatFieldName } from 'src/engine/metadata-modules/field-metadata/utils/compute-morph-relation-flat-field-name.util';
 import { type AllFlatEntityMaps } from 'src/engine/metadata-modules/flat-entity/types/all-flat-entity-maps.type';
 import { findFlatEntityByIdInFlatEntityMapsOrThrow } from 'src/engine/metadata-modules/flat-entity/utils/find-flat-entity-by-id-in-flat-entity-maps-or-throw.util';
 import { findManyFlatEntityByIdInFlatEntityMapsOrThrow } from 'src/engine/metadata-modules/flat-entity/utils/find-many-flat-entity-by-id-in-flat-entity-maps-or-throw.util';
@@ -37,7 +38,7 @@ const updateMorphFlatFieldName = ({
     namePlural: fromRelationTargetFlatObjectMetadata.namePlural,
   });
 
-  const newMorphFieldName = computeMorphRelationFieldName({
+  const newMorphFieldName = computeMorphRelationFlatFieldName({
     fieldName: initialMorphRelationFieldName,
     relationType: fromMorphFlatFieldMetadata.universalSettings.relationType,
     targetObjectMetadataNameSingular:
@@ -52,9 +53,15 @@ const updateMorphFlatFieldName = ({
       })
     : undefined;
 
+  const newLabel =
+    fromMorphFlatFieldMetadata.isSystemSideEffect === true
+      ? capitalize(toRelationTargetFlatObjectMetadata.nameSingular)
+      : fromMorphFlatFieldMetadata.label;
+
   return {
     ...fromMorphFlatFieldMetadata,
     name: newMorphFieldName,
+    label: newLabel,
     universalSettings: {
       ...fromMorphFlatFieldMetadata.universalSettings,
       joinColumnName: newJoinColumnName,
@@ -69,7 +76,9 @@ type RenameRelatedMorphFieldOnObjectNamesUpdateArgs = FromTo<
   Pick<
     AllFlatEntityMaps,
     'flatFieldMetadataMaps' | 'flatObjectMetadataMaps' | 'flatIndexMaps'
-  >;
+  > & {
+    systemSideEffectMorphFieldsOnly: boolean;
+  };
 
 type RenameRelatedMorphFieldOnObjectNamesUpdateReturnType = {
   morphFlatFieldMetadatasToUpdate: UniversalFlatFieldMetadata<FieldMetadataType.MORPH_RELATION>[];
@@ -81,6 +90,7 @@ export const renameRelatedMorphFieldOnObjectNamesUpdate = ({
   flatFieldMetadataMaps,
   flatObjectMetadataMaps,
   flatIndexMaps,
+  systemSideEffectMorphFieldsOnly,
 }: RenameRelatedMorphFieldOnObjectNamesUpdateArgs): RenameRelatedMorphFieldOnObjectNamesUpdateReturnType => {
   const objectFlatFieldMetadatas =
     findManyFlatEntityByIdInFlatEntityMapsOrThrow({
@@ -92,7 +102,11 @@ export const renameRelatedMorphFieldOnObjectNamesUpdate = ({
     getFlatObjectMetadataTargetMorphRelationFlatFieldMetadatasOrThrow({
       flatFieldMetadataMaps,
       objectFlatFieldMetadatas,
-    });
+    }).filter(
+      (morphFlatFieldMetadata) =>
+        (morphFlatFieldMetadata.isSystemSideEffect === true) ===
+        systemSideEffectMorphFieldsOnly,
+    );
 
   const initialAccumulator: RenameRelatedMorphFieldOnObjectNamesUpdateReturnType =
     {

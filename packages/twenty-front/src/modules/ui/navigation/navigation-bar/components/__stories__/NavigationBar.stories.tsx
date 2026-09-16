@@ -5,8 +5,8 @@ import {
   IconList,
   IconSearch,
   IconSettings,
-} from 'twenty-ui/display';
-import { NavigationBar } from 'twenty-ui/navigation';
+} from 'twenty-ui/icon';
+import { NavigationBar } from 'twenty-ui/primitives/navigation';
 import { ComponentDecorator } from 'twenty-ui/testing';
 import { ComponentWithRouterDecorator } from '~/testing/decorators/ComponentWithRouterDecorator';
 
@@ -16,10 +16,25 @@ const meta: Meta<typeof NavigationBar> = {
   args: {
     activeItemName: 'main',
     items: [
-      { name: 'main', Icon: IconList, onClick: () => undefined },
-      { name: 'search', Icon: IconSearch, onClick: () => undefined },
-      { name: 'tasks', Icon: IconCheckbox, onClick: () => undefined },
-      { name: 'settings', Icon: IconSettings, onClick: () => undefined },
+      { name: 'main', label: 'Main', Icon: IconList, onClick: () => undefined },
+      {
+        name: 'search',
+        label: 'Search',
+        Icon: IconSearch,
+        onClick: () => undefined,
+      },
+      {
+        name: 'tasks',
+        label: 'Tasks',
+        Icon: IconCheckbox,
+        onClick: () => undefined,
+      },
+      {
+        name: 'settings',
+        label: 'Settings',
+        Icon: IconSettings,
+        onClick: () => undefined,
+      },
     ],
   },
 };

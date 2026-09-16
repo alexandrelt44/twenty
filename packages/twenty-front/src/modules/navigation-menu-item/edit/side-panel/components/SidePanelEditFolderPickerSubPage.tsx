@@ -1,6 +1,7 @@
+import { ColoredIcon } from '@/ui/icon/components/ColoredIcon';
 import { useLingui } from '@lingui/react/macro';
 import { useState } from 'react';
-import { TintedIconTile, useIcons } from 'twenty-ui/display';
+import { useIcons } from 'twenty-ui/icon';
 
 import { CommandMenuItem } from '@/command-menu/components/CommandMenuItem';
 import { FOLDER_ICON_DEFAULT } from '@/navigation-menu-item/common/constants/FolderIconDefault';
@@ -70,7 +71,7 @@ export const SidePanelEditFolderPickerSubPage = () => {
               >
                 <CommandMenuItem
                   LeftComponent={
-                    <TintedIconTile Icon={FolderIcon} color={folderColor} />
+                    <ColoredIcon Icon={FolderIcon} color={folderColor} />
                   }
                   label={folder.name}
                   id={folder.id}

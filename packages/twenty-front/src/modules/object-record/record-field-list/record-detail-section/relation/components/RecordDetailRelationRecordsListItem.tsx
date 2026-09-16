@@ -5,7 +5,6 @@ import { useCallback, useContext } from 'react';
 import { useObjectMetadataItem } from '@/object-metadata/hooks/useObjectMetadataItem';
 import { useObjectMetadataItems } from '@/object-metadata/hooks/useObjectMetadataItems';
 import { CoreObjectNameSingular } from 'twenty-shared/types';
-import { getObjectTypename } from '@/object-record/cache/utils/getObjectTypename';
 import { RecordChip } from '@/object-record/components/RecordChip';
 import { useDeleteOneRecord } from '@/object-record/hooks/useDeleteOneRecord';
 import { useObjectPermissionsForObject } from '@/object-record/hooks/useObjectPermissionsForObject';
@@ -33,7 +32,7 @@ import { t } from '@lingui/core/macro';
 import { Trans } from '@lingui/react/macro';
 import { createPortal } from 'react-dom';
 import {
-  computeMorphRelationFieldName,
+  computeMorphRelationGqlFieldName,
   CustomError,
 } from 'twenty-shared/utils';
 import {
@@ -42,10 +41,10 @@ import {
   IconTrash,
   IconUnlink,
   type IconComponent,
-} from 'twenty-ui/display';
-import { LightIconButton } from 'twenty-ui/input';
-import { MenuItem } from 'twenty-ui/navigation';
-import { AnimatedEaseInOut } from 'twenty-ui/utilities';
+} from 'twenty-ui/icon';
+import { LightIconButton } from 'twenty-ui/primitives/input';
+import { MenuItem } from 'twenty-ui/primitives/navigation';
+import { AnimatedEaseInOut } from 'twenty-ui/primitives/layout';
 import { FieldMetadataType, RelationType } from '~/generated-metadata/graphql';
 
 const StyledClickableZone = styled.div`
@@ -110,9 +109,7 @@ export const RecordDetailRelationRecordsListItem = ({
       objectNameSingular: relationObjectMetadataNameSingular,
     });
 
-  const relationObjectTypeName = getObjectTypename(
-    relationObjectMetadataNameSingular,
-  );
+  const relationObjectLabelSingular = relationObjectMetadataItem.labelSingular;
 
   const relationObjectPermissions = useObjectPermissionsForObject(
     relationObjectMetadataItem.id,
@@ -153,7 +150,7 @@ export const RecordDetailRelationRecordsListItem = ({
     relationFieldMetadataItem?.type === FieldMetadataType.MORPH_RELATION;
 
   const computedName = relationFieldMetadataItem
-    ? computeMorphRelationFieldName({
+    ? computeMorphRelationGqlFieldName({
         fieldName: relationFieldMetadataItem.name,
         relationType: relationFieldMetadataItem.settings.relationType,
         targetObjectMetadataNameSingular: objectMetadataItem.nameSingular,
@@ -279,17 +276,17 @@ export const RecordDetailRelationRecordsListItem = ({
       {createPortal(
         <ConfirmationModal
           modalInstanceId={getDeleteRelationModalId(relationRecord.id)}
-          title={t`Delete Related ${relationObjectTypeName}`}
+          title={t`Delete Related ${relationObjectLabelSingular}`}
           subtitle={
             <Trans>
               Are you sure you want to delete this related{' '}
-              {relationObjectMetadataNameSingular}?
+              {relationObjectLabelSingular}?
               <br />
               This action will break all its relationships with other objects.
             </Trans>
           }
           onConfirmClick={handleConfirmDelete}
-          confirmButtonText={t`Delete ${relationObjectTypeName}`}
+          confirmButtonText={t`Delete ${relationObjectLabelSingular}`}
         />,
         document.body,
       )}

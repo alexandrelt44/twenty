@@ -1,11 +1,14 @@
+import { t } from '@lingui/core/macro';
 import { useContext, useState } from 'react';
 
 import { css } from '@linaria/core';
 import { styled } from '@linaria/react';
 import { Trans } from '@lingui/react/macro';
 import { isDefined } from 'twenty-shared/utils';
-import { AppTooltip, IconTrash, TooltipDelay } from 'twenty-ui/display';
-import { Checkbox, IconButton } from 'twenty-ui/input';
+import { IconTrash } from 'twenty-ui/icon';
+import { AppTooltip, TooltipDelay } from 'twenty-ui/primitives/surfaces';
+import { Checkbox } from 'twenty-ui/primitives/input';
+import { IconButton } from 'twenty-ui/components';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 
 import { SettingsAiModelHoverCard } from '@/settings/ai/components/SettingsAiModelHoverCard';
@@ -41,6 +44,7 @@ const StyledDeprecatedSuffix = styled.span`
 
 const hoverCardTooltipClass = css`
   border-radius: ${themeCssVariables.border.radius.rounded} !important;
+  corner-shape: round;
 
   padding: 0 !important;
 `;
@@ -112,7 +116,7 @@ export const SettingsAiModelsTable = <TModel extends AiModelSummary>({
               <Checkbox
                 checked={allChecked}
                 indeterminate={!allChecked && !noneChecked}
-                onChange={() => onToggleAll(!allChecked)}
+                onCheckedChange={() => onToggleAll(!allChecked)}
               />
             )}
           </TableHeader>
@@ -185,21 +189,23 @@ export const SettingsAiModelsTable = <TModel extends AiModelSummary>({
                   <Checkbox
                     checked={checked}
                     disabled={disabled}
-                    onChange={() => onToggle(model.modelId, checked)}
+                    onCheckedChange={() => onToggle(model.modelId, checked)}
                   />
                 </TableCell>
                 {hasRemove && (
                   <TableCell align="right">
                     <IconButton
-                      Icon={IconTrash}
-                      accent="danger"
-                      variant="tertiary"
-                      size="small"
+                      aria-label={t`Remove model`}
+                      color="danger"
+                      variant="ghost"
+                      size="sm"
                       onClick={(event) => {
                         event.stopPropagation();
                         onRemove(model);
                       }}
-                    />
+                    >
+                      <IconTrash />
+                    </IconButton>
                   </TableCell>
                 )}
               </TableRow>
@@ -216,7 +222,7 @@ export const SettingsAiModelsTable = <TModel extends AiModelSummary>({
           offset={8}
           delay={TooltipDelay.noDelay}
           className={hoverCardTooltipClass}
-          width="320px"
+          maxWidth="320px"
           isOpen={true}
         >
           <SettingsAiModelHoverCard model={hoveredModel} />

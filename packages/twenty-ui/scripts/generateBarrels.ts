@@ -60,16 +60,18 @@ const createTypeScriptFile = ({
   );
 };
 
-const getLastPathFolder = (pathStr: string) => path.basename(pathStr);
+const getModuleName = (moduleDirectory: string) =>
+  slash(path.relative(SRC_PATH, moduleDirectory));
 
 const getSubDirectoryPaths = (directoryPath: string): string[] => {
-  const pattern = slash(path.join(directoryPath, '*/'));
-  return globSync(pattern, {
+  return globSync('*/', {
     ignore: [...EXCLUDED_DIRECTORIES],
-    cwd: SRC_PATH,
+    cwd: directoryPath,
     nodir: false,
     maxDepth: 1,
-  }).sort((a, b) => a.localeCompare(b));
+  })
+    .map((directory) => path.resolve(directoryPath, directory))
+    .sort((a, b) => a.localeCompare(b));
 };
 
 const partitionFileExportsByType = (declarations: DeclarationOccurrence[]) => {
@@ -103,7 +105,16 @@ const partitionFileExportsByType = (declarations: DeclarationOccurrence[]) => {
 const generateModuleIndexFiles = (exportByBarrel: ExportByBarrel[]) => {
   return exportByBarrel.map<createTypeScriptFileArgs>(
     ({ barrel: { moduleDirectory }, allFileExports }) => {
-      const content = allFileExports
+      const childModuleDirectories = exportByBarrel
+        .map(({ barrel }) => barrel.moduleDirectory)
+        .filter((directory) => path.dirname(directory) === moduleDirectory);
+      const fileExports = allFileExports
+        .filter(
+          ({ file }) =>
+            !childModuleDirectories.some((directory) =>
+              file.startsWith(`${directory}${path.sep}`),
+            ),
+        )
         .sort((a, b) => a.file.localeCompare(b.file))
         .map(({ exports, file }) => {
           const { otherDeclarations, typeAndInterfaceDeclarations } =
@@ -134,9 +145,17 @@ const generateModuleIndexFiles = (exportByBarrel: ExportByBarrel[]) => {
             .join('\n');
         })
         .join('\n');
+      const childModuleExports = childModuleDirectories.map(
+        (directory) => `export * from './${path.basename(directory)}';`,
+      );
+      const content = [fileExports, ...childModuleExports]
+        .filter((entry) => entry !== '')
+        .join('\n');
 
       return {
-        content,
+        // A placeholder barrel for an empty module must still be a valid module
+        // so `export * from './x'` re-exports (e.g. in individual-entry.ts) resolve.
+        content: content === '' ? 'export {};' : content,
         path: moduleDirectory,
         filename: INDEX_FILENAME,
       };
@@ -200,7 +219,7 @@ type ExportsConfig = Record<string, ExportOccurrence | string>;
 const generateModulePackageExports = (moduleDirectories: string[]) => {
   return moduleDirectories.reduce<ExportsConfig>(
     (acc, moduleDirectory) => {
-      const moduleName = getLastPathFolder(moduleDirectory);
+      const moduleName = getModuleName(moduleDirectory);
       if (moduleName === undefined) {
         throw new Error(
           `Should never occur, moduleName is undefined ${moduleDirectory}`,
@@ -227,7 +246,7 @@ const generateModulePackageExports = (moduleDirectories: string[]) => {
 const computePackageJsonFilesAndExportsConfig = (
   moduleDirectories: string[],
 ) => {
-  const entrypoints = moduleDirectories.map(getLastPathFolder);
+  const entrypoints = moduleDirectories.map(getModuleName);
   const exports = {
     '.': {
       types: './dist/index.d.ts',
@@ -248,20 +267,18 @@ const computePackageJsonFilesAndExportsConfig = (
   return {
     exports,
     typesVersions: { '*': typesVersionsEntries },
-    files: ['dist', ...entrypoints],
+    files: [
+      'dist',
+      'LICENSE',
+      '!dist/individual',
+      '!dist/individual/**',
+      '!dist/**/*.map',
+    ],
   };
 };
 
-const computeProjectNxBuildOutputsPath = (moduleDirectories: string[]) => {
-  const dynamicOutputsPath = moduleDirectories
-    .map(getLastPathFolder)
-    .flatMap((barrelName) =>
-      ['package.json', 'dist'].map(
-        (subPath) => `{projectRoot}/${barrelName}/${subPath}`,
-      ),
-    );
-
-  return ['{projectRoot}/dist', ...dynamicOutputsPath];
+const computeProjectNxBuildOutputsPath = () => {
+  return ['{projectRoot}/dist'];
 };
 
 const EXCLUDED_EXTENSIONS = [
@@ -277,6 +294,8 @@ const EXCLUDED_DIRECTORIES = [
   '**/__mocks__/**',
   '**/__stories__/**',
   '**/internal/**',
+  '**/internals/**',
+  '**/parts/**',
 ] as const;
 function getTypeScriptFiles(
   directoryPath: string,
@@ -399,7 +418,6 @@ function extractExportsFromSourceFile(sourceFile: ts.SourceFile) {
             const isTypeExport =
               node.isTypeOnly || ts.isTypeOnlyExportDeclaration(node);
             if (isTypeExport) {
-              // should handle kind
               exports.push({
                 kind: 'type',
                 name: exportName,
@@ -472,7 +490,7 @@ type ExportByBarrel = {
 const retrieveExportsByBarrel = (barrelDirectories: string[]) => {
   return barrelDirectories.map<ExportByBarrel>((moduleDirectory) => {
     const moduleExportsPerFile = findAllExports(moduleDirectory);
-    const moduleName = getLastPathFolder(moduleDirectory);
+    const moduleName = getModuleName(moduleDirectory);
     if (!moduleName) {
       throw new Error(
         `Should never occur moduleName not found ${moduleDirectory}`,
@@ -489,17 +507,54 @@ const retrieveExportsByBarrel = (barrelDirectories: string[]) => {
   });
 };
 
+const ROOT_BARREL_EXCLUDED_MODULES = ['assets', 'styles', 'testing'];
+const INDIVIDUAL_ENTRY_FILENAME = 'individual-entry';
+
+const getRootBarrelModuleNames = (moduleDirectories: string[]) =>
+  moduleDirectories
+    .map(getModuleName)
+    .filter((moduleName) => !ROOT_BARREL_EXCLUDED_MODULES.includes(moduleName));
+
+const generateRootBarrel = (
+  moduleDirectories: string[],
+): createTypeScriptFileArgs => {
+  const content = [
+    "import './styles/base/reset.scss';",
+    '',
+    ...getRootBarrelModuleNames(moduleDirectories).map(
+      (moduleName) => `export * from './${moduleName}';`,
+    ),
+  ].join('\n');
+
+  return { path: SRC_PATH, content, filename: INDEX_FILENAME };
+};
+
+const generateIndividualEntry = (
+  moduleDirectories: string[],
+): createTypeScriptFileArgs => {
+  const content = getRootBarrelModuleNames(moduleDirectories)
+    .map((moduleName) => `export * from './${moduleName}';`)
+    .join('\n');
+
+  return { path: SRC_PATH, content, filename: INDIVIDUAL_ENTRY_FILENAME };
+};
+
 const main = () => {
   const moduleDirectories = getSubDirectoryPaths(SRC_PATH);
-  const exportsByBarrel = retrieveExportsByBarrel(moduleDirectories);
+  const barrelDirectories = [
+    ...moduleDirectories,
+    ...getSubDirectoryPaths(path.join(SRC_PATH, 'primitives')),
+  ].sort((first, second) => first.localeCompare(second));
+  const exportsByBarrel = retrieveExportsByBarrel(barrelDirectories);
   const moduleIndexFiles = generateModuleIndexFiles(exportsByBarrel);
   const packageJsonConfig =
-    computePackageJsonFilesAndExportsConfig(moduleDirectories);
-  const nxBuildOutputsPath =
-    computeProjectNxBuildOutputsPath(moduleDirectories);
+    computePackageJsonFilesAndExportsConfig(barrelDirectories);
+  const nxBuildOutputsPath = computeProjectNxBuildOutputsPath();
 
   updateNxProjectConfigurationBuildOutputs(nxBuildOutputsPath);
   writeInPackageJson(packageJsonConfig);
   moduleIndexFiles.forEach(createTypeScriptFile);
+  createTypeScriptFile(generateRootBarrel(moduleDirectories));
+  createTypeScriptFile(generateIndividualEntry(moduleDirectories));
 };
 main();

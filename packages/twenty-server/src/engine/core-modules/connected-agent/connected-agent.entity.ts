@@ -1,6 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { IDField } from '@ptc-org/nestjs-query-graphql';
 import {
   Column,
   CreateDateColumn,
@@ -24,7 +23,7 @@ import { WorkspaceRelatedEntity } from 'src/engine/workspace-manager/types/works
 @Entity({ name: 'connectedAgent', schema: 'core' })
 @ObjectType('ConnectedAgent')
 export class ConnectedAgentEntity extends WorkspaceRelatedEntity {
-  @IDField(() => UUIDScalarType)
+  @Field(() => UUIDScalarType)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

@@ -3,9 +3,9 @@ import { styled } from '@linaria/react';
 import {
   type Avatar,
   type AvatarProps,
-  type IconComponent,
-} from 'twenty-ui/display';
-import { LightIconButton } from 'twenty-ui/input';
+} from 'twenty-ui/primitives/data-display';
+import { type IconComponent } from 'twenty-ui/icon';
+import { LightIconButton } from 'twenty-ui/primitives/input';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 
 const StyledNonClickableStartIcon = styled.div`

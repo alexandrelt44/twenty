@@ -1,10 +1,14 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { POLLED_MESSAGE_CHANNEL_TYPES } from 'twenty-shared/constants';
 import { WorkspaceActivationStatus } from 'twenty-shared/workspace';
 import { In, Repository } from 'typeorm';
 
-import { MessageChannelSyncStage } from 'twenty-shared/types';
+import {
+  MessageChannelSyncStage,
+  WebhookSubscriptionStatus,
+} from 'twenty-shared/types';
 import { SentryCronMonitor } from 'src/engine/core-modules/cron/sentry-cron-monitor.decorator';
 import { ExceptionHandlerService } from 'src/engine/core-modules/exception-handler/exception-handler.service';
 import { InjectMessageQueue } from 'src/engine/core-modules/message-queue/decorators/message-queue.decorator';
@@ -17,6 +21,7 @@ import {
   MessagingMessageListFetchJob,
   type MessagingMessageListFetchJobData,
 } from 'src/modules/messaging/message-import-manager/jobs/messaging-message-list-fetch.job';
+import { isLastSuccessfulSyncStale } from 'src/modules/connected-account/utils/is-last-successful-sync-stale.util';
 import { isThrottled } from 'src/modules/connected-account/utils/is-throttled';
 import { MessageChannelEntity } from 'src/engine/metadata-modules/message-channel/entities/message-channel.entity';
 import { toIsoStringOrNull } from 'src/utils/date/toIsoStringOrNull';
@@ -57,6 +62,7 @@ export class MessagingMessageListFetchCronJob {
               workspaceId: activeWorkspace.id,
               isSyncEnabled: true,
               syncStage: MessageChannelSyncStage.MESSAGE_LIST_FETCH_PENDING,
+              type: In([...POLLED_MESSAGE_CHANNEL_TYPES]),
             },
           },
         );
@@ -67,7 +73,12 @@ export class MessagingMessageListFetchCronJob {
               toIsoStringOrNull(messageChannel.syncStageStartedAt),
               messageChannel.throttleFailureCount,
               toIsoStringOrNull(messageChannel.throttleRetryAfter),
-            ),
+            ) &&
+            (messageChannel.webhookSubscriptionStatus !==
+              WebhookSubscriptionStatus.ACTIVE ||
+              isLastSuccessfulSyncStale(
+                toIsoStringOrNull(messageChannel.syncedAt),
+              )),
         );
 
         const throttledCount =

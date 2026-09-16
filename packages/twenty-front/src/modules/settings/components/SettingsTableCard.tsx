@@ -3,11 +3,11 @@ import { TableCell } from '@/ui/layout/table/components/TableCell';
 import { TableRow } from '@/ui/layout/table/components/TableRow';
 import { useContext } from 'react';
 import { isDefined } from 'twenty-shared/utils';
+import { type IconComponent } from 'twenty-ui/icon';
 import {
+  Card,
   OverflowingTextWithTooltip,
-  type IconComponent,
-} from 'twenty-ui/display';
-import { Card } from 'twenty-ui/layout';
+} from 'twenty-ui/primitives/surfaces';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 
 export type TableItem = {

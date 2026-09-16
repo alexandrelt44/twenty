@@ -1,4 +1,4 @@
-import { type DropResult, type ResponderProvided } from '@hello-pangea/dnd';
+import { type DraggableListDropResult } from '@/ui/layout/draggable-list/types/DraggableListDropResult';
 
 import { useGetFieldMetadataItemByIdOrThrow } from '@/object-metadata/hooks/useGetFieldMetadataItemById';
 import { getLabelIdentifierFieldMetadataItem } from '@/object-metadata/utils/getLabelIdentifierFieldMetadataItem';
@@ -10,14 +10,12 @@ import { visibleRecordFieldsComponentSelector } from '@/object-record/record-fie
 import { DraggableItem } from '@/ui/layout/draggable-list/components/DraggableItem';
 import { DraggableList } from '@/ui/layout/draggable-list/components/DraggableList';
 import { DropdownMenuItemsContainer } from '@/ui/layout/dropdown/components/DropdownMenuItemsContainer';
-import { dropdownYPositionComponentState } from '@/ui/layout/dropdown/states/internal/dropdownYPositionComponentState';
 import { useAtomComponentSelectorValue } from '@/ui/utilities/state/jotai/hooks/useAtomComponentSelectorValue';
-import { useAtomComponentStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomComponentStateValue';
 import { ViewType } from '@/views/types/ViewType';
 import { useContext } from 'react';
 import { isDefined } from 'twenty-shared/utils';
-import { IconEyeOff, useIcons } from 'twenty-ui/display';
-import { MenuItemDraggable } from 'twenty-ui/navigation';
+import { IconEyeOff, useIcons } from 'twenty-ui/icon';
+import { MenuItemDraggable } from 'twenty-ui/primitives/navigation';
 import { sortByProperty } from '~/utils/array/sortByProperty';
 
 export const ViewFieldsVisibleDropdownSection = () => {
@@ -51,8 +49,8 @@ export const ViewFieldsVisibleDropdownSection = () => {
       ? handleBoardFieldVisibilityChange
       : changeRecordFieldVisibility;
 
-  const handleDragEnd = (result: DropResult, provided: ResponderProvided) => {
-    handleReorderFields(result, provided);
+  const handleDragEnd = (result: DraggableListDropResult) => {
+    handleReorderFields(result);
   };
 
   const { getIcon } = useIcons();
@@ -77,10 +75,6 @@ export const ViewFieldsVisibleDropdownSection = () => {
         recordFieldToFilter.fieldMetadataItemId,
     )
     .toSorted(sortByProperty('position'));
-
-  const dropdownYPosition = useAtomComponentStateValue(
-    dropdownYPositionComponentState,
-  );
 
   return (
     <>
@@ -113,8 +107,6 @@ export const ViewFieldsVisibleDropdownSection = () => {
                       key={recordField.fieldMetadataItemId}
                       draggableId={recordField.fieldMetadataItemId}
                       index={fieldIndex + 1}
-                      isInsideScrollableContainer
-                      containerOffsetY={dropdownYPosition}
                       itemComponent={
                         <MenuItemDraggable
                           key={recordField.fieldMetadataItemId}

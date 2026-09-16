@@ -1,4 +1,5 @@
 import {
+  type MessageChannelType,
   type MessageChannelContactAutoCreationPolicy,
   type MessageChannelSyncStage,
   type MessageChannelSyncStatus,
@@ -9,8 +10,9 @@ import { type MessageChannelVisibility } from '~/generated/graphql';
 export type MessageChannel = {
   id: string;
   handle: string;
+  displayName: string | null;
   visibility: MessageChannelVisibility;
-  type: string;
+  type: MessageChannelType;
   isContactAutoCreationEnabled: boolean;
   contactAutoCreationPolicy: MessageChannelContactAutoCreationPolicy;
   messageFolderImportPolicy: MessageFolderImportPolicy;
@@ -21,6 +23,10 @@ export type MessageChannel = {
   syncStage: MessageChannelSyncStage;
   syncStageStartedAt: string | null;
   connectedAccountId: string;
+  connectedAccount: {
+    id: string;
+    handle: string;
+  } | null;
   createdAt: string;
   updatedAt: string;
   __typename: 'MessageChannel';

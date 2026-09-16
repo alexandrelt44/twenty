@@ -1,9 +1,13 @@
-import { Avatar } from 'twenty-ui/display';
-import { MenuItemSelectAvatar, UndecoratedLink } from 'twenty-ui/navigation';
+import { Avatar } from 'twenty-ui/primitives/data-display';
+import {
+  MenuItemSelectAvatar,
+  UndecoratedLink,
+} from 'twenty-ui/primitives/navigation';
 import { DEFAULT_WORKSPACE_LOGO } from '@/ui/navigation/navigation-drawer/constants/DefaultWorkspaceLogo';
 import { type AvailableWorkspace } from '~/generated-metadata/graphql';
 import { useRedirectToWorkspaceDomain } from '@/domain-manager/hooks/useRedirectToWorkspaceDomain';
 import { getWorkspaceUrl } from '~/utils/getWorkspaceUrl';
+import { getAbsoluteImageUrl } from '~/utils/image/getAbsoluteImageUrl';
 import { getAvailableWorkspacePathAndSearchParams } from '@/auth/utils/availableWorkspacesUtils';
 import { t } from '@lingui/core/macro';
 import React from 'react';
@@ -48,8 +52,10 @@ export const AvailableWorkspaceItem = ({
         text={availableWorkspace.displayName ?? t`(No name)`}
         avatar={
           <Avatar
-            placeholder={availableWorkspace.displayName || ''}
-            avatarUrl={availableWorkspace.logo ?? DEFAULT_WORKSPACE_LOGO}
+            name={availableWorkspace.displayName || ''}
+            src={getAbsoluteImageUrl(
+              availableWorkspace.logo ?? DEFAULT_WORKSPACE_LOGO,
+            )}
           />
         }
         selected={isSelected}

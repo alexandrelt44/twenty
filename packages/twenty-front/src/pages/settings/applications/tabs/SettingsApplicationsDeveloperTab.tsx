@@ -1,46 +1,36 @@
+import { useRefetchOnApplicationRegistrationChange } from '@/applications/hooks/useRefetchOnApplicationRegistrationChange';
 import { currentWorkspaceMemberState } from '@/auth/states/currentWorkspaceMemberState';
-import { SettingsEmptyPlaceholder } from '@/settings/components/SettingsEmptyPlaceholder';
-import {
-  StyledActionTableCell,
-  StyledNameTableCell,
-} from '@/settings/data-model/object-details/components/SettingsObjectItemTableRowStyledComponents';
 import { getDocumentationUrl } from '@/support/utils/getDocumentationUrl';
 import { Table } from '@/ui/layout/table/components/Table';
-import { TableCell } from '@/ui/layout/table/components/TableCell';
 import { TableHeader } from '@/ui/layout/table/components/TableHeader';
 import { TableRow } from '@/ui/layout/table/components/TableRow';
 import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { useQuery } from '@apollo/client/react';
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useState } from 'react';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
-import { FeatureFlagKey, SettingsPath } from 'twenty-shared/types';
+import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath } from 'twenty-shared/utils';
+import { CommandBlock } from 'twenty-ui/primitives/data-display';
+import { IconArrowUpRight, IconChevronRight, IconCopy } from 'twenty-ui/icon';
+import { H2Title } from 'twenty-ui/primitives/typography';
+import { Button, SearchInput } from 'twenty-ui/primitives/input';
+import { Section } from 'twenty-ui/primitives/layout';
 import {
-  CommandBlock,
-  H2Title,
-  IconArrowUpRight,
-  IconChevronRight,
-  IconCopy,
-  InlineBanner,
-  OverflowingTextWithTooltip,
-} from 'twenty-ui/display';
-import { Button, SearchInput } from 'twenty-ui/input';
-import { Section } from 'twenty-ui/layout';
-import {
-  type ApplicationRegistrationFragmentFragment,
+  type ApplicationRegistrationListItemFragment,
+  FeatureFlagKey,
   FindManyApplicationRegistrationsDocument,
+  PermissionFlagType,
 } from '~/generated-metadata/graphql';
+import { useIsFeatureEnabled } from '@/workspace/hooks/useIsFeatureEnabled';
 import { useCopyToClipboard } from '~/hooks/useCopyToClipboard';
-import { useMarketplaceApps } from '~/modules/marketplace/hooks/useMarketplaceApps';
 import {
   APPLICATION_TABLE_ROW_GRID_TEMPLATE_COLUMNS,
   SettingsApplicationTableRow,
 } from '~/pages/settings/applications/components/SettingsApplicationTableRow';
-import { getApplicationDescriptionSummary } from '~/pages/settings/applications/utils/getApplicationDescriptionSummary';
-import { ApplicationDisplay } from '@/applications/components/ApplicationDisplay';
-import { useIsFeatureEnabled } from '@/workspace/hooks/useIsFeatureEnabled';
+import { useHasPermissionFlag } from '@/settings/roles/hooks/useHasPermissionFlag';
+import { SettingsClaimApplicationSection } from '~/pages/settings/applications/components/SettingsClaimApplicationSection';
 
 const StyledButtonContainer = styled.div`
   display: flex;
@@ -57,44 +47,28 @@ const StyledTableRowsContainer = styled.div`
   padding: ${themeCssVariables.spacing[2]} 0;
 `;
 
-const NPM_PACKAGES_GRID_COLUMNS = '200px 1fr 36px';
-
 export const SettingsApplicationsDeveloperTab = () => {
   const { t } = useLingui();
   const { theme } = useContext(ThemeContext);
   const currentWorkspaceMember = useAtomStateValue(currentWorkspaceMemberState);
 
-  const [displayNotVettedApps, setDisplayNotVettedApps] = useState(false);
-
   const { copyToClipboard } = useCopyToClipboard();
 
-  const { data } = useQuery(FindManyApplicationRegistrationsDocument);
+  const { data, refetch } = useQuery(FindManyApplicationRegistrationsDocument);
 
-  const isMarketplaceSettingTabVisible = useIsFeatureEnabled(
-    FeatureFlagKey.IS_MARKETPLACE_SETTING_TAB_VISIBLE,
+  useRefetchOnApplicationRegistrationChange({ refetch });
+
+  const canClaimApplications = useHasPermissionFlag(
+    PermissionFlagType.APPLICATIONS,
   );
 
-  const [marketplaceAppSearchTerm, setMarketplaceAppSearchTerm] = useState('');
+  const isAppClaimingEnabled = useIsFeatureEnabled(
+    FeatureFlagKey.IS_APP_CLAIMING_ENABLED,
+  );
 
   const [myAppsSearchTerm, setMyAppsSearchTerm] = useState('');
 
-  const { data: marketplaceApps } = useMarketplaceApps();
-
-  const filteredMarketplaceApps = useMemo(() => {
-    if (!marketplaceAppSearchTerm) {
-      return marketplaceApps;
-    }
-
-    const lowerSearch = marketplaceAppSearchTerm.toLowerCase();
-
-    return marketplaceApps.filter(
-      (application) =>
-        application.name.toLowerCase().includes(lowerSearch) ||
-        application.description.toLowerCase().includes(lowerSearch),
-    );
-  }, [marketplaceApps, marketplaceAppSearchTerm]);
-
-  const registrations: ApplicationRegistrationFragmentFragment[] =
+  const registrations: ApplicationRegistrationListItemFragment[] =
     data?.findManyApplicationRegistrations ?? [];
 
   const createCommands = [
@@ -112,13 +86,13 @@ export const SettingsApplicationsDeveloperTab = () => {
           t`Commands copied to clipboard`,
         );
       }}
-      ariaLabel={t`Copy commands`}
-      Icon={IconCopy}
+      aria-label={t`Copy commands`}
+      startIcon={<IconCopy />}
     />
   );
 
   const getRegistrationLink = (
-    registration: ApplicationRegistrationFragmentFragment,
+    registration: ApplicationRegistrationListItemFragment,
   ) =>
     getSettingsPath(SettingsPath.ApplicationRegistrationDetail, {
       applicationRegistrationId: registration.id,
@@ -134,10 +108,8 @@ export const SettingsApplicationsDeveloperTab = () => {
         <CommandBlock commands={createCommands} button={createCopyButton} />
         <StyledButtonContainer>
           <Button
-            Icon={IconArrowUpRight}
-            variant={'secondary'}
-            size={'small'}
-            title={t`Read documentation`}
+            startIcon={<IconArrowUpRight />}
+            size="sm"
             onClick={() =>
               window.open(
                 getDocumentationUrl({
@@ -147,9 +119,14 @@ export const SettingsApplicationsDeveloperTab = () => {
                 '_blank',
               )
             }
-          />
+            variant="outline"
+          >{t`Read documentation`}</Button>
         </StyledButtonContainer>
       </Section>
+
+      {canClaimApplications && isAppClaimingEnabled && (
+        <SettingsClaimApplicationSection />
+      )}
 
       {registrations.length > 0 && (
         <Section>
@@ -168,8 +145,8 @@ export const SettingsApplicationsDeveloperTab = () => {
             <TableRow
               gridTemplateColumns={APPLICATION_TABLE_ROW_GRID_TEMPLATE_COLUMNS}
             >
-              <TableHeader> {t`Name`}</TableHeader>
-              <TableHeader>{''}</TableHeader>
+              <TableHeader>{t`Name`}</TableHeader>
+              <TableHeader>{t`Type`}</TableHeader>
               <TableHeader>{''}</TableHeader>
               <TableHeader />
             </TableRow>
@@ -179,6 +156,7 @@ export const SettingsApplicationsDeveloperTab = () => {
                   <SettingsApplicationTableRow
                     key={registration.id}
                     application={registration}
+                    sourceType={registration.sourceType}
                     action={
                       <IconChevronRight
                         size={theme.icon.size.md}
@@ -192,82 +170,6 @@ export const SettingsApplicationsDeveloperTab = () => {
               })}
             </StyledTableRowsContainer>
           </Table>
-        </Section>
-      )}
-
-      {!isMarketplaceSettingTabVisible && (
-        <Section>
-          <H2Title
-            title={t`NPM packages`}
-            description={t`Apps made by other developers published on npm`}
-          />
-          <InlineBanner
-            color={'danger'}
-            message={t`These apps are not vetted. Use at your own risk.`}
-            button={{
-              title: t`Access`,
-              hidden: displayNotVettedApps,
-              onClick: () => setDisplayNotVettedApps(true),
-            }}
-          />
-          {displayNotVettedApps && (
-            <>
-              <StyledSearchInputContainer>
-                <SearchInput
-                  placeholder={t`Search an application`}
-                  value={marketplaceAppSearchTerm}
-                  onChange={setMarketplaceAppSearchTerm}
-                />
-              </StyledSearchInputContainer>
-              {filteredMarketplaceApps.length === 0 ? (
-                <SettingsEmptyPlaceholder>{t`No application found`}</SettingsEmptyPlaceholder>
-              ) : (
-                <Table>
-                  <TableRow gridAutoColumns={NPM_PACKAGES_GRID_COLUMNS}>
-                    <TableHeader>{t`Name`}</TableHeader>
-                    <TableHeader>{t`Description`}</TableHeader>
-                    <TableHeader />
-                  </TableRow>
-                  <StyledTableRowsContainer>
-                    {filteredMarketplaceApps.map((application) => (
-                      <TableRow
-                        key={application.id}
-                        gridAutoColumns={NPM_PACKAGES_GRID_COLUMNS}
-                        to={getSettingsPath(
-                          SettingsPath.AvailableApplicationDetail,
-                          {
-                            availableApplicationId: application.id,
-                          },
-                        )}
-                      >
-                        <StyledNameTableCell>
-                          <ApplicationDisplay application={application} />
-                        </StyledNameTableCell>
-                        <TableCell
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                          whiteSpace="nowrap"
-                        >
-                          <OverflowingTextWithTooltip
-                            text={getApplicationDescriptionSummary(
-                              application.description,
-                            )}
-                          />
-                        </TableCell>
-                        <StyledActionTableCell>
-                          <IconChevronRight
-                            size={theme.icon.size.md}
-                            stroke={theme.icon.stroke.sm}
-                            color={theme.font.color.light}
-                          />
-                        </StyledActionTableCell>
-                      </TableRow>
-                    ))}
-                  </StyledTableRowsContainer>
-                </Table>
-              )}
-            </>
-          )}
         </Section>
       )}
     </>

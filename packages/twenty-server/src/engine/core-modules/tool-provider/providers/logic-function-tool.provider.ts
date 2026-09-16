@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
 import { isDefined } from 'twenty-shared/utils';
-import { DEFAULT_TOOL_INPUT_SCHEMA } from 'twenty-shared/logic-function';
+import {
+  buildToolInputJsonSchema,
+  DEFAULT_TOOL_INPUT_SCHEMA,
+} from 'twenty-shared/logic-function';
 
 import { type GenerateDescriptorOptions } from 'src/engine/core-modules/tool-provider/interfaces/generate-descriptor-options.type';
 import { type ToolProvider } from 'src/engine/core-modules/tool-provider/interfaces/tool-provider.interface';
@@ -46,19 +49,25 @@ export class LogicFunctionToolProvider implements ToolProvider {
   ): Promise<(ToolIndexEntry | ToolDescriptor)[]> {
     const includeSchemas = options?.includeSchemas ?? true;
 
-    const { flatLogicFunctionMaps } =
+    const { flatLogicFunctionMaps, flatObjectMetadataMaps } =
       await this.flatEntityMapsCacheService.getOrRecomputeManyOrAllFlatEntityMaps(
         {
           workspaceId: context.workspaceId,
-          flatMapsKeys: ['flatLogicFunctionMaps'],
+          flatMapsKeys: ['flatLogicFunctionMaps', 'flatObjectMetadataMaps'],
         },
       );
+
+    const resolveObjectLabel = (objectUniversalIdentifier: string) =>
+      flatObjectMetadataMaps.byUniversalIdentifier[objectUniversalIdentifier]
+        ?.labelSingular;
 
     const logicFunctionsWithSchema = Object.values(
       flatLogicFunctionMaps.byUniversalIdentifier,
     ).filter(
       (fn): fn is FlatLogicFunction =>
-        isDefined(fn) && fn.isTool === true && fn.deletedAt === null,
+        isDefined(fn) &&
+        isDefined(fn.toolTriggerSettings) &&
+        fn.deletedAt === null,
     );
 
     const descriptors: (ToolIndexEntry | ToolDescriptor)[] = [];
@@ -68,6 +77,7 @@ export class LogicFunctionToolProvider implements ToolProvider {
 
       const base: ToolIndexEntry = {
         name: toolName,
+        label: logicFunction.name,
         description:
           logicFunction.description ||
           `Execute the ${logicFunction.name} logic function`,
@@ -79,12 +89,15 @@ export class LogicFunctionToolProvider implements ToolProvider {
       };
 
       if (includeSchemas) {
-        // Logic functions already store JSON Schema -- use it directly
-        const inputSchema =
-          (logicFunction.toolInputSchema as object) ??
-          DEFAULT_TOOL_INPUT_SCHEMA;
-
-        descriptors.push({ ...base, inputSchema });
+        descriptors.push({
+          ...base,
+          inputSchema: isDefined(logicFunction.toolTriggerSettings?.inputSchema)
+            ? (buildToolInputJsonSchema(
+                logicFunction.toolTriggerSettings.inputSchema,
+                resolveObjectLabel,
+              ) as object)
+            : DEFAULT_TOOL_INPUT_SCHEMA,
+        });
       } else {
         descriptors.push(base);
       }

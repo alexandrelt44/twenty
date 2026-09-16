@@ -13,7 +13,7 @@ Twenty'nin izin sistemi, üç ana alana erişimi kontrol etmenizi sağlar:
 
 Yeni bir rol oluşturmak için:
 
-1. **Ayarlar → Roller** bölümüne gidin
+1. **Ayarlar → Üyeler → Roller** bölümüne gidin
 2. **Tüm Roller** altında, **+ Rol Oluştur** seçeneğine tıklayın
 3. Bir rol adı girin
 4. Varsayılan **İzinler** sekmesinde, [izinleri yapılandırın](#customize-permissions)
@@ -23,7 +23,7 @@ Yeni bir rol oluşturmak için:
 
 Bir rolü silmek için:
 
-1. **Ayarlar → Roller** bölümüne gidin
+1. **Ayarlar → Üyeler → Roller** bölümüne gidin
 2. Kaldırmak istediğiniz role tıklayın
 3. **Ayarlar** sekmesini açın, ardından **Rolü Sil** seçeneğine tıklayın
 4. Modalde **Onayla**'ya tıklayın
@@ -36,13 +36,13 @@ Bir rol silinirse, ona atanmış olan herhangi bir çalışma alanı üyesi otom
 
 ### Mevcut Atamaları Görüntüle
 
-* **Ayarlar → Roller** bölümüne gidin
+* **Ayarlar → Üyeler → Roller** bölümüne gidin
 * Tüm rolleri ve her birine kaç üye atandığını görün
 * Hangi üyelerin hangi rollere sahip olduğunu görün
 
 ### Bir Üyeye Rol Atama
 
-1. **Ayarlar → Roller** bölümüne gidin
+1. **Ayarlar → Üyeler → Roller** bölümüne gidin
 2. Atamak istediğiniz role tıklayın
 3. **Atama** sekmesini açın
 4. **+ Üyeye Atama**'ya tıklayın
@@ -51,7 +51,7 @@ Bir rol silinirse, ona atanmış olan herhangi bir çalışma alanı üyesi otom
 
 ### Varsayılan Rol Ayarlama
 
-1. **Ayarlar → Roller** bölümüne gidin
+1. **Ayarlar → Üyeler → Roller** bölümüne gidin
 2. **Seçenekler** bölümünde, **Varsayılan Rol**'ü bulun
 3. Yeni üyelerin otomatik olarak alacağı rolü seçin
 4. Yeni çalışma alanı üyeleri katıldığında bu role atanacaklardır
@@ -62,7 +62,7 @@ Yalnızca mevcut çalışma alanı üyelerine roller atayabilirsiniz. Yeni üyel
 
 ## İzinleri Özelleştirin
 
-İzinler, her rolün çalışma alanınızda hangi alanlara erişip neleri değiştirebileceğini belirler, bu çalışma alanı obje kayıtları, ayarlar ve aksiyonlar dahil.
+İzinler, her rolün çalışma alanınızda hangi öğelere erişebileceğini veya neleri değiştirebileceğini belirler; buna çalışma alanı nesneleri, kayıtlar, ayarlar ve eylemler dahildir.
 
 ### Nesne İzinleri
 
@@ -97,6 +97,22 @@ Varsayılanları ayarladıktan sonra, belirli nesneler için varsayılanları ge
 | ----------------------------------------------- | ------------------------------------------------------------------------------- |
 | Fırsatlar → "Kayıtları Gör"ü devre dışı bırakın | Stajyer Fırsatlar nesnesini hiç göremez                                         |
 | Kişiler → "Kayıtları Düzenle"yi etkinleştirin   | Stajyer Kişiler kayıtlarını düzenleyebilir (ancak diğer nesneleri düzenleyemez) |
+
+### Satır Seviyesi İzinleri
+
+<Note>
+Satır seviyesi izinler, **Organization** planında (Bulut ve Kendi Sunucunuzda) sunulan bir **Premium özellik**tir.
+</Note>
+
+Satır seviyesi izinler, bir rolün dinamik ölçütlere göre hangi tekil kayıtları görebileceğini veya düzenleyebileceğini kısıtlamanıza olanak tanır. Nesne izinlerinden (tüm bir nesne türüne uygulanan) farklı olarak, satır seviyesi izinler her kaydı bağımsız olarak değerlendirir.
+
+**Örnek Kullanım Durumları:**
+
+* Satış temsilcileri yalnızca kendi fırsatlarını görebilir
+* Yöneticiler kendi bölgelerindeki tüm kayıtları görebilir
+* Destek temsilcileri yalnızca kendilerine atanmış talepleri görüntüleyebilir
+
+Satır seviyesi izinleri yapılandırmak için bir rol açın, **Nesneler** sekmesine gidin ve belirli bir nesne için filtre koşullarını tanımlamak üzere **Satır Seviyesi** bölümünü kullanın.
 
 ### Alan İzinleri
 
@@ -168,7 +184,7 @@ Genel çalışma alanı aksiyonlarına erişimi kontrol edin:
 
 ### Bir API Anahtarına Rol Atama
 
-1. **Ayarlar → Roller** bölümüne gidin
+1. **Ayarlar → Üyeler → Roller** bölümüne gidin
 2. Atamak istediğiniz role tıklayın
 3. **Atama** sekmesini açın
 4. **API Anahtarları** altında, **+ API anahtarına ata**'ya tıklayın
@@ -183,7 +199,7 @@ Atanmış rolü olmayan API anahtarları varsayılan izinleri kullanır. Daha s�
 
 ### Bir Yapay Zeka Ajanına Rol Atama
 
-1. **Ayarlar → Roller** bölümüne gidin
+1. **Ayarlar → Üyeler → Roller** bölümüne gidin
 2. Atamak istediğiniz role tıklayın
 3. **Atama** sekmesini açın
 4. **Yapay Zeka Ajanları** altında, **+ Yapay zeka ajanına ata**'ya tıklayın

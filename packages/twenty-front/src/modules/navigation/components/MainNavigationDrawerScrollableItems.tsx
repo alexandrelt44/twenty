@@ -1,28 +1,26 @@
 import { NavigationDrawerOpenedSection } from '@/navigation-menu-item/display/sections/components/NavigationDrawerOpenedSection';
+import { MainNavigationConnectedAgentsItem } from '@/settings/connected-agents/components/MainNavigationConnectedAgentsItem';
 import { NavigationDrawerWorkspaceSectionSkeletonLoader } from '@/object-metadata/components/NavigationDrawerWorkspaceSectionSkeletonLoader';
 
-import { isLayoutCustomizationModeEnabledState } from '@/layout-customization/states/isLayoutCustomizationModeEnabledState';
-import { NavigationDrawerOtherSection } from '@/navigation/components/NavigationDrawerOtherSection';
-import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
 import { styled } from '@linaria/react';
 import { lazy, Suspense } from 'react';
 
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
 const FavoritesSectionDispatcher = lazy(() =>
-  import(
-    '@/navigation-menu-item/display/sections/favorites/components/FavoritesSectionDispatcher'
-  ).then((module) => ({
-    default: module.FavoritesSectionDispatcher,
-  })),
+  import('@/navigation-menu-item/display/sections/favorites/components/FavoritesSectionDispatcher').then(
+    (module) => ({
+      default: module.FavoritesSectionDispatcher,
+    }),
+  ),
 );
 
 const WorkspaceSectionDispatcher = lazy(() =>
-  import(
-    '@/navigation-menu-item/display/sections/workspace/components/WorkspaceSectionDispatcher'
-  ).then((module) => ({
-    default: module.WorkspaceSectionDispatcher,
-  })),
+  import('@/navigation-menu-item/display/sections/workspace/components/WorkspaceSectionDispatcher').then(
+    (module) => ({
+      default: module.WorkspaceSectionDispatcher,
+    }),
+  ),
 );
 
 const StyledScrollableItemsContainer = styled.div`
@@ -32,10 +30,6 @@ const StyledScrollableItemsContainer = styled.div`
 `;
 
 export const MainNavigationDrawerScrollableItems = () => {
-  const isLayoutCustomizationModeEnabled = useAtomStateValue(
-    isLayoutCustomizationModeEnabledState,
-  );
-
   return (
     <StyledScrollableItemsContainer>
       <NavigationDrawerOpenedSection />
@@ -43,7 +37,7 @@ export const MainNavigationDrawerScrollableItems = () => {
         <FavoritesSectionDispatcher />
         <WorkspaceSectionDispatcher />
       </Suspense>
-      {!isLayoutCustomizationModeEnabled && <NavigationDrawerOtherSection />}
+      <MainNavigationConnectedAgentsItem />
     </StyledScrollableItemsContainer>
   );
 };

@@ -20,6 +20,9 @@ type MountCommandParams = {
   availabilityType?: CommandMenuItemAvailabilityType;
   availabilityObjectMetadataId?: string | null;
   payload?: CommandMenuItemPayload | null;
+  navigationTargetObjectMetadataId?: string | null;
+  creationTargetObjectMetadataId?: string;
+  isInSidePanel?: boolean;
 };
 
 export const useMountCommand = () => {
@@ -39,12 +42,18 @@ export const useMountCommand = () => {
       availabilityType,
       availabilityObjectMetadataId,
       payload,
+      navigationTargetObjectMetadataId,
+      creationTargetObjectMetadataId,
+      isInSidePanel,
     }: MountCommandParams) => {
       const headlessEngineCommandContextApi = buildHeadlessCommandContextApi({
         store,
         contextStoreInstanceId,
         engineComponentKey,
         payload,
+        navigationTargetObjectMetadataId,
+        creationTargetObjectMetadataId,
+        isInSidePanel,
       });
 
       const commandState = isDefined(frontComponentId)

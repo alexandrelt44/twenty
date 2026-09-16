@@ -7,26 +7,34 @@ import { useState } from 'react';
 import { type Manifest } from 'twenty-shared/application';
 import { SettingsPath } from 'twenty-shared/types';
 import { getSettingsPath, isDefined } from 'twenty-shared/utils';
-import { H2Title } from 'twenty-ui/display';
-import { SearchInput } from 'twenty-ui/input';
-import { Section } from 'twenty-ui/layout';
+import { H2Title } from 'twenty-ui/primitives/typography';
+import { SearchInput } from 'twenty-ui/primitives/input';
+import { Section } from 'twenty-ui/primitives/layout';
 import { type ApplicationDisplayData } from '@/applications/types/applicationDisplayData.type';
 import { type Application } from '~/generated-metadata/graphql';
 import {
   type ApplicationContentRow,
   SettingsApplicationContentSubtable,
 } from '~/pages/settings/applications/components/SettingsApplicationContentSubtable';
+import { useInstalledTimelineActivityTypes } from '~/pages/settings/applications/hooks/useInstalledTimelineActivityTypes';
+import { getSettingsApplicationTimelineActivityTypes } from '~/pages/settings/applications/utils/getSettingsApplicationTimelineActivityTypes';
+import { filterSettingsApplicationTimelineActivityTypes } from '~/pages/settings/applications/utils/filterSettingsApplicationTimelineActivityTypes';
 import { normalizeSearchText } from '~/utils/normalizeSearchText';
 
 type InstalledApplicationForContentTab = Omit<
   Application,
-  'objects' | 'frontComponents'
+  'objects' | 'frontComponents' | 'commandMenuItems'
 > & {
   objects: { id: string }[];
   frontComponents?: {
     id: string;
     name: string;
     description?: string | null;
+  }[];
+  commandMenuItems?: {
+    id: string;
+    label: string;
+    shortLabel?: string | null;
   }[];
 };
 
@@ -54,6 +62,11 @@ export const SettingsApplicationDetailContentTab = ({
   applicationInfo,
 }: SettingsApplicationDetailContentTabProps) => {
   const { t } = useLingui();
+  const isInstalledApplication = isDefined(installedApplication);
+
+  const { installedTimelineActivityTypes } = useInstalledTimelineActivityTypes({
+    isInstalledApplication,
+  });
 
   const { objectRows, fieldRows } =
     useComputeObjectAndFieldsContentForApplication({
@@ -68,13 +81,14 @@ export const SettingsApplicationDetailContentTab = ({
     agentRows,
     skillRows,
     roleRows,
+    connectionProviderRows,
   } = useComputeApplicationContentForLayoutAndLogic({
     installedApplication,
     manifestContent,
   });
 
   const fallbackApplicationData = {
-    logo: applicationInfo?.logo,
+    logoUrl: applicationInfo?.logoUrl,
     name: applicationInfo?.name,
   };
 
@@ -85,6 +99,8 @@ export const SettingsApplicationDetailContentTab = ({
     preInstallUniversalIdentifier:
       manifestContent?.application?.preInstallLogicFunction
         ?.universalIdentifier,
+    uninstallUniversalIdentifier:
+      manifestContent?.application?.uninstallLogicFunction?.universalIdentifier,
   };
 
   const logicFunctionRows: ApplicationContentRow[] = isDefined(
@@ -123,8 +139,53 @@ export const SettingsApplicationDetailContentTab = ({
         secondary: fc.description ?? undefined,
       }));
 
+  const commandMenuItemRows: ApplicationContentRow[] = isDefined(
+    installedApplication,
+  )
+    ? (installedApplication.commandMenuItems ?? []).map((item) => ({
+        key: item.id,
+        name: item.label,
+        secondary: item.shortLabel ?? undefined,
+        link: getSettingsPath(SettingsPath.ApplicationCommandMenuItemDetail, {
+          applicationId,
+          commandMenuItemId: item.id,
+        }),
+      }))
+    : (manifestContent?.commandMenuItems ?? []).map((item) => ({
+        key: item.universalIdentifier,
+        name: item.label,
+        secondary: item.shortLabel ?? undefined,
+      }));
+
   const [searchTerm, setSearchTerm] = useState('');
   const normalizedSearch = normalizeSearchText(searchTerm);
+
+  const timelineActivityTypes = getSettingsApplicationTimelineActivityTypes({
+    applicationId,
+    isInstalledApplication,
+    installedTimelineActivityTypes,
+    manifestTimelineActivityTypes: manifestContent?.timelineActivityTypes ?? [],
+  });
+  const filteredTimelineActivityTypes =
+    filterSettingsApplicationTimelineActivityTypes({
+      timelineActivityTypes,
+      searchTerm,
+    });
+  const timelineActivityTypeRows: ApplicationContentRow[] =
+    filteredTimelineActivityTypes.map((timelineActivityType) => ({
+      key: timelineActivityType.id,
+      name: timelineActivityType.label,
+      icon: timelineActivityType.icon ?? undefined,
+      secondary: isDefined(timelineActivityType.action)
+        ? `${timelineActivityType.name} · ${timelineActivityType.action}`
+        : timelineActivityType.name,
+      link: isInstalledApplication
+        ? getSettingsPath(SettingsPath.ApplicationTimelineActivityTypeDetail, {
+            applicationId,
+            timelineActivityTypeId: timelineActivityType.id,
+          })
+        : undefined,
+    }));
 
   const filtered = {
     objects: filterRows(objectRows, normalizedSearch),
@@ -133,10 +194,12 @@ export const SettingsApplicationDetailContentTab = ({
     views: filterRows(viewRows, normalizedSearch),
     navigation: filterRows(navigationMenuItemRows, normalizedSearch),
     frontComponents: filterRows(frontComponentRows, normalizedSearch),
+    commandMenuItems: filterRows(commandMenuItemRows, normalizedSearch),
     logicFunctions: filterRows(logicFunctionRows, normalizedSearch),
     agents: filterRows(agentRows, normalizedSearch),
     skills: filterRows(skillRows, normalizedSearch),
     roles: filterRows(roleRows, normalizedSearch),
+    connectionProviders: filterRows(connectionProviderRows, normalizedSearch),
   };
 
   const hasData = filtered.objects.length > 0 || filtered.fields.length > 0;
@@ -144,12 +207,15 @@ export const SettingsApplicationDetailContentTab = ({
     filtered.pageLayouts.length > 0 ||
     filtered.views.length > 0 ||
     filtered.navigation.length > 0 ||
-    filtered.frontComponents.length > 0;
+    filtered.frontComponents.length > 0 ||
+    filtered.commandMenuItems.length > 0;
   const hasLogic =
     filtered.logicFunctions.length > 0 ||
     filtered.agents.length > 0 ||
     filtered.skills.length > 0 ||
-    filtered.roles.length > 0;
+    filtered.roles.length > 0 ||
+    filtered.connectionProviders.length > 0 ||
+    timelineActivityTypeRows.length > 0;
 
   if (!hasData && !hasLayout && !hasLogic && normalizedSearch === '') {
     return null;
@@ -219,6 +285,12 @@ export const SettingsApplicationDetailContentTab = ({
               applicationId={applicationId}
               fallbackApplicationData={fallbackApplicationData}
             />
+            <SettingsApplicationContentSubtable
+              title={t`Command menu items`}
+              rows={filtered.commandMenuItems}
+              applicationId={applicationId}
+              fallbackApplicationData={fallbackApplicationData}
+            />
           </Table>
         </Section>
       )}
@@ -251,6 +323,18 @@ export const SettingsApplicationDetailContentTab = ({
             <SettingsApplicationContentSubtable
               title={t`Roles`}
               rows={filtered.roles}
+              applicationId={applicationId}
+              fallbackApplicationData={fallbackApplicationData}
+            />
+            <SettingsApplicationContentSubtable
+              title={t`Connection providers`}
+              rows={filtered.connectionProviders}
+              applicationId={applicationId}
+              fallbackApplicationData={fallbackApplicationData}
+            />
+            <SettingsApplicationContentSubtable
+              title={t`Timeline activity types`}
+              rows={timelineActivityTypeRows}
               applicationId={applicationId}
               fallbackApplicationData={fallbackApplicationData}
             />

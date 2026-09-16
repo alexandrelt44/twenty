@@ -15,30 +15,27 @@ import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomState
 import { t } from '@lingui/core/macro';
 import { isNonEmptyString } from '@sniptt/guards';
 import {
-  IconApi,
-  // IconApps, // TODO: Re-enable when integrations page is ready
+  IconAppWindow,
+  IconApps,
   IconAt,
   IconCalendarEvent,
   IconColorSwatch,
   type IconComponent,
-  IconCurrencyDollar,
+  IconCreditCard,
   IconDoorEnter,
   IconHelpCircle,
-  IconHierarchy2,
-  IconKey,
-  IconLock,
+  IconHierarchy,
   IconMail,
   IconMessage,
+  IconMessageCircle,
   IconPlug,
   IconRobot,
-  IconRocket,
   IconServer,
-  IconSettings,
+  IconSettings2,
   IconSparkles,
   IconUserCircle,
   IconUsers,
-  IconWorld,
-} from 'twenty-ui/display';
+} from 'twenty-ui/icon';
 import { PermissionFlagType } from '~/generated-metadata/graphql';
 
 export type SettingsNavigationSection = {
@@ -119,15 +116,21 @@ const useSettingsNavigationItems = (): SettingsNavigationSection[] => {
       items: [
         {
           label: t`General`,
-          path: SettingsPath.Workspace,
-          Icon: IconSettings,
+          path: SettingsPath.General,
+          Icon: IconSettings2,
           isHidden: !permissionMap[PermissionFlagType.WORKSPACE],
         },
         {
           label: t`Data model`,
           path: SettingsPath.Objects,
-          Icon: IconHierarchy2,
+          Icon: IconHierarchy,
           isHidden: !permissionMap[PermissionFlagType.DATA_MODEL],
+        },
+        {
+          label: t`Layout`,
+          path: SettingsPath.Layout,
+          Icon: IconAppWindow,
+          isHidden: !permissionMap[PermissionFlagType.LAYOUTS],
         },
         {
           label: t`Members`,
@@ -136,28 +139,16 @@ const useSettingsNavigationItems = (): SettingsNavigationSection[] => {
           isHidden: !permissionMap[PermissionFlagType.WORKSPACE_MEMBERS],
         },
         {
-          label: t`Roles`,
-          path: SettingsPath.Roles,
-          Icon: IconLock,
-          isHidden: !permissionMap[PermissionFlagType.ROLES],
-        },
-        {
-          label: t`Domains`,
-          path: SettingsPath.Domains,
-          Icon: IconWorld,
-          isHidden: !permissionMap[PermissionFlagType.WORKSPACE],
-        },
-        {
           label: t`Billing`,
           path: SettingsPath.Billing,
-          Icon: IconCurrencyDollar,
+          Icon: IconCreditCard,
           isHidden:
             !isBillingEnabled || !permissionMap[PermissionFlagType.WORKSPACE],
         },
         {
-          label: t`APIs & Webhooks`,
+          label: t`MCP & APIs`,
           path: SettingsPath.ApiWebhooks,
-          Icon: IconApi,
+          Icon: IconPlug,
           isHidden: !permissionMap[PermissionFlagType.API_KEYS_AND_WEBHOOKS],
         },
         // TODO: Re-enable when integrations page is ready
@@ -170,23 +161,20 @@ const useSettingsNavigationItems = (): SettingsNavigationSection[] => {
         {
           label: t`Apps`,
           path: SettingsPath.Applications,
-          Icon: IconPlug,
+          Icon: IconApps,
           isHidden: !permissionMap[PermissionFlagType.APPLICATIONS],
-          modifier: 'new',
         },
         {
           label: t`AI`,
           path: SettingsPath.AI,
           Icon: IconSparkles,
-          isHidden: !permissionMap[PermissionFlagType.WORKSPACE],
-          modifier: 'new',
+          isHidden: !permissionMap[PermissionFlagType.AI_SETTINGS],
         },
         {
-          label: t`Security`,
-          path: SettingsPath.Security,
-          Icon: IconKey,
-          isAdvanced: true,
-          isHidden: !permissionMap[PermissionFlagType.SECURITY],
+          label: t`Communication`,
+          path: SettingsPath.WorkspaceCommunications,
+          Icon: IconMessageCircle,
+          isHidden: !permissionMap[PermissionFlagType.WORKSPACE],
         },
       ],
     },
@@ -211,9 +199,9 @@ const useSettingsNavigationItems = (): SettingsNavigationSection[] => {
           isHidden: !isAdminEnabled,
         },
         {
-          label: t`Updates`,
-          path: SettingsPath.Updates,
-          Icon: IconRocket,
+          label: t`Community`,
+          path: SettingsPath.Community,
+          Icon: IconUsers,
           isHidden: !permissionMap[PermissionFlagType.WORKSPACE],
         },
         {

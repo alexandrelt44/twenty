@@ -10,7 +10,7 @@ import { getFileType } from '@/activities/files/utils/getFileType';
 import { FileIcon } from '@/file/components/FileIcon';
 import { t } from '@lingui/core/macro';
 import { getSafeUrl, isDefined } from 'twenty-shared/utils';
-import { Button } from 'twenty-ui/input';
+import { Button } from 'twenty-ui/primitives/input';
 
 const StyledFileInput = styled.input`
   display: none;
@@ -93,6 +93,7 @@ export const FileBlock = createReactBlockSpec(
           <StyledFileLine>
             <FileIcon
               fileCategory={block.props.fileCategory as AttachmentFileCategory}
+              thumbnailUrl={safeUrl}
             />
             <StyledLink
               href={safeUrl}
@@ -112,10 +113,7 @@ export const FileBlock = createReactBlockSpec(
             onChange={handleFileChange}
             type="file"
           />
-          <Button
-            onClick={handleUploadFileClick}
-            title={t`Upload File`}
-          ></Button>
+          <Button onClick={handleUploadFileClick}>{t`Upload File`}</Button>
         </StyledUploadFileContainer>
       );
     },

@@ -4,8 +4,8 @@ import { useSetAtomState } from '@/ui/utilities/state/jotai/hooks/useSetAtomStat
 import { styled } from '@linaria/react';
 import { t } from '@lingui/core/macro';
 import React, { useRef } from 'react';
-import { IconPaperclip } from 'twenty-ui/display';
-import { IconButton } from 'twenty-ui/input';
+import { IconPaperclip } from 'twenty-ui/icon';
+import { IconButton } from 'twenty-ui/components';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
 
 const StyledFileUploadContainer = styled.div`
@@ -47,14 +47,15 @@ export const AgentChatFileUploadButton = () => {
       />
 
       <IconButton
-        variant="tertiary"
-        size="small"
+        variant="ghost"
+        size="sm"
         onClick={() => {
           fileInputRef.current?.click();
         }}
-        Icon={IconPaperclip}
-        ariaLabel={t`Attach files`}
-      />
+        aria-label={t`Attach files`}
+      >
+        <IconPaperclip />
+      </IconButton>
     </StyledFileUploadContainer>
   );
 };

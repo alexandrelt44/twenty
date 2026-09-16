@@ -13,7 +13,7 @@ import {
 import { currentUserState } from '@/auth/states/currentUserState';
 import { billingState } from '@/client-config/states/billingState';
 import { usePermissionFlagMap } from '@/settings/roles/hooks/usePermissionFlagMap';
-import { SnackBarComponentInstanceContext } from '@/ui/feedback/snack-bar-manager/contexts/SnackBarComponentInstanceContext';
+import { ToastProvider } from 'twenty-ui/primitives/feedback';
 import {
   jotaiStore,
   resetJotaiStore,
@@ -54,11 +54,7 @@ const Wrapper = ({ children }: { children: ReactNode }) => (
     <JotaiProvider store={jotaiStore}>
       <MemoryRouter>
         <I18nProvider i18n={i18n}>
-          <SnackBarComponentInstanceContext.Provider
-            value={{ instanceId: 'test-scope-id' }}
-          >
-            {children}
-          </SnackBarComponentInstanceContext.Provider>
+          <ToastProvider>{children}</ToastProvider>
         </I18nProvider>
       </MemoryRouter>
     </JotaiProvider>
@@ -124,6 +120,59 @@ describe('useSettingsNavigationItems', () => {
     );
 
     expect(workspaceSection?.items.some((item) => !item.isHidden)).toBe(true);
+  });
+
+  it('should hide billing navigation when billing is disabled', () => {
+    (usePermissionFlagMap as jest.Mock).mockImplementation(() => ({
+      [PermissionFlagType.WORKSPACE]: true,
+      [PermissionFlagType.WORKSPACE_MEMBERS]: true,
+      [PermissionFlagType.DATA_MODEL]: true,
+      [PermissionFlagType.API_KEYS_AND_WEBHOOKS]: true,
+      [PermissionFlagType.ROLES]: true,
+      [PermissionFlagType.SECURITY]: true,
+      [PermissionFlagType.CONNECTED_ACCOUNTS]: true,
+    }));
+
+    const { result } = renderHook(() => useSettingsNavigationItems(), {
+      wrapper: Wrapper,
+    });
+
+    const workspaceSection = result.current.find(
+      (section) => section.label === 'Workspace',
+    );
+    const billingItem = workspaceSection?.items.find(
+      (item) => item.label === 'Billing',
+    );
+
+    expect(billingItem?.isHidden).toBe(true);
+    expect(billingItem?.path).toBe(SettingsPath.Billing);
+  });
+
+  it('should hide billing navigation until billing config is loaded', () => {
+    jotaiStore.set(billingState.atom, null);
+
+    (usePermissionFlagMap as jest.Mock).mockImplementation(() => ({
+      [PermissionFlagType.WORKSPACE]: true,
+      [PermissionFlagType.WORKSPACE_MEMBERS]: true,
+      [PermissionFlagType.DATA_MODEL]: true,
+      [PermissionFlagType.API_KEYS_AND_WEBHOOKS]: true,
+      [PermissionFlagType.ROLES]: true,
+      [PermissionFlagType.SECURITY]: true,
+      [PermissionFlagType.CONNECTED_ACCOUNTS]: true,
+    }));
+
+    const { result } = renderHook(() => useSettingsNavigationItems(), {
+      wrapper: Wrapper,
+    });
+
+    const workspaceSection = result.current.find(
+      (section) => section.label === 'Workspace',
+    );
+    const billingItem = workspaceSection?.items.find(
+      (item) => item.label === 'Billing',
+    );
+
+    expect(billingItem?.isHidden).toBe(true);
   });
 
   it('should show user section items regardless of permissions', () => {

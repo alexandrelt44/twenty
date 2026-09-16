@@ -1,4 +1,3 @@
-import { type I18n } from '@lingui/core';
 import { assertUnreachable } from 'twenty-shared/utils';
 
 import {
@@ -14,14 +13,11 @@ import {
 } from 'src/engine/metadata-modules/object-metadata/object-metadata.exception';
 import { InvalidMetadataException } from 'src/engine/metadata-modules/utils/exceptions/invalid-metadata.exception';
 import { WorkspaceMigrationBuilderException } from 'src/engine/workspace-manager/workspace-migration/exceptions/workspace-migration-builder-exception';
-import { workspaceMigrationBuilderExceptionFormatter } from 'src/engine/workspace-manager/workspace-migration/interceptors/workspace-migration-builder-exception-formatter';
+import { workspaceMigrationBuilderGraphqlApiExceptionHandler } from 'src/engine/workspace-manager/workspace-migration/interceptors/utils/workspace-migration-builder-graphql-api-exception-handler.util';
 
-export const objectMetadataGraphqlApiExceptionHandler = (
-  error: Error,
-  i18n: I18n,
-) => {
+export const objectMetadataGraphqlApiExceptionHandler = (error: unknown) => {
   if (error instanceof WorkspaceMigrationBuilderException) {
-    workspaceMigrationBuilderExceptionFormatter(error, i18n);
+    return workspaceMigrationBuilderGraphqlApiExceptionHandler(error);
   }
 
   if (error instanceof InvalidMetadataException) {
@@ -45,9 +41,6 @@ export const objectMetadataGraphqlApiExceptionHandler = (
       case ObjectMetadataExceptionCode.MISSING_CUSTOM_OBJECT_DEFAULT_LABEL_IDENTIFIER_FIELD:
       case ObjectMetadataExceptionCode.APPLICATION_NOT_FOUND:
         throw error;
-      case ObjectMetadataExceptionCode.MISSING_SYSTEM_FIELD:
-      case ObjectMetadataExceptionCode.INVALID_SYSTEM_FIELD:
-        throw new UserInputError(error);
       default: {
         return assertUnreachable(error.code);
       }

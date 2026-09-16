@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -20,6 +21,7 @@ import {
   MessageChannelType,
   MessageChannelVisibility,
   MessageFolderImportPolicy,
+  WebhookSubscriptionStatus,
 } from 'twenty-shared/types';
 
 import { ConnectedAccountEntity } from 'src/engine/metadata-modules/connected-account/entities/connected-account.entity';
@@ -47,6 +49,25 @@ registerEnumType(MessageChannelPendingGroupEmailsAction, {
 });
 
 @Entity({ name: 'messageChannel', schema: 'core' })
+@Index('IDX_MESSAGE_CHANNEL_WORKSPACE_ID_SYNC_ENABLED_SYNC_STAGE', [
+  'workspaceId',
+  'isSyncEnabled',
+  'syncStage',
+])
+@Index(
+  'IDX_MESSAGE_CHANNEL_WEBHOOK_SUBSCRIPTION_EXTERNAL_ID',
+  ['webhookSubscriptionExternalId'],
+  { where: '"webhookSubscriptionExternalId" IS NOT NULL' },
+)
+// An app creates its channel from a connect hook, which a provider can retry
+// or run concurrently. The create path reads before it writes, so only the
+// database can actually stop a second row appearing for one handle. Scoped to
+// APP so it makes no claim about the email rows already in this table.
+@Index(
+  'IDX_MESSAGE_CHANNEL_APP_CONNECTED_ACCOUNT_HANDLE_UNIQUE',
+  ['workspaceId', 'connectedAccountId', 'handle'],
+  { unique: true, where: `"type" = 'APP'` },
+)
 export class MessageChannelEntity extends WorkspaceRelatedEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -60,6 +81,9 @@ export class MessageChannelEntity extends WorkspaceRelatedEntity {
 
   @Column({ type: 'varchar', nullable: false })
   handle: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  displayName: string | null;
 
   @Column({
     type: 'enum',
@@ -132,6 +156,22 @@ export class MessageChannelEntity extends WorkspaceRelatedEntity {
 
   @Column({ type: 'timestamptz', nullable: true })
   throttleRetryAfter: Date | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  webhookSubscriptionExternalId: string | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  webhookSubscriptionClientState: string | null;
+
+  @Column({
+    type: 'enum',
+    enum: WebhookSubscriptionStatus,
+    nullable: true,
+  })
+  webhookSubscriptionStatus: WebhookSubscriptionStatus | null;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  webhookSubscriptionExpiresAt: Date | null;
 
   @Column({ type: 'uuid', nullable: false })
   connectedAccountId: string;

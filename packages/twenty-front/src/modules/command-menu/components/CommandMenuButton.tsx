@@ -1,33 +1,31 @@
-import { getCommandMenuItemLabel } from '@/command-menu-item/utils/getCommandMenuItemLabel';
-import { styled } from '@linaria/react';
-import { type MessageDescriptor } from '@lingui/core';
-import { type MouseEvent } from 'react';
+import { NavigationButton } from '@/ui/input/components/NavigationButton';
+
+import { type MouseEvent, useId } from 'react';
+import { Link } from 'react-router-dom';
 import { type Nullable } from 'twenty-shared/types';
-import { isDefined } from 'twenty-shared/utils';
+import { isDefined, isNonEmptyArray } from 'twenty-shared/utils';
+import { type IconComponent } from 'twenty-ui/icon';
 import {
   AppTooltip,
-  type IconComponent,
   TooltipDelay,
   TooltipPosition,
-} from 'twenty-ui/display';
-import { Button, IconButton } from 'twenty-ui/input';
-import { themeCssVariables } from 'twenty-ui/theme-constants';
-
-const StyledWrapper = styled.div`
-  font-size: ${themeCssVariables.font.size.md};
-`;
+} from 'twenty-ui/primitives/surfaces';
+import { IconButton } from 'twenty-ui/components';
 
 export type CommandMenuButtonProps = {
   command: {
     key: string;
-    label: Nullable<string | MessageDescriptor>;
-    shortLabel?: Nullable<string | MessageDescriptor>;
+    label: string;
+    shortLabel?: Nullable<string>;
+    hotKeys?: Nullable<string[]>;
     Icon: IconComponent;
     isPrimaryCTA?: boolean;
   };
   onClick?: (event?: MouseEvent<HTMLElement>) => void;
   to?: string;
   disabled?: boolean;
+  isPrimaryAction?: boolean;
+  shouldHideLabel?: boolean;
 };
 
 export const CommandMenuButton = ({
@@ -35,53 +33,69 @@ export const CommandMenuButton = ({
   onClick,
   to,
   disabled = false,
+  isPrimaryAction = false,
+  shouldHideLabel = false,
 }: CommandMenuButtonProps) => {
-  const resolvedLabel = getCommandMenuItemLabel(command.label);
+  const tooltipId = useId();
+  const { hotKeys } = command;
+  const hasHotKeys = isNonEmptyArray(hotKeys);
+  const tooltipTitle = hasHotKeys
+    ? `${command.label} (${hotKeys.join(' → ')})`
+    : command.label;
 
-  const resolvedShortLabel = isDefined(command.shortLabel)
-    ? getCommandMenuItemLabel(command.shortLabel)
-    : undefined;
+  const resolvedShortLabel =
+    isDefined(command.shortLabel) && !shouldHideLabel
+      ? command.shortLabel
+      : undefined;
 
-  const buttonAccent = command.isPrimaryCTA ? 'blue' : 'default';
+  const buttonAccent =
+    isPrimaryAction || command.isPrimaryCTA === true ? 'blue' : 'default';
 
   return (
-    <>
+    <div data-tooltip-id={tooltipId}>
       {resolvedShortLabel !== undefined ? (
-        <Button
-          Icon={command.Icon}
-          size="small"
-          variant="secondary"
-          accent={buttonAccent}
+        <NavigationButton
+          id={tooltipId}
+          startIcon={isDefined(command.Icon) ? <command.Icon /> : undefined}
+          size="sm"
           to={to}
           onClick={onClick}
           disabled={disabled}
-          title={resolvedShortLabel}
-          ariaLabel={resolvedLabel}
-        />
+          aria-label={command.label}
+          variant={buttonAccent === 'blue' ? 'solid' : 'outline'}
+          color={buttonAccent === 'blue' ? 'accent' : 'neutral'}
+        >
+          {resolvedShortLabel}
+        </NavigationButton>
       ) : (
-        <div id={`command-menu-item-entry-${command.key}`} key={command.key}>
-          <IconButton
-            Icon={command.Icon}
-            size="small"
-            variant="secondary"
-            accent={buttonAccent}
-            to={to}
-            onClick={onClick}
-            disabled={disabled}
-            ariaLabel={resolvedLabel}
-          />
-          <StyledWrapper>
-            <AppTooltip
-              anchorSelect={`#command-menu-item-entry-${command.key}`}
-              content={resolvedLabel}
-              delay={TooltipDelay.longDelay}
-              place={TooltipPosition.Bottom}
-              offset={5}
-              noArrow
-            />
-          </StyledWrapper>
-        </div>
+        <IconButton
+          id={tooltipId}
+          size="sm"
+          variant={buttonAccent === 'blue' ? 'solid' : 'outline'}
+          color={buttonAccent === 'blue' ? 'accent' : 'neutral'}
+          render={isDefined(to) ? <Link to={to} /> : undefined}
+          href={to}
+          onClick={onClick}
+          disabled={disabled}
+          aria-label={command.label}
+        >
+          <command.Icon />
+        </IconButton>
       )}
-    </>
+      {(hasHotKeys || !isDefined(resolvedShortLabel)) && (
+        <AppTooltip
+          anchorSelect={
+            disabled
+              ? `[data-tooltip-id='${tooltipId}']`
+              : `[id='${tooltipId}']`
+          }
+          title={tooltipTitle}
+          delay={TooltipDelay.longDelay}
+          place={TooltipPosition.Bottom}
+          offset={5}
+          noArrow
+        />
+      )}
+    </div>
   );
 };
