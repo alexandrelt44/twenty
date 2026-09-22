@@ -1,3 +1,4 @@
+import { BrandSourceAttribution } from '@/brand/components/BrandSourceAttribution';
 import { useIsNavigationDrawerContentExpanded } from '@/navigation/hooks/useIsNavigationDrawerContentExpanded';
 import { MOBILE_NAVIGATION_BAR_CLEARANCE } from '@/navigation/constants/MobileNavigationBarClearance';
 import { SettingsNavigationDrawerItems } from '@/settings/components/SettingsNavigationDrawerItems';
@@ -50,6 +51,7 @@ export const SettingsNavigationDrawerContent = () => {
             label={t`Advanced`}
             isCompact={!isNavigationDrawerExpanded}
           />
+          {isNavigationDrawerExpanded && <BrandSourceAttribution />}
         </NavigationDrawerSection>
       </StyledAdvancedSwitchFixedContent>
     </>
