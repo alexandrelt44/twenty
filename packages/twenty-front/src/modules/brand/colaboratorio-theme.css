@@ -1,7 +1,12 @@
-/* colaborato.rio brand layer. Imported after twenty-ui theme CSS so these
-   declarations win with equal specificity. Inventory: BRANDING.md. */
+/* colaborato.rio brand layer. Imported after twenty-ui theme CSS, but front-
+   component apps re-inject upstream theme-light.css/theme-dark.css into the
+   host document at runtime (twenty-sdk css-injection-plugin), which would
+   append after these and win on source order alone. :root raises specificity
+   so the brand wins regardless of injection order, while the bare .light/
+   .dark selector keeps the scoped ThemeProvider (applyToRoot={false}) case
+   working. Inventory: BRANDING.md. */
 
-.light {
+:root.light, .light {
   --t-accent-accent1: #fefcfe;
   --t-accent-accent2: #fbf7fe;
   --t-accent-accent3: #f7edfe;
@@ -37,11 +42,31 @@
   --t-color-blue11: #7e22ce;
   --t-color-blue12: #402060;
 
+  /* Same alpha bytes as upstream transparent-blue, RGB swapped to the accent/
+     blue scale above (step N -> accentN). Focus rings, DnD targets, active AI
+     thread rows, spreadsheet import table, Monaco selection, info snackbars. */
+  --t-color-transparent-blue1: #fefcfe02;
+  --t-color-transparent-blue2: #fbf7fe08;
+  --t-color-transparent-blue3: #f7edfe12;
+  --t-color-transparent-blue4: #f2e2fc1e;
+  --t-color-transparent-blue5: #ead5f92d;
+  --t-color-transparent-blue6: #e0c4f43e;
+  --t-color-transparent-blue7: #d1afec54;
+  --t-color-transparent-blue8: #be93e472;
+  --t-color-transparent-blue9: #9333eac1;
+  --t-color-transparent-blue10: #7e22cecc;
+  --t-color-transparent-blue11: #7e22cec5;
+  --t-color-transparent-blue12: #402060e0;
+  --t-background-transparent-blue: #f7edfe12;
+  --t-border-color-blue: #d1afec;
+  --t-snack-bar-info-background-color: #f7edfe12;
+  --t-snack-bar-info-color: #9333ea;
+
   --t-font-family: Outfit, sans-serif;
   --t-code-font-family: 'JetBrains Mono', monospace;
 }
 
-.dark {
+:root.dark, .dark {
   --t-accent-accent1: #18111b;
   --t-accent-accent2: #1e1523;
   --t-accent-accent3: #301c3b;
@@ -74,6 +99,23 @@
   --t-color-blue10: #9a5cd0;
   --t-color-blue11: #d8b4fe;
   --t-color-blue12: #ecd9fa;
+
+  --t-color-transparent-blue1: #18111b0f;
+  --t-color-transparent-blue2: #1e152317;
+  --t-color-transparent-blue3: #301c3b3c;
+  --t-color-transparent-blue4: #3d224e57;
+  --t-color-transparent-blue5: #48295c6b;
+  --t-color-transparent-blue6: #54346b7c;
+  --t-color-transparent-blue7: #66428290;
+  --t-color-transparent-blue8: #8457aaac;
+  --t-color-transparent-blue9: #8e4ec6db;
+  --t-color-transparent-blue10: #9a5cd0e3;
+  --t-color-transparent-blue11: #d8b4fe;
+  --t-color-transparent-blue12: #ecd9fa;
+  --t-background-transparent-blue: #3d224e57;
+  --t-border-color-blue: #664282;
+  --t-snack-bar-info-background-color: #3d224e57;
+  --t-snack-bar-info-color: #8e4ec6;
 
   --t-font-family: Outfit, sans-serif;
   --t-code-font-family: 'JetBrains Mono', monospace;
