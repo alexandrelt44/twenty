@@ -155,7 +155,7 @@ msgstr "Representação: {impersonateStatus}"
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
 msgid "It's the colaborato.rio CRM, where your team manages customers, deals and the AI agents that work with them."
-msgstr "É o CRM da colaborato.rio, onde sua equipe gerencia clientes, negócios e os agentes de IA que trabalham com eles."
+msgstr "É o CRM da colaborato.rio, onde a sua equipa gere clientes, negócios e os agentes de IA que trabalham com eles."
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
