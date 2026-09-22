@@ -14,7 +14,7 @@ layer over upstream Twenty. Spec: `docs/superpowers/specs/2026-09-16-colaborator
 
 | File | Change | On conflict |
 |---|---|---|
-| `packages/twenty-front/src/index.tsx` | Outfit/JetBrains Mono imports + brand CSS as last import | Take upstream, re-add brand imports at the end |
+| `packages/twenty-front/src/index.tsx` | `@fontsource` imports (alphabetical) + brand CSS (last) | Take upstream, re-add `@fontsource` imports alphabetically, then add brand CSS as final import |
 | `packages/twenty-front/package.json`, `yarn.lock` | `@fontsource/outfit`, `@fontsource/jetbrains-mono` | Take upstream, `yarn workspace twenty-front add @fontsource/outfit@^5 @fontsource/jetbrains-mono@^5` |
 | `packages/twenty-front/public/images/icons/**` | Regenerated brand icons | Take upstream, run `packages/twenty-front/scripts/brand/generate-brand-icons.sh` |
 | `packages/twenty-front/index.html` | Title/meta | Take upstream, reapply title/description/og/twitter |
@@ -26,7 +26,7 @@ layer over upstream Twenty. Spec: `docs/superpowers/specs/2026-09-16-colaborator
 | `packages/twenty-front/src/pages/not-found/NotFound.tsx` | "Page Not Found \| colaborato.rio" | Reapply |
 | `packages/twenty-emails/src/components/{Logo,Footer,WhatIsTwenty,BaseHead}.tsx` | Brand chrome | Reapply |
 | `packages/twenty-server/.../email-templates-rendering.spec.ts` | Branding test | Reapply test |
-| `packages/twenty-{front,emails}/src/locales/{en,pt-BR,pt-PT}.po` + `generated/*` | Brand strings | Take upstream, run `lingui:extract`, retranslate brand entries, `lingui:compile`, keep only these 3 locales |
+| `packages/twenty-{front,emails}/src/locales/{en,pt-BR,pt-PT}.po` + `generated/*` | Brand strings (en/pt-BR/pt-PT) | Take upstream, run `lingui:extract`, retranslate brand entries, `lingui:compile`, then restore other locales: `git checkout -- packages/twenty-{front,emails}/src/locales` |
 
 ## Guards
 
