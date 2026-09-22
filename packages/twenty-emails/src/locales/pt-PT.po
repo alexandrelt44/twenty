@@ -54,6 +54,11 @@ msgid "After that, the workspace and all of its data will be permanently deleted
 msgstr "Depois disso, o espaço de trabalho e todos os seus dados serão eliminados permanentemente — e não poderemos recuperá-los."
 
 #. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Built on Twenty (open source)"
+msgstr "Construído sobre Twenty (open source)"
+
+#. js-lingui-explicit-id
 #: src/emails/send-email-verification-link.email.tsx
 msgid "Confirm new email"
 msgstr ""
@@ -79,11 +84,6 @@ msgid "Dear {userName},"
 msgstr "Caro {userName},"
 
 #. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Developers"
-msgstr "Programadores"
-
-#. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
 msgid "Disabled"
 msgstr "Desativado"
@@ -97,11 +97,6 @@ msgstr "Ativado"
 #: src/emails/server-admin-access-changed.email.tsx
 msgid "Full admin panel access: {fullAdminStatus}"
 msgstr "Acesso completo ao painel de administração: {fullAdminStatus}"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Github"
-msgstr "Github"
 
 #. js-lingui-explicit-id
 #: src/emails/warn-suspended-workspace.email.tsx
@@ -159,8 +154,8 @@ msgstr "Representação: {impersonateStatus}"
 
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
-msgid "It's a CRM, a software to help businesses manage their customer data and relationships efficiently."
-msgstr "É um CRM, um software para ajudar empresas a gerenciar seus dados e relacionamentos com clientes de forma eficiente."
+msgid "It's the colaborato.rio CRM, where your team manages customers, deals and the AI agents that work with them."
+msgstr "É o CRM da colaborato.rio, onde sua equipe gerencia clientes, negócios e os agentes de IA que trabalham com eles."
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
@@ -204,11 +199,6 @@ msgid "Reactivate workspace"
 msgstr "Reativar espaço de trabalho"
 
 #. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Read Twenty's user guide"
-msgstr "Leia o guia do usuário do Twenty"
-
-#. js-lingui-explicit-id
 #: src/emails/password-reset-link.email.tsx
 msgid "Reset"
 msgstr "Redefinir"
@@ -217,11 +207,6 @@ msgstr "Redefinir"
 #: src/emails/password-reset-link.email.tsx
 msgid "Reset your password 🗝"
 msgstr "Redefina a sua palavra-passe 🗝"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "San Francisco / Paris"
-msgstr "São Francisco / Paris"
 
 #. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
@@ -237,6 +222,11 @@ msgstr "Definir"
 #: src/emails/password-reset-link.email.tsx
 msgid "Set your password 🗝"
 msgstr "Defina sua senha 🗝"
+
+#. js-lingui-explicit-id
+#: src/components/Footer.tsx
+msgid "Source code"
+msgstr "Código-fonte"
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
@@ -264,16 +254,6 @@ msgid "To keep your workspace and everything you've built, add a payment method 
 msgstr "Para manter o seu espaço de trabalho e tudo o que criou, adicione um método de pagamento e escolha um plano."
 
 #. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Twenty.com, Public Benefit Corporation"
-msgstr "Twenty.com, Corporation de Benefício Público"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "User guide"
-msgstr "Guia do Usuário"
-
-#. js-lingui-explicit-id
 #: src/emails/validate-approved-access-domain.email.tsx
 #: src/emails/validate-approved-access-domain.email.tsx
 msgid "Validate domain"
@@ -286,18 +266,13 @@ msgstr "Verifique o e-mail"
 
 #. js-lingui-explicit-id
 #: src/components/Footer.tsx
-msgid "Visit Twenty's developer documentation"
-msgstr "Visite a documentação do desenvolvedor do Twenty"
+msgid "View the source code of this CRM"
+msgstr "Ver o código-fonte deste CRM"
 
 #. js-lingui-explicit-id
 #: src/components/Footer.tsx
-msgid "Visit Twenty's GitHub repository"
-msgstr "Visite o repositório do Twenty no GitHub"
-
-#. js-lingui-explicit-id
-#: src/components/Footer.tsx
-msgid "Visit Twenty's website"
-msgstr "Visite o site do Twenty"
+msgid "Visit the colaborato.rio website"
+msgstr "Visitar o site da colaborato.rio"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-trial-converting.email.tsx
@@ -311,8 +286,8 @@ msgstr "Site"
 
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
-msgid "What is Twenty?"
-msgstr "O que é Twenty?"
+msgid "What is colaborato.rio?"
+msgstr "O que é o colaborato.rio?"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx

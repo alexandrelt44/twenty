@@ -194,6 +194,28 @@ describe('email templates rendering', () => {
 
     expect(html).toContain('mot de passe');
   });
+
+  it('should render colaborato.rio branding instead of Twenty chrome', async () => {
+    const html = await renderEmail(
+      SendInviteLinkEmail({
+        link: 'https://crm.colaborato.rio/invite/token',
+        workspace: WORKSPACE,
+        sender: SENDER,
+        serverUrl: 'https://crm.colaborato.rio',
+        locale: 'en',
+      }),
+    );
+
+    expect(html).toContain('<title>colaborato.rio</title>');
+    expect(html).toContain('What is colaborato.rio?');
+    expect(html).toContain('https://colaborato.rio');
+    expect(html).toContain('https://github.com/alexandrelt44/twenty');
+    expect(html).toContain(
+      'https://crm.colaborato.rio/images/icons/windows11/Square150x150Logo.scale-100.png',
+    );
+    expect(html).not.toContain('Public Benefit Corporation');
+    expect(html).not.toContain('app.twenty.com/images');
+  });
 });
 
 describe('renderEmail guard', () => {

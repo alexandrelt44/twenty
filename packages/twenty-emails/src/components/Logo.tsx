@@ -1,5 +1,7 @@
 import { Img } from 'react-email';
 
+import { BRAND_EMAIL_IDENTITY } from 'src/constants/BrandEmailIdentity';
+
 const logoStyle = {
   marginBottom: '40px',
 };
@@ -7,8 +9,8 @@ const logoStyle = {
 export const Logo = () => {
   return (
     <Img
-      src="https://app.twenty.com/images/icons/windows11/Square150x150Logo.scale-100.png"
-      alt="Twenty logo"
+      src={BRAND_EMAIL_IDENTITY.logoUrl}
+      alt={`${BRAND_EMAIL_IDENTITY.name} logo`}
       width="40"
       height="40"
       style={logoStyle}
