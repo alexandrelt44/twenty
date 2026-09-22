@@ -1373,6 +1373,13 @@ export type CreateCommandMenuItemInput = {
   workflowVersionId?: InputMaybe<Scalars['UUID']['input']>;
 };
 
+export type CreateConnectedAgentInput = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  expiresAt: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  roleId: Scalars['UUID']['input'];
+};
+
 export type CreateEmailGroupChannelInput = {
   displayName?: InputMaybe<Scalars['String']['input']>;
   handle: Scalars['String']['input'];
@@ -1386,13 +1393,6 @@ export type CreateEmailGroupChannelOutput = {
 
 export type CreateEmailingDomainInput = {
   domain: Scalars['String']['input'];
-};
-
-export type CreateConnectedAgentInput = {
-  description?: InputMaybe<Scalars['String']['input']>;
-  expiresAt: Scalars['String']['input'];
-  name: Scalars['String']['input'];
-  roleId: Scalars['UUID']['input'];
 };
 
 export type CreateFieldInput = {
@@ -3648,13 +3648,13 @@ export type MutationDeleteConnectedAccountArgs = {
 };
 
 
-export type MutationDeleteEmailGroupChannelArgs = {
-  id: Scalars['UUID']['input'];
+export type MutationDeleteConnectedAgentArgs = {
+  input: DeleteConnectedAgentInput;
 };
 
 
-export type MutationDeleteConnectedAgentArgs = {
-  input: DeleteConnectedAgentInput;
+export type MutationDeleteEmailGroupChannelArgs = {
+  id: Scalars['UUID']['input'];
 };
 
 
