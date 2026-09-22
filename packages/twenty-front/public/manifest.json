@@ -1,10 +1,10 @@
 {
-  "short_name": "Twenty",
-  "name": "Twenty",
+  "short_name": "colaborato.rio",
+  "name": "colaborato.rio",
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
+  "theme_color": "#0A0A0F",
+  "background_color": "#0A0A0F",
   "icons": [
     {
       "src": "images/icons/windows11/SmallTile.scale-100.png",
