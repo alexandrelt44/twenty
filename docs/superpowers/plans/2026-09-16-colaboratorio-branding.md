@@ -22,7 +22,7 @@
 - Lingui catalogs: commit changes only for `en`, `pt-BR`, `pt-PT` (both `.po` and `generated/*.ts`); restore every other locale file.
 - Upstream code style: named exports, types over interfaces, `//` comments only for WHY, no abbreviations, `isDefined` from `twenty-shared/utils`.
 - Commit messages: conventional, **no AI attribution trailers** (CI rejects them).
-- All work on branch `dev`, except the deploy branch `release` (Task 7).
+- All work on branch `dev`, except the deploy branch `colab-release` (Task 7). Named `colab-release` not `release` because git refuses a ref named `release` alongside inherited refs like `release/v2.1.1`.
 - WCAG AA: text contrast ≥ 4.5:1 for every brand text/background pair tested.
 
 ---
@@ -1053,7 +1053,7 @@ name: Fork - build colaboratorio-crm image
 
 on:
   push:
-    branches: [release]
+    branches: [colab-release]
   workflow_dispatch:
 
 permissions:
@@ -1097,7 +1097,7 @@ jobs:
         with:
           images: ghcr.io/alexandrelt44/colaboratorio-crm
           tags: |
-            type=raw,value=release,enable=${{ github.ref == 'refs/heads/release' }}
+            type=raw,value=release,enable=${{ github.ref == 'refs/heads/colab-release' }}
             type=raw,value=${{ steps.version.outputs.twenty }}-colab.${{ github.run_number }}
             type=sha,prefix=sha-
 
@@ -1105,6 +1105,7 @@ jobs:
         with:
           context: .
           file: packages/twenty-docker/twenty/Dockerfile
+          target: twenty
           platforms: linux/amd64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
@@ -1140,13 +1141,13 @@ gh workflow list --repo alexandrelt44/twenty --all --json path,state --jq '.[] |
 ```
 Expected: last command prints only `.github/workflows/fork-build-image.yaml` (or nothing yet — the workflow registers after the push to `release`). If GitHub says Actions are disabled for the fork, ask the user to enable them at `https://github.com/alexandrelt44/twenty/actions` ("I understand my workflows, go ahead and enable them").
 
-- [ ] **Step 5: Create `release` and trigger the build**
+- [ ] **Step 5: Create `colab-release` and trigger the build**
 
-**Ask the user first**: "Posso criar a branch `release` a partir da `dev` e disparar o primeiro build da imagem no GitHub Actions?"
+**Ask the user first**: "Posso criar a branch `colab-release` a partir da `dev` e disparar o primeiro build da imagem no GitHub Actions?"
 On yes:
 
 ```bash
-git push origin dev:release
+git push origin dev:colab-release
 gh run list --repo alexandrelt44/twenty --workflow fork-build-image.yaml --limit 1
 ```
 Expected: a run `in_progress`. Watch with `gh run watch --repo alexandrelt44/twenty <run-id>` (build takes ~40–90 min).

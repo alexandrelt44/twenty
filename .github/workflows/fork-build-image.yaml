@@ -2,7 +2,7 @@ name: Fork - build colaboratorio-crm image
 
 on:
   push:
-    branches: [release]
+    branches: [colab-release]
   workflow_dispatch:
 
 permissions:
@@ -46,7 +46,7 @@ jobs:
         with:
           images: ghcr.io/alexandrelt44/colaboratorio-crm
           tags: |
-            type=raw,value=release,enable=${{ github.ref == 'refs/heads/release' }}
+            type=raw,value=release,enable=${{ github.ref == 'refs/heads/colab-release' }}
             type=raw,value=${{ steps.version.outputs.twenty }}-colab.${{ github.run_number }}
             type=sha,prefix=sha-
 
