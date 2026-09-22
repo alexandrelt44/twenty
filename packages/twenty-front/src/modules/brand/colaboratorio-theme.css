@@ -1,0 +1,85 @@
+/* colaborato.rio brand layer. Imported after twenty-ui theme CSS so these
+   declarations win with equal specificity. Inventory: BRANDING.md. */
+
+.light {
+  --t-accent-accent1: #fefcfe;
+  --t-accent-accent2: #fbf7fe;
+  --t-accent-accent3: #f7edfe;
+  --t-accent-accent4: #f2e2fc;
+  --t-accent-accent5: #ead5f9;
+  --t-accent-accent6: #e0c4f4;
+  --t-accent-accent7: #d1afec;
+  --t-accent-accent8: #be93e4;
+  --t-accent-accent9: #9333ea;
+  --t-accent-accent10: #7e22ce;
+  --t-accent-accent11: #7e22ce;
+  --t-accent-accent12: #402060;
+  --t-accent-primary: var(--t-accent-accent5);
+  --t-accent-secondary: var(--t-accent-accent5);
+  --t-accent-tertiary: var(--t-accent-accent3);
+  --t-accent-quaternary: var(--t-accent-accent2);
+  --t-accent-accent3570: var(--t-accent-accent8);
+  --t-accent-accent4060: var(--t-accent-accent8);
+
+  /* Primary buttons and links read the blue scale, not accent. User-picked
+     "blue" tags use --t-tag-*-blue and stay blue. */
+  --t-color-blue: #9333ea;
+  --t-color-blue1: #fefcfe;
+  --t-color-blue2: #fbf7fe;
+  --t-color-blue3: #f7edfe;
+  --t-color-blue4: #f2e2fc;
+  --t-color-blue5: #ead5f9;
+  --t-color-blue6: #e0c4f4;
+  --t-color-blue7: #d1afec;
+  --t-color-blue8: #be93e4;
+  --t-color-blue9: #9333ea;
+  --t-color-blue10: #7e22ce;
+  --t-color-blue11: #7e22ce;
+  --t-color-blue12: #402060;
+
+  --t-font-family: Outfit, sans-serif;
+  --t-code-font-family: 'JetBrains Mono', monospace;
+}
+
+.dark {
+  --t-accent-accent1: #18111b;
+  --t-accent-accent2: #1e1523;
+  --t-accent-accent3: #301c3b;
+  --t-accent-accent4: #3d224e;
+  --t-accent-accent5: #48295c;
+  --t-accent-accent6: #54346b;
+  --t-accent-accent7: #664282;
+  --t-accent-accent8: #8457aa;
+  --t-accent-accent9: #8e4ec6;
+  --t-accent-accent10: #9a5cd0;
+  --t-accent-accent11: #d8b4fe;
+  --t-accent-accent12: #ecd9fa;
+  --t-accent-primary: var(--t-accent-accent5);
+  --t-accent-secondary: var(--t-accent-accent5);
+  --t-accent-tertiary: var(--t-accent-accent3);
+  --t-accent-quaternary: var(--t-accent-accent2);
+  --t-accent-accent3570: var(--t-accent-accent8);
+  --t-accent-accent4060: var(--t-accent-accent8);
+
+  --t-color-blue: #8e4ec6;
+  --t-color-blue1: #18111b;
+  --t-color-blue2: #1e1523;
+  --t-color-blue3: #301c3b;
+  --t-color-blue4: #3d224e;
+  --t-color-blue5: #48295c;
+  --t-color-blue6: #54346b;
+  --t-color-blue7: #664282;
+  --t-color-blue8: #8457aa;
+  --t-color-blue9: #8e4ec6;
+  --t-color-blue10: #9a5cd0;
+  --t-color-blue11: #d8b4fe;
+  --t-color-blue12: #ecd9fa;
+
+  --t-font-family: Outfit, sans-serif;
+  --t-code-font-family: 'JetBrains Mono', monospace;
+}
+
+/* index.css hardcodes Inter on body. */
+body {
+  font-family: 'Outfit', sans-serif;
+}

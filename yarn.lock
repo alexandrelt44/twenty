@@ -6767,6 +6767,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/jetbrains-mono@npm:^5":
+  version: 5.3.0
+  resolution: "@fontsource/jetbrains-mono@npm:5.3.0"
+  checksum: 10c0/1351b2350e893f5da39559ed90ff0e5e60bcc876b1f40531ad081ad4bf2f3cda3fa9e8940364aef5a7430ae3140685c9cd4819c36d8ad62bcd3fa37e3cc66b1d
+  languageName: node
+  linkType: hard
+
+"@fontsource/outfit@npm:^5":
+  version: 5.3.0
+  resolution: "@fontsource/outfit@npm:5.3.0"
+  checksum: 10c0/0f009c92c7051257ab64945212aa8d1849f9957fc3bcdd754ecd302987a88cf96c0f3b5146b2bc0098e2e4249ed28c5821a7b74b33b9040b69a5c6cf2ca6c52b
+  languageName: node
+  linkType: hard
+
 "@formatjs/icu-messageformat-parser@npm:^3.5.16":
   version: 3.5.17
   resolution: "@formatjs/icu-messageformat-parser@npm:3.5.17"
@@ -50016,6 +50030,8 @@ __metadata:
     "@floating-ui/react": "npm:^0.24.3"
     "@fontsource/dm-mono": "npm:^5.2.7"
     "@fontsource/inter": "npm:^5.2.8"
+    "@fontsource/jetbrains-mono": "npm:^5"
+    "@fontsource/outfit": "npm:^5"
     "@graphiql/plugin-explorer": "npm:^5.1.2"
     "@graphiql/react": "npm:^0.37.6"
     "@graphql-codegen/cli": "npm:^6.3.1"

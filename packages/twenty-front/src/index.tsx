@@ -9,11 +9,17 @@ import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/outfit/400.css';
+import '@fontsource/outfit/500.css';
+import '@fontsource/outfit/600.css';
+import '@fontsource/outfit/700.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'twenty-ui/style.css';
 import 'twenty-ui/theme-light.css';
 import 'twenty-ui/theme-dark.css';
 import './index.css';
+import './modules/brand/colaboratorio-theme.css';
 
 const renderApp = () => {
   const root = ReactDOM.createRoot(
