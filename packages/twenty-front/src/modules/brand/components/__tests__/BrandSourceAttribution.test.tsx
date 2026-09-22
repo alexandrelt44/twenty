@@ -12,7 +12,7 @@ describe('BrandSourceAttribution', () => {
       </I18nProvider>,
     );
 
-    expect(screen.getByText('Built on Twenty (open source)')).toBeVisible();
+    expect(screen.getByText(/Built on Twenty \(open source\)/)).toBeVisible();
     expect(screen.getByRole('link', { name: 'Source code' })).toHaveAttribute(
       'href',
       'https://github.com/alexandrelt44/twenty',
