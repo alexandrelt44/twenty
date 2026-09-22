@@ -70,8 +70,8 @@ msgstr "Confirm your new email address"
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
-msgid "Connect to Twenty"
-msgstr "Connect to Twenty"
+msgid "Connect to colaborato.rio"
+msgstr "Connect to colaborato.rio"
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
@@ -139,8 +139,8 @@ msgstr "If you do nothing, we'll pause your workspace and keep your data safe fo
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
-msgid "If you'd ever like to give Twenty another try, you can start a fresh workspace in minutes — we'd love to have you back."
-msgstr "If you'd ever like to give Twenty another try, you can start a fresh workspace in minutes — we'd love to have you back."
+msgid "If you'd ever like to give colaborato.rio another try, you can start a fresh workspace in minutes — we'd love to have you back."
+msgstr "If you'd ever like to give colaborato.rio another try, you can start a fresh workspace in minutes — we'd love to have you back."
 
 #. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
@@ -159,8 +159,8 @@ msgstr "Its data has been removed and can no longer be recovered."
 
 #. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
-msgid "Join your team on Twenty"
-msgstr "Join your team on Twenty"
+msgid "Join your team on colaborato.rio"
+msgstr "Join your team on colaborato.rio"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx

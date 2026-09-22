@@ -3,6 +3,7 @@ import { BaseEmail } from 'src/components/BaseEmail';
 import { CallToAction } from 'src/components/CallToAction';
 import { MainText } from 'src/components/MainText';
 import { Title } from 'src/components/Title';
+import { BRAND_EMAIL_IDENTITY } from 'src/constants/BrandEmailIdentity';
 import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
 
@@ -42,11 +43,11 @@ export const CleanSuspendedWorkspaceEmail = ({
         <Trans id="Its data has been removed and can no longer be recovered." />
         <br />
         <br />
-        <Trans id="If you'd ever like to give Twenty another try, you can start a fresh workspace in minutes — we'd love to have you back." />
+        <Trans id="If you'd ever like to give colaborato.rio another try, you can start a fresh workspace in minutes — we'd love to have you back." />
       </MainText>
       <br />
       <CallToAction
-        href="https://app.twenty.com/"
+        href={BRAND_EMAIL_IDENTITY.websiteUrl}
         value={i18n._('Start a new workspace')}
       />
       <br />

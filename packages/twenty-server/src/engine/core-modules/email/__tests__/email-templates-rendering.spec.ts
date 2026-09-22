@@ -208,6 +208,7 @@ describe('email templates rendering', () => {
 
     expect(html).toContain('<title>colaborato.rio</title>');
     expect(html).toContain('What is colaborato.rio?');
+    expect(html).toContain('Join your team on colaborato.rio');
     expect(html).toContain('https://colaborato.rio');
     expect(html).toContain('https://github.com/alexandrelt44/twenty');
     expect(html).toContain(
@@ -215,6 +216,10 @@ describe('email templates rendering', () => {
     );
     expect(html).not.toContain('Public Benefit Corporation');
     expect(html).not.toContain('app.twenty.com/images');
+    // Not a bare `not.toContain('on Twenty')`: the AGPL "Built on Twenty
+    // (open source)" credit in the footer must stay and contains that
+    // substring legitimately.
+    expect(html).not.toContain('team on Twenty');
   });
 });
 
