@@ -37,6 +37,7 @@ msgid " per {intervalLabel}"
 msgstr " por {intervalLabel}"
 
 #. js-lingui-id: h47p9L
+#: src/modules/settings/connected-agents/components/ConnectedAgentActivityFeed.tsx
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowRunStepLogsEmailDetail.tsx
 msgid "—"
 msgstr "—"
@@ -1252,6 +1253,11 @@ msgstr "A ativar..."
 msgid "Active"
 msgstr "Ativo"
 
+#. js-lingui-id: bZWslL
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Active — this agent can write to your workspace."
+msgstr ""
+
 #. js-lingui-id: Mue4oc
 #: src/pages/settings/api-webhooks/SettingsApiWebhooks.tsx
 msgid "Active API keys created by you or your team."
@@ -1261,6 +1267,11 @@ msgstr "Chaves API ativas criadas por si ou pela sua equipa."
 #: src/modules/settings/admin-panel/health-status/components/SettingsAdminHealthAccountSyncCountersTable.tsx
 msgid "Active Sync"
 msgstr "Sincronização ativa"
+
+#. js-lingui-id: XJOV1Y
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Activity"
+msgstr ""
 
 #. js-lingui-id: LynXsl
 #: src/pages/settings/applications/tabs/SettingsApplicationTimelineActivityTypeSettingsTab.tsx
@@ -1973,12 +1984,24 @@ msgstr ""
 
 #. js-lingui-id: mDXkHu
 #: src/pages/settings/ai/SettingsAgentForm.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
 msgid "Agent not found"
 msgstr "Agente não encontrado"
+
+#. js-lingui-id: H7uNwm
+#: src/modules/settings/connected-agents/components/ConnectedAgentConnectionSnippet.tsx
+msgid "Agent prompt copied to clipboard"
+msgstr ""
 
 #. js-lingui-id: 77hGcG
 #: src/modules/settings/roles/components/SettingsRolesList.tsx
 msgid "Agent roles"
+msgstr ""
+
+#. js-lingui-id: 2CzOu5
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Agent status"
 msgstr ""
 
 #. js-lingui-id: Nl33Ds
@@ -1992,6 +2015,11 @@ msgstr "Tokens do agente"
 #: src/pages/settings/applications/tabs/SettingsApplicationDetailContentTab.tsx
 msgid "Agents"
 msgstr "Agentes"
+
+#. js-lingui-id: zAiJ5K
+#: src/pages/settings/connected-agents/SettingsConnectedAgents.tsx
+msgid "Agents connected to your workspace via the API."
+msgstr ""
 
 #. js-lingui-id: sPQ5qN
 #: src/modules/page-layout/utils/getWidgetTitle.ts
@@ -3660,6 +3688,11 @@ msgstr "Checksum da compilação"
 msgid "Build many-to-many relations"
 msgstr "Criar relações muitos-para-muitos"
 
+#. js-lingui-id: oWMARd
+#: src/modules/brand/components/BrandSourceAttribution.tsx
+msgid "Built on Twenty (open source)"
+msgstr "Construído sobre Twenty (open source)"
+
 #. js-lingui-id: uvoIrk
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "Built-in models from this provider. Toggle to enable or disable."
@@ -3936,6 +3969,8 @@ msgstr "Não consegue escanear? Copie o"
 #: src/modules/settings/billing/components/UpdatePaymentMethodModal.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
 #: src/modules/settings/components/SaveAndCancelButtons/CancelButton.tsx
+#: src/modules/settings/config-variables/components/ConfigVariableEdit.tsx
+#: src/modules/settings/profile/components/EmailField.tsx
 #: src/modules/spreadsheet-import/provider/components/SpreadsheetImport.tsx
 #: src/modules/spreadsheet-import/steps/components/ImportDataStep.tsx
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/MatchColumnsStep.tsx
@@ -4563,15 +4598,41 @@ msgstr "Fechar"
 msgid "Close banner"
 msgstr "Fechar banner"
 
+#. js-lingui-id: c2EYjZ
+#: src/modules/spreadsheet-import/components/SpreadSheetImportModalCloseButton.tsx
+msgid "Close import"
+msgstr ""
+
+#. js-lingui-id: aYX0za
+#: src/modules/keyboard-shortcut-menu/components/KeyboardShortcutMenuDialog.tsx
+msgid "Close keyboard shortcuts"
+msgstr ""
+
 #. js-lingui-id: vcpc5o
 #: src/modules/blocknote-editor/components/BlockEditor.tsx
 msgid "Close menu"
 msgstr "Fechar menu"
 
+#. js-lingui-id: sUQBA7
+#: src/modules/settings/data-model/graph-overview/components/SettingsDataModelOverview.tsx
+msgid "Close overview"
+msgstr ""
+
+#. js-lingui-id: fJGhA7
+#: src/modules/activities/files/components/AttachmentList.tsx
+#: src/modules/ui/field/display/components/GlobalFilePreviewModal.tsx
+msgid "Close preview"
+msgstr ""
+
 #. js-lingui-id: saip/v
 #: src/modules/side-panel/components/SidePanelCloseButton.tsx
 msgid "Close side panel"
 msgstr "Fechar painel lateral"
+
+#. js-lingui-id: H4meUz
+#: src/modules/settings/components/SettingsCustomizeVideoModal.tsx
+msgid "Close video"
+msgstr ""
 
 #. js-lingui-id: 1Lxtdt
 #: src/modules/advanced-text-editor/constants/AdvancedTextEditorBlockCatalog.ts
@@ -5103,6 +5164,7 @@ msgid "Connect your email and calendar to see your entire network instantly. Tak
 msgstr "Ligue o seu e-mail e calendário para ver instantaneamente toda a sua rede. Demora apenas 30 segundos."
 
 #. js-lingui-id: QHcLEN
+#: src/modules/settings/connected-agents/components/ConnectedAgentStatusCell.tsx
 #: src/pages/settings/applications/SettingsApplicationConnectionDetail.tsx
 #: src/pages/settings/applications/tabs/SettingsApplicationConnectionsSection.tsx
 msgid "Connected"
@@ -5113,10 +5175,24 @@ msgstr "Conectado"
 msgid "Connected accounts"
 msgstr "Contas ligadas"
 
+#. js-lingui-id: MUFUx8
+#: src/modules/settings/connected-agents/components/MainNavigationConnectedAgentsItem.tsx
+#: src/modules/settings/hooks/useSettingsNavigationItems.tsx
+#: src/modules/settings/hooks/useSettingsNavigationItems.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgents.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgents.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgents.tsx
+msgid "Connected Agents"
+msgstr ""
+
 #. js-lingui-id: exyUec
 #: src/pages/settings/applications/SettingsApplicationConnectionDetail.tsx
 #: src/pages/settings/applications/SettingsApplicationConnectionDetail.tsx
 #: src/pages/settings/applications/tabs/SettingsApplicationConnectionsSection.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
 msgid "Connection"
 msgstr "Conexão"
 
@@ -5384,6 +5460,11 @@ msgstr "Copiar saída"
 msgid "Copy paste the code below"
 msgstr "Cole o código abaixo"
 
+#. js-lingui-id: HWblp2
+#: src/modules/settings/connected-agents/components/ConnectedAgentConnectionSnippet.tsx
+msgid "Copy prompt"
+msgstr ""
+
 #. js-lingui-id: S+Jl8l
 #: src/modules/auth/sign-in-up/components/internal/SignInUpTwoFactorAuthenticationProvision.tsx
 msgid "Copy Setup Key"
@@ -5408,6 +5489,11 @@ msgstr "Copiar esta chave, pois não voltará a ser visível"
 #: src/pages/settings/applications/tabs/SettingsApplicationRegistrationOAuthTab.tsx
 msgid "Copy this secret as it will not be visible again"
 msgstr "Copie este segredo, pois não voltará a ser visível"
+
+#. js-lingui-id: a9CF+D
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Copy this token, it won't be shown again"
+msgstr ""
 
 #. js-lingui-id: /4gGIX
 #: src/modules/settings/data-model/fields/forms/components/SettingsDataModelFieldOnClickActionForm.tsx
@@ -6377,6 +6463,7 @@ msgstr "Utilização Diária"
 #: src/pages/settings/ai/components/SettingsAgentSettingsTab.tsx
 #: src/pages/settings/ai/components/SettingsSkillDangerZone.tsx
 #: src/pages/settings/ai/SettingsToolDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
 #: src/pages/settings/data-model/SettingsObjectFieldEdit.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
 msgid "Danger zone"
@@ -6639,6 +6726,11 @@ msgstr "Informações de Depuração"
 msgid "Decide which Sub-address fields you want to display"
 msgstr "Decidir quais campos de Sub-endereço você deseja exibir"
 
+#. js-lingui-id: NdfaZV
+#: src/modules/settings/components/SettingsCounter.tsx
+msgid "Decrease value"
+msgstr ""
+
 #. js-lingui-id: ovBPCi
 #: src/modules/ai/components/AiModelTierInformationButton.tsx
 #: src/modules/settings/ai/components/AiModelPinSelect.tsx
@@ -6755,8 +6847,11 @@ msgstr "eliminar"
 #: src/modules/settings/data-model/objects/components/SettingsObjectInactiveMenuDropDown.tsx
 #: src/modules/settings/developers/components/SettingsDevelopersWebhookForm.tsx
 #: src/modules/settings/developers/components/SettingsDevelopersWebhookForm.tsx
+#: src/modules/settings/domains/components/SettingPublicDomain.tsx
 #: src/modules/settings/domains/components/SettingPublicDomainRowDropdownMenu.tsx
+#: src/modules/settings/domains/components/SettingsCustomDomain.tsx
 #: src/modules/settings/security/components/sso/SettingsSecuritySsoRowDropdownMenu.tsx
+#: src/modules/side-panel/pages/page-layout/components/record-table-settings/RecordTableSettingsSortsContent.tsx
 #: src/modules/side-panel/pages/page-layout/components/RegularTabSettingsContent.tsx
 #: src/modules/side-panel/pages/page-layout/components/SingleWidgetTabSettingsContent.tsx
 #: src/modules/views/view-picker/components/ViewPickerCreateButton.tsx
@@ -6764,6 +6859,9 @@ msgstr "eliminar"
 #: src/modules/views/view-picker/components/ViewPickerOptionDropdown.tsx
 #: src/modules/workflow/workflow-steps/components/WorkflowStepFooter.tsx
 #: src/modules/workflow/workflow-steps/filters/components/WorkflowStepFilterOptionsDropdown.tsx
+#: src/modules/workflow/workflow-steps/workflow-actions/find-records-action/components/WorkflowFindRecordsSorts.tsx
+#: src/modules/workflow/workflow-steps/workflow-actions/http-request-action/components/KeyValuePairInput.tsx
+#: src/modules/workflow/workflow-steps/workflow-actions/http-request-action/components/KeyValuePairInput.tsx
 #: src/pages/settings/admin-panel/SettingsAdminApplicationRegistrationDangerZone.tsx
 #: src/pages/settings/ai/components/SettingsAgentEvalsTab.tsx
 #: src/pages/settings/ai/components/SettingsAgentEvalsTab.tsx
@@ -6776,6 +6874,8 @@ msgstr "eliminar"
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 #: src/pages/settings/communications/SettingsWorkspaceUnsubscribeTopicDetail.tsx
 #: src/pages/settings/communications/SettingsWorkspaceUnsubscribeTopicDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
 #: src/pages/settings/data-model/SettingsObjectFieldEdit.tsx
 #: src/pages/settings/data-model/SettingsObjectFieldEdit.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
@@ -6843,6 +6943,11 @@ msgstr "Eliminar aplicação"
 #: src/modules/ai/components/AiChatThreadDeleteConfirmationModal.tsx
 msgid "Delete chat"
 msgstr "Excluir chat"
+
+#. js-lingui-id: 5lJOK+
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Delete connected agent"
+msgstr ""
 
 #. js-lingui-id: Wkx6Ld
 #: src/modules/workflow/workflow-diagram/workflow-edges/components/WorkflowDiagramDefaultEdgeEditable.tsx
@@ -6918,6 +7023,11 @@ msgstr "Excluir habilidade"
 #: src/pages/settings/ai/components/SettingsAgentSettingsTab.tsx
 msgid "Delete this agent"
 msgstr "Excluir este agente"
+
+#. js-lingui-id: CCZM8m
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Delete this connected agent"
+msgstr ""
 
 #. js-lingui-id: +RYIn9
 #: src/modules/settings/data-model/object-details/components/tabs/SettingsObjectIndexesSection.tsx
@@ -7206,9 +7316,15 @@ msgstr "Desativar personificação"
 
 #. js-lingui-id: E/QGRL
 #: src/modules/page-layout/components/PageLayoutTabListNewTabDropdownContent.tsx
+#: src/modules/settings/connected-agents/components/ConnectedAgentStatusCell.tsx
 #: src/modules/side-panel/pages/workflow/step/settings/components/SidePanelWorkflowStepSettingsContent.tsx
 msgid "Disabled"
 msgstr "Desativado"
+
+#. js-lingui-id: Vn5p6x
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Disabled — this agent is blocked from writing to your workspace. You can re-enable it at any time."
+msgstr ""
 
 #. js-lingui-id: bzSI52
 #: src/modules/side-panel/pages/compose-calendar-event/components/SidePanelComposeCalendarEventPage.tsx
@@ -7418,8 +7534,14 @@ msgstr "Transferir"
 msgid "Download {filename}"
 msgstr "Baixar {filename}"
 
+#. js-lingui-id: ueLv9s
+#: src/modules/activities/files/components/AttachmentList.tsx
+msgid "Download attachment"
+msgstr ""
+
 #. js-lingui-id: WcWS//
 #: src/modules/settings/security/components/sso/SettingsSsoSamlForm.tsx
+#: src/modules/ui/field/display/components/GlobalFilePreviewModal.tsx
 msgid "Download file"
 msgstr "Baixar arquivo"
 
@@ -7560,6 +7682,7 @@ msgstr "por exemplo, 3.75"
 
 #. js-lingui-id: QVVmxi
 #: src/modules/settings/developers/components/ApiKeyNameInput.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeysNew.tsx
 msgid "E.g. backoffice integration"
@@ -7641,8 +7764,10 @@ msgstr "eddy@gmail.com, @apple.com"
 #: src/modules/object-record/record-field/ui/form-types/components/FormMultiSelectFieldInput.tsx
 #: src/modules/object-record/record-field/ui/meta-types/input/components/MultiItemFieldMenuItem.tsx
 #: src/modules/object-record/record-group/hooks/useRecordGroupActions.ts
+#: src/modules/settings/config-variables/components/ConfigVariableEdit.tsx
 #: src/modules/settings/data-model/object-details/components/SettingsObjectFieldDisabledActionDropdown.tsx
 #: src/modules/settings/data-model/objects/components/SettingsObjectInactiveMenuDropDown.tsx
+#: src/modules/settings/profile/components/EmailField.tsx
 #: src/modules/settings/roles/role-permissions/object-level-permissions/components/SettingsRolePermissionsObjectLevelTableRowOptionsDropdown.tsx
 #: src/modules/settings/roles/role-permissions/object-level-permissions/field-permissions/components/SettingsRolePermissionsObjectLevelObjectFieldPermissionTable.tsx
 #: src/modules/side-panel/hooks/useSidePanelMenu.ts
@@ -7677,6 +7802,11 @@ msgstr "Editar estrutura de dados e campos"
 #: src/modules/side-panel/pages/email-block-settings/components/EmailBoxSidesInput.tsx
 msgid "Edit each side"
 msgstr "Editar cada lado"
+
+#. js-lingui-id: 48e2R8
+#: src/modules/settings/profile/components/EmailField.tsx
+msgid "Edit email"
+msgstr ""
 
 #. js-lingui-id: 9QCQIc
 #: src/modules/object-record/object-options-dropdown/components/ObjectOptionsDropdownHiddenRecordGroupsContent.tsx
@@ -7767,6 +7897,11 @@ msgstr "Editar relação"
 #: src/modules/settings/translations/components/SettingsTranslationsButton.tsx
 msgid "Edit translations"
 msgstr "Editar traduções"
+
+#. js-lingui-id: 8TA4hU
+#: src/modules/settings/config-variables/components/ConfigVariableEdit.tsx
+msgid "Edit variable"
+msgstr ""
 
 #. js-lingui-id: eMFB6/
 #: src/modules/views/view-picker/components/ViewPickerContentEditMode.tsx
@@ -8081,6 +8216,11 @@ msgstr "Ativar personificação"
 #: src/modules/ai/components/SettingsAgentModelCapabilities.tsx
 msgid "Enable model-specific features"
 msgstr "Ativar recursos específicos do modelo"
+
+#. js-lingui-id: Dvx3Ou
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Enable or disable this agent"
+msgstr ""
 
 #. js-lingui-id: Iy8Gze
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
@@ -8445,6 +8585,11 @@ msgstr "Erro ao eliminar a chave API."
 msgid "Error deleting app"
 msgstr "Erro ao eliminar a aplicação"
 
+#. js-lingui-id: VSa04N
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Error deleting connected agent."
+msgstr ""
+
 #. js-lingui-id: QnVLjD
 #: src/pages/settings/members/tabs/SettingsWorkspaceMembersInviteTab.tsx
 msgid "Error deleting invitation"
@@ -8530,6 +8675,11 @@ msgstr "Erro ao transferir a chave da Organização"
 #: src/modules/settings/applications/hooks/useUninstallApplication.ts
 #: src/modules/settings/applications/hooks/useUninstallApplication.ts
 msgid "Error uninstalling application."
+msgstr ""
+
+#. js-lingui-id: tq60cL
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Error updating agent status"
 msgstr ""
 
 #. js-lingui-id: fQYyhK
@@ -8843,6 +8993,7 @@ msgid "Expiration"
 msgstr "Expiração"
 
 #. js-lingui-id: SkXfL0
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeysNew.tsx
 msgid "Expiration Date"
 msgstr "Data de Expiração"
@@ -10117,7 +10268,6 @@ msgstr "Voltar"
 
 #. js-lingui-id: y0SPQU
 #: src/modules/settings/billing/hooks/useWaitForPaymentRecovery.tsx
-#: src/modules/settings/billing/hooks/useWaitForPaymentRecovery.tsx
 msgid "Go to billing"
 msgstr "Ir para a faturação."
 
@@ -10604,6 +10754,11 @@ msgstr "Quanto pode ser gasto e com que frequência é redefinido."
 msgid "How records, pages, and navigation are displayed"
 msgstr "Como registros, páginas e navegação são exibidos"
 
+#. js-lingui-id: 661pgD
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "How to connect your agent to the bridge"
+msgstr ""
+
 #. js-lingui-id: e60vNl
 #: src/pages/onboarding/CreateProfile.tsx
 msgid "How you'll appear to teammates and agents."
@@ -10747,6 +10902,11 @@ msgstr "Fornecedor de Identidade"
 #: src/modules/settings/security/components/sso/SettingsSsoSamlForm.tsx
 msgid "Identity Provider Metadata XML"
 msgstr "XML de Metadados do Provedor de Identidade"
+
+#. js-lingui-id: QSzGDE
+#: src/modules/settings/connected-agents/components/ConnectedAgentStatusCell.tsx
+msgid "Idle"
+msgstr ""
 
 #. js-lingui-id: vyLxYN
 #: src/modules/workflow/workflow-steps/workflow-actions/if-else-action/utils/getBranchLabel.ts
@@ -10993,6 +11153,11 @@ msgstr "Incompleto expirado"
 #: src/modules/settings/billing/components/internal/ResourceCreditPriceSelector.tsx
 msgid "Increase to ${priceDisplay}"
 msgstr "Aumentar para ${priceDisplay}"
+
+#. js-lingui-id: lUmbtf
+#: src/modules/settings/components/SettingsCounter.tsx
+msgid "Increase value"
+msgstr ""
 
 #. js-lingui-id: O5wNUa
 #: src/modules/metadata-error-handler/hooks/useMetadataErrorHandler.ts
@@ -11857,6 +12022,11 @@ msgstr "Última atividade {lastActive} · {0}"
 msgid "Last activity"
 msgstr "Última atividade"
 
+#. js-lingui-id: mRB1sd
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Last activity from this agent"
+msgstr ""
+
 #. js-lingui-id: IpCCj8
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceContent.tsx
 #: src/pages/settings/admin-panel/SettingsAdminInstanceStatus.tsx
@@ -11913,6 +12083,12 @@ msgstr "Último pagamento falhou. Por favor, atualize seus detalhes de cobrança
 #: src/pages/settings/applications/SettingsApplicationConnectionDetail.tsx
 msgid "Last refreshed"
 msgstr "Última atualização"
+
+#. js-lingui-id: U011Uh
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Last seen"
+msgstr ""
 
 #. js-lingui-id: NYwqoV
 #: src/pages/settings/applications/SettingsApplicationConnectionDetail.tsx
@@ -12349,6 +12525,11 @@ msgstr "Habilidades carregadas"
 msgid "Loading {formattedNames}"
 msgstr "Carregando {formattedNames}"
 
+#. js-lingui-id: ZiUmed
+#: src/modules/settings/connected-agents/components/ConnectedAgentActivityFeed.tsx
+msgid "Loading activity..."
+msgstr ""
+
 #. js-lingui-id: fS/QXs
 #: src/pages/settings/applications/tabs/SettingsApplicationsAvailableTab.tsx
 msgid "Loading applications..."
@@ -12363,6 +12544,11 @@ msgstr "Carregando aplicativos..."
 #: src/modules/settings/admin-panel/chats/components/SettingsAdminChatsContent.tsx
 msgid "Loading chats..."
 msgstr "A carregar conversas..."
+
+#. js-lingui-id: olqeBz
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
+msgid "Loading connected agents..."
+msgstr ""
 
 #. js-lingui-id: Nx262D
 #: src/modules/activities/files/components/DocumentViewer.tsx
@@ -13327,6 +13513,7 @@ msgstr "N/A"
 #: src/modules/settings/ai/components/SettingsAiModelsTable.tsx
 #: src/modules/settings/components/SettingsDnsRecordsTable.tsx
 #: src/modules/settings/config-variables/components/ConfigVariableTable.tsx
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
 #: src/modules/settings/data-model/object-details/components/SettingsObjectRelationsTable.tsx
 #: src/modules/settings/data-model/object-details/components/tabs/SettingsObjectSearchSection.tsx
 #: src/modules/settings/developers/components/SettingsApiKeysTable.tsx
@@ -13357,6 +13544,8 @@ msgstr "N/A"
 #: src/pages/settings/communications/SettingsWorkspaceNewUnsubscribeTopic.tsx
 #: src/pages/settings/communications/SettingsWorkspaceUnsubscribeTopicDetail.tsx
 #: src/pages/settings/communications/SettingsWorkspaceUnsubscribeTopicDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
 #: src/pages/settings/data-model/constants/SettingsObjectTableMetadata.ts
 #: src/pages/settings/data-model/SettingsObjectFieldTable.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
@@ -13377,6 +13566,12 @@ msgstr "Nomeie e descreva sua função"
 #: src/modules/settings/data-model/object-details/components/tabs/ObjectSettings.tsx
 msgid "Name in both singular (e.g., 'Invoice') and plural (e.g., 'Invoices') forms."
 msgstr "Nome no singular (por exemplo, 'Fatura') e no plural (por exemplo, 'Faturas')."
+
+#. js-lingui-id: K6Nhs2
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
+msgid "Name of your agent"
+msgstr ""
 
 #. js-lingui-id: z+6jaZ
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
@@ -13443,7 +13638,9 @@ msgstr "Erro de rede"
 #. js-lingui-id: qqeAJM
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceCreditGrantsTable.tsx
 #: src/modules/settings/admin-panel/constants/CreditGrantExpiryOptions.ts
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
 #: src/modules/settings/developers/utils/formatExpiration.ts
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
 msgid "Never"
 msgstr "Nunca"
 
@@ -13488,6 +13685,13 @@ msgstr "Nova conta"
 #: src/pages/settings/accounts/SettingsNewAccount.tsx
 msgid "New Account"
 msgstr "Nova Conta"
+
+#. js-lingui-id: PlBr35
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgents.tsx
+msgid "New agent"
+msgstr ""
 
 #. js-lingui-id: mJIA0/
 #: src/pages/settings/ai/components/SettingsAgentFormContent.tsx
@@ -13719,6 +13923,11 @@ msgstr "Próximo"
 msgid "Next charge {totalRenewDate}. Invoice amount may vary if you add members or credits between periods"
 msgstr "Próxima cobrança {totalRenewDate}. O valor da fatura pode variar se adicionar membros ou créditos entre períodos"
 
+#. js-lingui-id: LTn6w8
+#: src/modules/workflow/workflow-steps/workflow-actions/iterator-action/components/WorkflowIteratorSubStepSwitcher.tsx
+msgid "Next iteration"
+msgstr ""
+
 #. js-lingui-id: 8+lM81
 #: src/modules/object-record/record-calendar/components/RecordCalendarTopBar.tsx
 msgid "Next period"
@@ -13806,6 +14015,7 @@ msgstr "Nenhuma atividade corresponde aos tipos selecionados."
 
 #. js-lingui-id: aXFOuf
 #: src/modules/activities/timeline-activities/components/TimelineCard.tsx
+#: src/modules/settings/connected-agents/components/ConnectedAgentActivityFeed.tsx
 msgid "No activity yet"
 msgstr "Ainda não há atividade"
 
@@ -13948,6 +14158,11 @@ msgstr "Sem campos compatíveis"
 #: src/modules/settings/admin-panel/config-variables/components/SettingsAdminConfigVariables.tsx
 msgid "No config variables match your current filters. Try adjusting your filters or search criteria."
 msgstr "Nenhuma variável de configuração corresponde aos seus filtros atuais. Tente ajustar seus filtros ou critérios de pesquisa."
+
+#. js-lingui-id: eHkK5w
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
+msgid "No connected agents yet"
+msgstr ""
 
 #. js-lingui-id: zsslJv
 #: src/modules/activities/emails/components/CampaignSentPreview.tsx
@@ -14383,6 +14598,11 @@ msgstr "Sem Resultados"
 msgid "No results found"
 msgstr "Nenhum resultado encontrado"
 
+#. js-lingui-id: 8gAuZ+
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "No role assigned"
+msgstr ""
+
 #. js-lingui-id: FVzmGK
 #: src/modules/settings/members/components/MemberPermissionsTab.tsx
 msgid "No role assigned to this member"
@@ -14670,6 +14890,11 @@ msgstr "Não configurado"
 #: src/modules/object-record/record-board/record-board-column/utils/getAggregateOperationShortLabel.ts
 msgid "Not empty"
 msgstr "Não vazio"
+
+#. js-lingui-id: KPx1UV
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Not found"
+msgstr ""
 
 #. js-lingui-id: pAtylB
 #: src/modules/object-record/record-field/ui/form-types/components/VariableChip.tsx
@@ -15252,6 +15477,11 @@ msgstr "Abrir registros em uma página dedicada"
 msgid "Open Replit with the Twenty remote server config."
 msgstr "Abra o Replit com a configuração do servidor remoto Twenty."
 
+#. js-lingui-id: bY2Xkv
+#: src/modules/sign-in-background-mock/components/BackgroundMockPage.tsx
+msgid "Open side panel"
+msgstr ""
+
 #. js-lingui-id: sBd/cl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Twenty's official ChatGPT integration for your workspace."
@@ -15604,10 +15834,10 @@ msgstr "Layouts de Página"
 msgid "Page name"
 msgstr "Nome da página"
 
-#. js-lingui-id: NRvxzv
+#. js-lingui-id: YfdOUH
 #: src/pages/not-found/NotFound.tsx
-msgid "Page Not Found | Twenty"
-msgstr "Página não encontrada | Twenty"
+msgid "Page Not Found | colaborato.rio"
+msgstr "Página não encontrada | colaborato.rio"
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -15708,6 +15938,11 @@ msgstr "Pausar"
 #: src/modules/settings/billing/components/SettingsBillingSubscriptionInfo.tsx
 msgid "Paused"
 msgstr "Em pausa"
+
+#. js-lingui-id: c2/9VE
+#: src/modules/settings/connected-agents/components/ConnectedAgentActivityFeed.tsx
+msgid "Payload"
+msgstr ""
 
 #. js-lingui-id: QmXBEc
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
@@ -16039,6 +16274,11 @@ msgstr "Digite \"{confirmationValue}\" para confirmar que deseja excluir esta ch
 msgid "Please type \"{confirmationValue}\" to confirm you want to delete this app. All workspace installations linked to it will lose their OAuth credentials."
 msgstr "Escreva \"{confirmationValue}\" para confirmar que pretende eliminar esta aplicação. Todas as instalações do espaço de trabalho associadas a ela perderão as respetivas credenciais OAuth."
 
+#. js-lingui-id: w/dgDt
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Please type \"{confirmationValue}\" to confirm you want to delete this connected agent. This will revoke the agent's API key and permanently remove its access to your workspace."
+msgstr ""
+
 #. js-lingui-id: L0SEpC
 #: src/modules/settings/applications/components/SettingsApplicationActionButton.tsx
 msgid "Please type \"{confirmationValue}\" to confirm you want to uninstall this application."
@@ -16182,6 +16422,11 @@ msgstr "Anterior"
 #: src/modules/ai/utils/groupThreadsByDate.ts
 msgid "Previous 7 days"
 msgstr "7 dias anteriores"
+
+#. js-lingui-id: +Qcc/o
+#: src/modules/workflow/workflow-steps/workflow-actions/iterator-action/components/WorkflowIteratorSubStepSwitcher.tsx
+msgid "Previous iteration"
+msgstr ""
 
 #. js-lingui-id: KaMwgJ
 #: src/modules/object-record/record-calendar/components/RecordCalendarTopBar.tsx
@@ -16568,6 +16813,11 @@ msgstr "Receber um e-mail com um link para definir a palavra-passe"
 #: src/modules/settings/profile/components/SetOrChangePassword.tsx
 msgid "Receive an email containing password update link"
 msgstr "Receber um e-mail com um link para atualização da palavra-passe"
+
+#. js-lingui-id: Kyq9ML
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Recent activity reported by this agent"
+msgstr ""
 
 #. js-lingui-id: ZVr1+K
 #: src/modules/settings/admin-panel/health-status/components/SettingsAdminWorkerMetricsGraph.tsx
@@ -16974,10 +17224,20 @@ msgstr "Remover campo"
 msgid "Remove filter"
 msgstr "Remover filtro"
 
+#. js-lingui-id: bKjweg
+#: src/modules/settings/accounts/components/SettingsAccountsBlocklistTableRow.tsx
+msgid "Remove from blocklist"
+msgstr ""
+
 #. js-lingui-id: 9VZ6f0
 #: src/modules/navigation-menu-item/edit/side-panel/components/SidePanelEditOrganizeActions.tsx
 msgid "Remove from sidebar"
 msgstr "Remover da barra lateral"
+
+#. js-lingui-id: np3jVO
+#: src/pages/settings/members/tabs/SettingsWorkspaceMembersInviteTab.tsx
+msgid "Remove invitation"
+msgstr ""
 
 #. js-lingui-id: O90CN2
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWorkspaceCreationForm.tsx
@@ -16993,6 +17253,11 @@ msgstr "Remover membro"
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
 msgid "Remove member from workspace"
 msgstr "Remover membro do espaço de trabalho"
+
+#. js-lingui-id: RlqUBz
+#: src/modules/settings/ai/components/SettingsAiModelsTable.tsx
+msgid "Remove model"
+msgstr ""
 
 #. js-lingui-id: FeQ/sf
 #. placeholder {0}: modelToRemove?.label ?? ''
@@ -17015,6 +17280,11 @@ msgstr "Remover provedor"
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
 msgid "Remove provider \"{0}\""
 msgstr "Remover o provedor \"{0}\""
+
+#. js-lingui-id: PhLz3E
+#: src/pages/settings/applications/components/SettingsApplicationRegistrationRedirectURIsTable.tsx
+msgid "Remove redirect URI"
+msgstr ""
 
 #. js-lingui-id: SjxzXf
 #: src/modules/object-record/advanced-filter/components/AdvancedFilterRecordFilterOptionsDropdown.tsx
@@ -17052,6 +17322,11 @@ msgstr "Remover este provedor e desconectar todos os seus modelos"
 #: src/modules/object-record/record-field/ui/form-types/components/VariableChip.tsx
 msgid "Remove variable"
 msgstr "Remover variável"
+
+#. js-lingui-id: Rkg5R1
+#: src/modules/page-layout/widgets/widget-card/components/WidgetCardHeader.tsx
+msgid "Remove widget"
+msgstr ""
 
 #. js-lingui-id: 2wxgft
 #: src/modules/activities/files/components/AttachmentDropdown.tsx
@@ -17173,6 +17448,11 @@ msgstr "Pesquise esta empresa e resuma o que faz, a sua dimensão e quaisquer no
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
 msgid "Resend email"
 msgstr "Reenviar email"
+
+#. js-lingui-id: wIa8Qe
+#: src/pages/settings/members/tabs/SettingsWorkspaceMembersInviteTab.tsx
+msgid "Resend invitation"
+msgstr ""
 
 #. js-lingui-id: OfhWJH
 #: src/modules/layout-customization/components/LayoutCustomizationBarResetConfirmationModal.tsx
@@ -17417,10 +17697,13 @@ msgid "role"
 msgstr "função"
 
 #. js-lingui-id: GDvlUT
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
 #: src/modules/settings/developers/components/SettingsApiKeysTable.tsx
 #: src/modules/settings/members/components/MemberPermissionsTab.tsx
 #: src/pages/settings/ai/components/SettingsAgentFormContent.tsx
 #: src/pages/settings/ai/components/SettingsAgentRoleTab.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeysNew.tsx
 #: src/pages/settings/members/tabs/SettingsWorkspaceMembersInviteTab.tsx
@@ -17615,6 +17898,8 @@ msgstr "Sábado"
 
 #. js-lingui-id: tfDRzk
 #: src/modules/settings/components/SaveAndCancelButtons/SaveButton.tsx
+#: src/modules/settings/config-variables/components/ConfigVariableEdit.tsx
+#: src/modules/settings/profile/components/EmailField.tsx
 #: src/pages/settings/data-model/new-field/SettingsObjectNewFieldConfigure.tsx
 msgid "Save"
 msgstr "Salvar"
@@ -19220,6 +19505,11 @@ msgstr "Ordenações"
 msgid "Source"
 msgstr "Fonte"
 
+#. js-lingui-id: joolK7
+#: src/modules/brand/components/BrandSourceAttribution.tsx
+msgid "Source code"
+msgstr "Código-fonte"
+
 #. js-lingui-id: 5f1fxa
 #: src/modules/settings/accounts/components/SettingsAccountsNewEmailGroupChannel.tsx
 msgid "Source Email Address"
@@ -19405,12 +19695,14 @@ msgstr "Texto estático partilhado em todas as páginas de registo"
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceCreditGrantsTable.tsx
 #: src/modules/settings/admin-panel/signing-keys/components/SettingsAdminSigningKeysTable.tsx
 #: src/modules/settings/components/SettingsDnsRecordsTable.tsx
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
 #: src/pages/settings/admin-panel/SettingsAdminApplicationRegistrationClaims.tsx
 #: src/pages/settings/admin-panel/SettingsAdminIndicatorHealthStatus.tsx
 #: src/pages/settings/admin-panel/SettingsAdminInstanceStatus.tsx
 #: src/pages/settings/admin-panel/SettingsAdminWorkspaceDetail.tsx
 #: src/pages/settings/applications/SettingsApplicationConnectionDetail.tsx
 #: src/pages/settings/applications/tabs/SettingsApplicationConnectionsSection.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
@@ -19709,6 +20001,11 @@ msgstr "Resumir este registo e a respetiva atividade recente."
 #: src/modules/ai/components/suggested-prompts/contextual-suggested-prompts.ts
 msgid "Summarize this view"
 msgstr "Resumir esta vista"
+
+#. js-lingui-id: dXoieq
+#: src/modules/settings/connected-agents/components/ConnectedAgentActivityFeed.tsx
+msgid "Summary"
+msgstr ""
 
 #. js-lingui-id: gKAccC
 #: src/modules/page-layout/widgets/call-recording-summary/components/WidgetActionCallRecordingSummary.tsx
@@ -20507,6 +20804,11 @@ msgstr "Esta chamada está a ser gravada…"
 msgid "This component runs without a UI and renders nothing here."
 msgstr "Este componente é executado sem interface e não renderiza nada aqui."
 
+#. js-lingui-id: IQ/1Z/
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "This connected agent may have been deleted."
+msgstr ""
+
 #. js-lingui-id: LqhE3c
 #: src/pages/settings/applications/SettingsApplicationConnectionDetail.tsx
 msgid "This connection does not exist or is not available for this application."
@@ -20907,6 +21209,11 @@ msgstr "Alternar todas as permissões de objetos"
 #: src/modules/settings/roles/role-permissions/permission-flags/components/SettingsRolePermissionsSettingsTableHeader.tsx
 msgid "Toggle all settings permissions"
 msgstr "Ativar todas as permissões de configurações"
+
+#. js-lingui-id: TP9/K5
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Token"
+msgstr ""
 
 #. js-lingui-id: IHtFjq
 #: src/pages/settings/admin-panel/SettingsAdminNewAiModel.tsx
@@ -21317,6 +21624,7 @@ msgstr "Configuração da autenticação em duas etapas concluída com sucesso!"
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceCreditGrantModal.tsx
 #: src/modules/settings/admin-panel/components/SettingsAdminWorkspaceCreditGrantsTable.tsx
 #: src/modules/settings/components/SettingsDnsRecordsTable.tsx
+#: src/modules/settings/connected-agents/components/ConnectedAgentActivityFeed.tsx
 #: src/modules/settings/data-model/indexes/forms/components/SettingsObjectIndexOptionsForm.tsx
 #: src/modules/settings/data-model/object-details/components/SettingsObjectRelationsTable.tsx
 #: src/modules/settings/security/components/sso/SettingsSsoIdentitiesProvidersForm.tsx
@@ -21600,6 +21908,14 @@ msgstr "Não listado"
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "Unlock premium features like SSO, row-level security, and audit logs."
 msgstr "Desbloqueie funcionalidades premium como SSO, segurança ao nível da linha e registos de auditoria."
+
+#. js-lingui-id: NXcIL1
+#: src/modules/settings/connected-agents/components/ConnectedAgentsTable.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "Unnamed agent"
+msgstr ""
 
 #. js-lingui-id: Te2H8x
 #: src/modules/settings/developers/components/SettingsApiKeysFieldItemTableRow.tsx
@@ -22526,7 +22842,6 @@ msgstr "Ver documentação"
 
 #. js-lingui-id: Mv1YVf
 #: src/modules/error-handler/utils/getToastOptionsFromError.tsx
-#: src/modules/error-handler/utils/getToastOptionsFromError.tsx
 msgid "View existing record"
 msgstr "Ver registro existente"
 
@@ -22605,6 +22920,11 @@ msgstr "Tipo de Vista"
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 msgid "View types"
 msgstr "Tipos de visualização"
+
+#. js-lingui-id: sEyiuO
+#: src/modules/views/components/UpdateViewButtonGroup.tsx
+msgid "View update options"
+msgstr ""
 
 #. js-lingui-id: ZjBqNE
 #: src/modules/settings/billing/components/SettingsBillingCreditsSection.tsx
@@ -22956,10 +23276,10 @@ msgstr "Semanal"
 msgid "weeks"
 msgstr ""
 
-#. js-lingui-id: nTuObL
+#. js-lingui-id: iCa8ga
 #: src/pages/auth/SignInUp.tsx
-msgid "Welcome to Twenty"
-msgstr "Bem-vindo ao Twenty"
+msgid "Welcome to colaborato.rio"
+msgstr "Bem-vindo ao colaborato.rio"
 
 #. js-lingui-id: t8ZvkC
 #: src/modules/onboarding/constants/WelcomeTitleMessage.ts
@@ -22992,6 +23312,16 @@ msgstr "O que cada idioma exibe nos rótulos deste campo"
 msgid "What each language displays for this object's labels"
 msgstr "O que cada idioma exibe nos rótulos deste objeto"
 
+#. js-lingui-id: R9Ffjd
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+msgid "What this agent can do"
+msgstr ""
+
+#. js-lingui-id: qX1SvK
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
+msgid "What this agent can do: Select a user role to define its permissions."
+msgstr ""
+
 #. js-lingui-id: cE4SvC
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeysNew.tsx
@@ -23007,6 +23337,11 @@ msgstr "O que está instalado e sendo usado no seu espaço de trabalho"
 #: src/pages/settings/communications/SettingsWorkspaceCommunications.tsx
 msgid "Whatsapp"
 msgstr "WhatsApp"
+
+#. js-lingui-id: 1ZF9KQ
+#: src/modules/settings/connected-agents/components/ConnectedAgentActivityFeed.tsx
+msgid "When"
+msgstr ""
 
 #. js-lingui-id: m7GziZ
 #: src/modules/ai/components/suggested-prompts/default-suggested-prompts.ts
@@ -23027,6 +23362,11 @@ msgstr "Quando qualquer negócio com montante superior a $100,000 tiver a sua fa
 #: src/modules/workflow/workflow-steps/workflow-actions/components/WorkflowEditActionCreateCalendarEvent.tsx
 msgid "When off, the event is created with no attendees and nobody is notified."
 msgstr "Quando desligado, o evento é criado sem participantes e ninguém é notificado."
+
+#. js-lingui-id: 4uXABx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
+msgid "When the agent's token will expire."
+msgstr ""
 
 #. js-lingui-id: C51ilI
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeysNew.tsx
@@ -23202,6 +23542,10 @@ msgstr "Workflows"
 #: src/pages/settings/communications/SettingsWorkspaceNewUnsubscribeTopic.tsx
 #: src/pages/settings/communications/SettingsWorkspaceUnsubscribe.tsx
 #: src/pages/settings/communications/SettingsWorkspaceUnsubscribeTopicDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentNew.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgents.tsx
 #: src/pages/settings/data-model/new-field/SettingsObjectNewFieldConfigure.tsx
 #: src/pages/settings/data-model/new-field/SettingsObjectNewFieldSelect.tsx
 #: src/pages/settings/data-model/new-index/SettingsObjectNewIndex.tsx
@@ -23405,6 +23749,7 @@ msgstr "Amarelo"
 #: src/modules/settings/developers/components/SettingsDevelopersWebhookForm.tsx
 #: src/pages/settings/admin-panel/SettingsAdminApplicationRegistrationDangerZone.tsx
 #: src/pages/settings/applications/tabs/SettingsApplicationRegistrationOAuthTab.tsx
+#: src/pages/settings/connected-agents/SettingsConnectedAgentDetail.tsx
 #: src/pages/settings/developers/api-keys/SettingsDevelopersApiKeyDetail.tsx
 msgid "yes"
 msgstr "sim"
