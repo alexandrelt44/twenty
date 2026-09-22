@@ -8,6 +8,7 @@ layer over upstream Twenty. Spec: `docs/superpowers/specs/2026-09-16-colaborator
 - `packages/twenty-front/src/modules/brand/**` — theme CSS, identity constant, attribution
 - `packages/twenty-front/scripts/brand/**` — icon source + generator
 - `packages/twenty-emails/src/constants/BrandEmailIdentity.ts`
+- `.github/workflows/fork-build-image.yaml` — GHCR build workflow
 - `BRANDING.md`
 
 ## Upstream files touched (may conflict on merge)
