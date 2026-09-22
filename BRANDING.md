@@ -27,7 +27,7 @@ layer over upstream Twenty. Spec: `docs/superpowers/specs/2026-09-16-colaborator
 | `packages/twenty-front/src/pages/not-found/NotFound.tsx` | "Page Not Found \| colaborato.rio" | Reapply |
 | `packages/twenty-emails/src/components/{Logo,Footer,WhatIsTwenty,BaseHead}.tsx` | Brand chrome | Reapply |
 | `packages/twenty-server/.../email-templates-rendering.spec.ts` | Branding test | Reapply test |
-| `packages/twenty-{front,emails}/src/locales/{en,pt-BR,pt-PT}.po` + `generated/*` | Brand strings (en/pt-BR/pt-PT) | Take upstream, run `lingui:extract`, retranslate brand entries, `lingui:compile`, then restore other locales: `git checkout -- packages/twenty-{front,emails}/src/locales` |
+| `packages/twenty-{front,emails}/src/locales/{en,pt-BR,pt-PT}.po` + `generated/*` | Brand strings (en/pt-BR/pt-PT) | Take upstream, run `lingui:extract`, retranslate brand entries, `lingui:compile`, then restore only the locales the fork does not translate (`git checkout -- $(git status --porcelain packages/twenty-{front,emails}/src/locales \| awk '{print $2}' \| grep -vE '/(en\|pt-BR\|pt-PT)\.(po\|ts)$')`) — a bare `git checkout -- packages/twenty-{front,emails}/src/locales` would also revert the brand entries and freshly compiled catalogs in en/pt-BR/pt-PT |
 
 ## Guards
 
