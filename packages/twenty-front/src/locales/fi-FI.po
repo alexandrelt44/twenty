@@ -1682,37 +1682,37 @@ msgstr ""
 #. js-lingui-id: FKGcEL
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server as a remote context server in Zed."
-msgstr "Lisää Twenty MCP -palvelin etäisenä kontekstipalvelimena Zedissä."
+msgstr "Lisää ColabCRM MCP -palvelin etäisenä kontekstipalvelimena Zedissä."
 
 #. js-lingui-id: iA2nHX
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server from Augment Code settings."
-msgstr "Lisää Twenty MCP -palvelin Augment Code -asetuksista."
+msgstr "Lisää ColabCRM MCP -palvelin Augment Code -asetuksista."
 
 #. js-lingui-id: l+NzAk
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server from Raycast's MCP commands or settings."
-msgstr "Lisää Twenty MCP -palvelin Raycastin MCP-komennoista tai -asetuksista."
+msgstr "Lisää ColabCRM MCP -palvelin Raycastin MCP-komennoista tai -asetuksista."
 
 #. js-lingui-id: j6G/yI
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server in Gemini CLI settings."
-msgstr "Lisää Twenty MCP -palvelin Gemini CLI -asetuksissa."
+msgstr "Lisää ColabCRM MCP -palvelin Gemini CLI -asetuksissa."
 
 #. js-lingui-id: /OyhlM
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server to your LibreChat configuration file."
-msgstr "Lisää Twenty MCP -palvelin LibreChat-konfiguraatiotiedostoosi."
+msgstr "Lisää ColabCRM MCP -palvelin LibreChat-konfiguraatiotiedostoosi."
 
 #. js-lingui-id: K0DXoj
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty remote server with LM Studio's install link."
-msgstr "Lisää Twenty-etäpalvelin LM Studion asennuslinkillä."
+msgstr "Lisää ColabCRM-etäpalvelin LM Studion asennuslinkillä."
 
 #. js-lingui-id: BTFMKE
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 msgid "Add these records at your DNS provider. Twenty checks them automatically."
-msgstr "Lisää nämä tietueet DNS-palveluntarjoajallesi. Twenty tarkistaa ne automaattisesti."
+msgstr "Lisää nämä tietueet DNS-palveluntarjoajallesi. ColabCRM tarkistaa ne automaattisesti."
 
 #. js-lingui-id: 5+ttxv
 #: src/modules/settings/accounts/components/SettingsAccountsBlocklistInput.tsx
@@ -1732,7 +1732,7 @@ msgstr "Lisää aihe"
 #. js-lingui-id: 4D/zWv
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add Twenty as a Streamable HTTP extension in Goose."
-msgstr "Lisää Twenty Gooseen Streamable HTTP -laajennuksena."
+msgstr "Lisää ColabCRM Gooseen Streamable HTTP -laajennuksena."
 
 #. js-lingui-id: XnwceV
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationRedirectURIsInput.tsx
@@ -3318,7 +3318,7 @@ msgstr "Asenna tämä sovellus automaattisesti jokaiseen uuteen työtilaan"
 #. js-lingui-id: MHsVk5
 #: src/pages/settings/ai/components/SettingsAiModelTiersPreview.tsx
 msgid "Automatically selected by Twenty for this mode."
-msgstr "Twenty valitsee automaattisesti tälle tilalle."
+msgstr "ColabCRM valitsee automaattisesti tälle tilalle."
 
 #. js-lingui-id: XFGV21
 #: src/pages/settings/applications/tabs/SettingsApplicationGeneralSection.tsx
@@ -3522,7 +3522,7 @@ msgstr "Laskutusjakso"
 #. js-lingui-id: xF/NXI
 #: src/modules/settings/billing/hooks/useBillingPortalSession.ts
 msgid "Billing portal session error. Please retry or contact Twenty team"
-msgstr "Laskutusportaalin istuntovirhe. Yritä uudelleen tai ota yhteyttä Twenty-tiimiin"
+msgstr "Laskutusportaalin istuntovirhe. Yritä uudelleen tai ota yhteyttä ColabCRM-tiimiin"
 
 #. js-lingui-id: 8kIU+G
 #: src/modules/advanced-text-editor/constants/AdvancedTextEditorBlockCatalog.ts
@@ -3715,7 +3715,7 @@ msgstr "tekijä: {author}"
 #. js-lingui-id: 8Pfllj
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
 msgid "By using Twenty, you agree to the"
-msgstr "Twenty:tä käyttäessäsi hyväksyt"
+msgstr "ColabCRM:tä käyttäessäsi hyväksyt"
 
 #. js-lingui-id: Yx41df
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
@@ -4259,7 +4259,7 @@ msgstr "Tarkista postilaatikkosi vahvistaaksesi uuden sähköpostiosoitteesi."
 #: src/modules/settings/billing/hooks/useHandleCheckoutSession.ts
 #: src/modules/settings/billing/hooks/useHandleCheckoutSession.ts
 msgid "Checkout session error. Please retry or contact Twenty team"
-msgstr "Tarkista istunnovirhe. Yritä uudelleen tai ota yhteyttä Twenty-tiimiin"
+msgstr "Tarkista istunnovirhe. Yritä uudelleen tai ota yhteyttä ColabCRM-tiimiin"
 
 #. js-lingui-id: SviKkE
 #: src/localization/hooks/useLocaleOptions.ts
@@ -4953,12 +4953,12 @@ msgstr "Määritä etäpalvelin Amazon Q Developerin MCP-asetuksissa."
 #. js-lingui-id: g1/8jH
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Configure the Twenty MCP server manually in Cascade."
-msgstr "Määritä Twenty MCP -palvelin manuaalisesti Cascadessa."
+msgstr "Määritä ColabCRM MCP -palvelin manuaalisesti Cascadessa."
 
 #. js-lingui-id: XiyvRh
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Configure the Twenty MCP server manually in Cline."
-msgstr "Määritä Twenty MCP -palvelin manuaalisesti Clinessä."
+msgstr "Määritä ColabCRM MCP -palvelin manuaalisesti Clinessä."
 
 #. js-lingui-id: qA9AGQ
 #: src/modules/settings/domains/components/SettingsDomainRecords.tsx
@@ -8570,7 +8570,7 @@ msgstr "Virhe suunnitelman peruutuksessa."
 #. js-lingui-id: QmR+2U
 #: src/modules/settings/billing/hooks/useEndSubscriptionTrialPeriod.ts
 msgid "Error while ending trial period. Please contact Twenty team."
-msgstr "Virhe kokeilujakson päättämisessä. Ota yhteyttä Twenty -tiimiin."
+msgstr "Virhe kokeilujakson päättämisessä. Ota yhteyttä ColabCRM -tiimiin."
 
 #. js-lingui-id: 5g78zo
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
@@ -10577,7 +10577,7 @@ msgstr ""
 "npx create-twenty-app@latest my-twenty-app\n"
 "```\n"
 "\n"
-"Katso täydellinen läpikäynti [Aloitusoppaasta](https://twenty.com/developers/extend/apps/getting-started) ja kohdassa [Sovellusten rakentaminen](https://twenty.com/developers/extend/apps/building) kerrotaan `defineApplication` / `defineEntity` API:ista."
+"Katso täydellinen läpikäynti Aloitusoppaasta ja kohdassa Sovellusten rakentaminen kerrotaan `defineApplication` / `defineEntity` API:ista."
 
 #. js-lingui-id: yY8wAv
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -15086,7 +15086,7 @@ msgstr "Yksi tai useampi suodatin viittaa poissa käytöstä oleviin tai poistet
 #. js-lingui-id: 1WZTTl
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "One subscription provides one Organization key that powers one production instance and one potential staging or test instance. To run a staging or test environment, install Twenty on a second server, activate it with this same Organization key, then register that server as a development instance. Development instances unlock premium features without extra billing and do not count toward your production seats."
-msgstr "Yksi tilaus sisältää yhden Organisaatio-avaimen, joka tukee yhtä tuotantoinstanssia sekä yhtä mahdollista esituotanto- tai testausinstanssia. Jos haluat käyttää esituotanto- tai testausympäristöä, asenna Twenty toiselle palvelimelle, aktivoi se samalla Organisaatio-avaimella ja rekisteröi kyseinen palvelin kehitysinstanssiksi. Kehitysinstanssit avaavat premium-ominaisuudet ilman lisälaskutusta eivätkä kuluta tuotantopaikkoja."
+msgstr "Yksi tilaus sisältää yhden Organisaatio-avaimen, joka tukee yhtä tuotantoinstanssia sekä yhtä mahdollista esituotanto- tai testausinstanssia. Jos haluat käyttää esituotanto- tai testausympäristöä, asenna ColabCRM toiselle palvelimelle, aktivoi se samalla Organisaatio-avaimella ja rekisteröi kyseinen palvelin kehitysinstanssiksi. Kehitysinstanssit avaavat premium-ominaisuudet ilman lisälaskutusta eivätkä kuluta tuotantopaikkoja."
 
 #. js-lingui-id: JEtonz
 #: src/modules/settings/event-logs/components/SettingsLogs.tsx
@@ -15182,12 +15182,12 @@ msgstr "Avaa linkkinä"
 #. js-lingui-id: n0vVgf
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Claude with the Twenty connector name and MCP URL prefilled."
-msgstr "Avaa Claude siten, että Twenty-liitännän nimi ja MCP-URL on esitäytetty."
+msgstr "Avaa Claude siten, että ColabCRM-liitännän nimi ja MCP-URL on esitäytetty."
 
 #. js-lingui-id: +n2jpB
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Cursor's MCP installer with the Twenty remote server config."
-msgstr "Avaa Cursorin MCP-asennusohjelma Twenty-etäpalvelimen määrityksellä."
+msgstr "Avaa Cursorin MCP-asennusohjelma ColabCRM-etäpalvelimen määrityksellä."
 
 #. js-lingui-id: pZZH4Q
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
@@ -15250,7 +15250,7 @@ msgstr "Avaa tietueet omalle sivulleen"
 #. js-lingui-id: q170S2
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Replit with the Twenty remote server config."
-msgstr "Avaa Replit Twenty-etäpalvelimen määrityksellä."
+msgstr "Avaa Replit ColabCRM-etäpalvelimen määrityksellä."
 
 #. js-lingui-id: sBd/cl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
@@ -15607,7 +15607,7 @@ msgstr "Sivun nimi"
 #. js-lingui-id: NRvxzv
 #: src/pages/not-found/NotFound.tsx
 msgid "Page Not Found | Twenty"
-msgstr "Sivua ei löydy | Twenty"
+msgstr "Sivua ei löydy | ColabCRM"
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -19522,7 +19522,7 @@ msgstr "Alidomain"
 #. js-lingui-id: Sv4BSp
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 msgid "Subdomain (yourco.twenty.com)"
-msgstr "Aliverkkotunnus (yourco.twenty.com)"
+msgstr "Aliverkkotunnus (yourco.colaborato.rio)"
 
 #. js-lingui-id: mGO3xy
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWorkspaceCreationForm.tsx
@@ -19621,7 +19621,7 @@ msgstr "Tilaus aktivoitu."
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
 msgid "Subscription error. Please retry or contact Twenty team"
-msgstr "Tilausvirhe. Yritä uudelleen tai ota yhteyttä Twenty-tiimiin"
+msgstr "Tilausvirhe. Yritä uudelleen tai ota yhteyttä ColabCRM-tiimiin"
 
 #. js-lingui-id: FooJUj
 #. placeholder {0}: getTargetPlanLabel(targetPlanKey)
@@ -20094,11 +20094,11 @@ msgid ""
 "\n"
 "See the [Getting Started guide](https://twenty.com/developers/extend/apps/getting-started) for the full walkthrough, and [Building Apps](https://twenty.com/developers/extend/apps/building) for the `defineApplication` / `defineEntity` APIs."
 msgstr ""
-"Perustietomalli, jonka varaan jokainen Twenty-työtila rakentuu.\n"
+"Perustietomalli, jonka varaan jokainen ColabCRM-työtila rakentuu.\n"
 "\n"
 "#### Mitä \"perusta\" tarkoittaa\n"
 "\n"
-"Jokainen Twenty-työtila alkaa tästä objektijoukosta. Ne määrittelevät CRM-järjestelmäsi rakenteen, mukaan lukien suhteet, aktiivisuuden ja raportoinnin. Kaikki muu, mukaan lukien markkinapaikan sovellukset, AI-agentit ja mukautetut objektit, kytkeytyy niihin.\n"
+"Jokainen ColabCRM-työtila alkaa tästä objektijoukosta. Ne määrittelevät CRM-järjestelmäsi rakenteen, mukaan lukien suhteet, aktiivisuuden ja raportoinnin. Kaikki muu, mukaan lukien markkinapaikan sovellukset, AI-agentit ja mukautetut objektit, kytkeytyy niihin.\n"
 "\n"
 "#### Sisältyvät objektit\n"
 "- **Henkilöt & yritykset**: yhteystieto- ja tilitietueet\n"
@@ -20110,7 +20110,7 @@ msgstr ""
 "\n"
 "#### Rakenna oma sovellus\n"
 "\n"
-"Laajenna Twentyä omilla objekteilla, kentillä, logiikkafunktioilla tai AI-taidoilla. Luo uuden sovelluksen runko yhdellä komennolla:\n"
+"Laajenna ColabCRMä omilla objekteilla, kentillä, logiikkafunktioilla tai AI-taidoilla. Luo uuden sovelluksen runko yhdellä komennolla:\n"
 "\n"
 "```bash\n"
 "npx create-twenty-app@latest my-twenty-app\n"
@@ -20123,7 +20123,7 @@ msgstr ""
 "yarn twenty dev\n"
 "```\n"
 "\n"
-"Katso täydellinen läpikäynti [Aloitusoppaasta](https://twenty.com/developers/extend/apps/getting-started) ja kohdassa [Sovellusten rakentaminen](https://twenty.com/developers/extend/apps/building) kerrotaan `defineApplication` / `defineEntity` API:ista."
+"Katso täydellinen läpikäynti Aloitusoppaasta ja kohdassa Sovellusten rakentaminen kerrotaan `defineApplication` / `defineEntity` API:ista."
 
 #. js-lingui-id: VsxjzF
 #: src/modules/page-layout/widgets/call-recording/utils/getCallRecordingStatusDisplayConfiguration.ts
@@ -21263,12 +21263,12 @@ msgstr "Turkoosi"
 #. js-lingui-id: JnaRPe
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/components/ColumnGrid.tsx
 msgid "Twenty fields"
-msgstr "Twenty-kentät"
+msgstr "ColabCRM-kentät"
 
 #. js-lingui-id: pNo8xt
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "Twenty fills each level with the best model that meets your requirements"
-msgstr "Twenty täyttää jokaisen tason parhaalla vaatimuksiasi vastaavalla mallilla"
+msgstr "ColabCRM täyttää jokaisen tason parhaalla vaatimuksiasi vastaavalla mallilla"
 
 #. js-lingui-id: YIjS4q
 #: src/modules/ai/components/SettingsAgentModelCapabilities.tsx

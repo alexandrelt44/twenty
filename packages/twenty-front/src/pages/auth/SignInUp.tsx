@@ -1,3 +1,4 @@
+import { BRAND_IDENTITY } from '@/brand/constants/BrandIdentity';
 import { useSignInUp } from '@/auth/sign-in-up/hooks/useSignInUp';
 import { useSignInUpForm } from '@/auth/sign-in-up/hooks/useSignInUpForm';
 import { isCreatingWorkspaceState } from '@/auth/states/isCreatingWorkspaceState';
@@ -38,6 +39,8 @@ import { useSearchParams } from 'react-router-dom';
 import { isDefined } from 'twenty-shared/utils';
 import { Loader } from 'twenty-ui/primitives/feedback';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
+
+const brandName = BRAND_IDENTITY.name;
 
 const StyledLoaderContainer = styled.div`
   align-items: center;
@@ -117,7 +120,7 @@ export const SignInUp = () => {
     }
 
     if (isGlobalScope) {
-      return t`Welcome to colaborato.rio`;
+      return t`Welcome to ${brandName}`;
     }
 
     const workspaceName = workspacePublicData?.displayName;

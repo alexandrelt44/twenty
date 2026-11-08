@@ -1682,37 +1682,37 @@ msgstr ""
 #. js-lingui-id: FKGcEL
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server as a remote context server in Zed."
-msgstr "Dodaj serwer MCP Twenty jako zdalny serwer kontekstu w Zed."
+msgstr "Dodaj serwer MCP ColabCRM jako zdalny serwer kontekstu w Zed."
 
 #. js-lingui-id: iA2nHX
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server from Augment Code settings."
-msgstr "Dodaj serwer MCP Twenty w ustawieniach Augment Code."
+msgstr "Dodaj serwer MCP ColabCRM w ustawieniach Augment Code."
 
 #. js-lingui-id: l+NzAk
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server from Raycast's MCP commands or settings."
-msgstr "Dodaj serwer MCP Twenty z poziomu poleceń MCP lub ustawień Raycast."
+msgstr "Dodaj serwer MCP ColabCRM z poziomu poleceń MCP lub ustawień Raycast."
 
 #. js-lingui-id: j6G/yI
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server in Gemini CLI settings."
-msgstr "Dodaj serwer MCP Twenty w ustawieniach Gemini CLI."
+msgstr "Dodaj serwer MCP ColabCRM w ustawieniach Gemini CLI."
 
 #. js-lingui-id: /OyhlM
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server to your LibreChat configuration file."
-msgstr "Dodaj serwer MCP Twenty do swojego pliku konfiguracyjnego LibreChat."
+msgstr "Dodaj serwer MCP ColabCRM do swojego pliku konfiguracyjnego LibreChat."
 
 #. js-lingui-id: K0DXoj
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty remote server with LM Studio's install link."
-msgstr "Dodaj zdalny serwer Twenty za pomocą linku instalacyjnego LM Studio."
+msgstr "Dodaj zdalny serwer ColabCRM za pomocą linku instalacyjnego LM Studio."
 
 #. js-lingui-id: BTFMKE
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 msgid "Add these records at your DNS provider. Twenty checks them automatically."
-msgstr "Dodaj te rekordy u swojego dostawcy DNS. Twenty automatycznie je sprawdzi."
+msgstr "Dodaj te rekordy u swojego dostawcy DNS. ColabCRM automatycznie je sprawdzi."
 
 #. js-lingui-id: 5+ttxv
 #: src/modules/settings/accounts/components/SettingsAccountsBlocklistInput.tsx
@@ -1732,7 +1732,7 @@ msgstr "Dodaj temat"
 #. js-lingui-id: 4D/zWv
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add Twenty as a Streamable HTTP extension in Goose."
-msgstr "Dodaj Twenty jako rozszerzenie Streamable HTTP w Goose."
+msgstr "Dodaj ColabCRM jako rozszerzenie Streamable HTTP w Goose."
 
 #. js-lingui-id: XnwceV
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationRedirectURIsInput.tsx
@@ -3318,7 +3318,7 @@ msgstr "Automatycznie instaluj tę aplikację w każdej nowo utworzonej przestrz
 #. js-lingui-id: MHsVk5
 #: src/pages/settings/ai/components/SettingsAiModelTiersPreview.tsx
 msgid "Automatically selected by Twenty for this mode."
-msgstr "Automatycznie wybrane przez Twenty dla tego trybu."
+msgstr "Automatycznie wybrane przez ColabCRM dla tego trybu."
 
 #. js-lingui-id: XFGV21
 #: src/pages/settings/applications/tabs/SettingsApplicationGeneralSection.tsx
@@ -3522,7 +3522,7 @@ msgstr "Okres rozliczeniowy"
 #. js-lingui-id: xF/NXI
 #: src/modules/settings/billing/hooks/useBillingPortalSession.ts
 msgid "Billing portal session error. Please retry or contact Twenty team"
-msgstr "Błąd sesji portalu rozliczeń. Spróbuj ponownie lub skontaktuj się z zespołem Twenty"
+msgstr "Błąd sesji portalu rozliczeń. Spróbuj ponownie lub skontaktuj się z zespołem ColabCRM"
 
 #. js-lingui-id: 8kIU+G
 #: src/modules/advanced-text-editor/constants/AdvancedTextEditorBlockCatalog.ts
@@ -3715,7 +3715,7 @@ msgstr "autor: {author}"
 #. js-lingui-id: 8Pfllj
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
 msgid "By using Twenty, you agree to the"
-msgstr "Używając Twenty, zgadzasz się na"
+msgstr "Używając ColabCRM, zgadzasz się na"
 
 #. js-lingui-id: Yx41df
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
@@ -4259,7 +4259,7 @@ msgstr "Sprawdź skrzynkę odbiorczą, aby zweryfikować nowy adres e-mail."
 #: src/modules/settings/billing/hooks/useHandleCheckoutSession.ts
 #: src/modules/settings/billing/hooks/useHandleCheckoutSession.ts
 msgid "Checkout session error. Please retry or contact Twenty team"
-msgstr "Błąd sesji przy realizacji zakupu. Spróbuj ponownie lub skontaktuj się z zespołem Twenty"
+msgstr "Błąd sesji przy realizacji zakupu. Spróbuj ponownie lub skontaktuj się z zespołem ColabCRM"
 
 #. js-lingui-id: SviKkE
 #: src/localization/hooks/useLocaleOptions.ts
@@ -4953,12 +4953,12 @@ msgstr "Skonfiguruj zdalny serwer w ustawieniach MCP Amazon Q Developer."
 #. js-lingui-id: g1/8jH
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Configure the Twenty MCP server manually in Cascade."
-msgstr "Skonfiguruj ręcznie serwer MCP Twenty w Cascade."
+msgstr "Skonfiguruj ręcznie serwer MCP ColabCRM w Cascade."
 
 #. js-lingui-id: XiyvRh
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Configure the Twenty MCP server manually in Cline."
-msgstr "Skonfiguruj ręcznie serwer MCP Twenty w Cline."
+msgstr "Skonfiguruj ręcznie serwer MCP ColabCRM w Cline."
 
 #. js-lingui-id: qA9AGQ
 #: src/modules/settings/domains/components/SettingsDomainRecords.tsx
@@ -8570,7 +8570,7 @@ msgstr "Błąd podczas anulowania przełączania planu."
 #. js-lingui-id: QmR+2U
 #: src/modules/settings/billing/hooks/useEndSubscriptionTrialPeriod.ts
 msgid "Error while ending trial period. Please contact Twenty team."
-msgstr "Błąd podczas kończenia okresu próbnego. Proszę skontaktować się z zespołem Twenty."
+msgstr "Błąd podczas kończenia okresu próbnego. Proszę skontaktować się z zespołem ColabCRM."
 
 #. js-lingui-id: 5g78zo
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
@@ -10509,7 +10509,7 @@ msgstr "Wysoki"
 #. js-lingui-id: 1ETc0T
 #: src/pages/settings/community/SettingsCommunity.tsx
 msgid "Hire a partner to help you implement and customize Twenty."
-msgstr "Zatrudnij partnera, który pomoże Ci wdrożyć i dostosować Twenty."
+msgstr "Zatrudnij partnera, który pomoże Ci wdrożyć i dostosować ColabCRM."
 
 #. js-lingui-id: i0qMbr
 #: src/modules/navigation/hooks/useMobileNavigationBarItems.ts
@@ -10577,7 +10577,7 @@ msgstr ""
 "npx create-twenty-app@latest my-twenty-app\n"
 "```\n"
 "\n"
-"Zobacz [przewodnik „Pierwsze kroki”](https://twenty.com/developers/extend/apps/getting-started) z pełnym omówieniem oraz [Budowanie aplikacji](https://twenty.com/developers/extend/apps/building) dla interfejsów API `defineApplication` / `defineEntity`."
+"Zobacz przewodnik „Pierwsze kroki” z pełnym omówieniem oraz Budowanie aplikacji dla interfejsów API `defineApplication` / `defineEntity`."
 
 #. js-lingui-id: yY8wAv
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -13081,7 +13081,7 @@ msgstr "Informacje o modelu"
 #. js-lingui-id: iaurWj
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "Model used when you chat with Twenty"
-msgstr "Model używany podczas czatu z Twenty"
+msgstr "Model używany podczas czatu z ColabCRM"
 
 #. js-lingui-id: //nm2/
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
@@ -15086,7 +15086,7 @@ msgstr "Jeden lub więcej filtrów odwołuje się do dezaktywowanych lub usunię
 #. js-lingui-id: 1WZTTl
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "One subscription provides one Organization key that powers one production instance and one potential staging or test instance. To run a staging or test environment, install Twenty on a second server, activate it with this same Organization key, then register that server as a development instance. Development instances unlock premium features without extra billing and do not count toward your production seats."
-msgstr "Jedna subskrypcja zapewnia jeden klucz Organizacji, który obsługuje jedną instancję produkcyjną oraz jedną potencjalną instancję stagingową lub testową. Aby uruchomić środowisko stagingowe lub testowe, zainstaluj Twenty na drugim serwerze, aktywuj go tym samym kluczem Organizacji, a następnie zarejestruj ten serwer jako instancję deweloperską. Instancje deweloperskie odblokowują funkcje premium bez dodatkowego rozliczania i nie są wliczane do twoich miejsc produkcyjnych."
+msgstr "Jedna subskrypcja zapewnia jeden klucz Organizacji, który obsługuje jedną instancję produkcyjną oraz jedną potencjalną instancję stagingową lub testową. Aby uruchomić środowisko stagingowe lub testowe, zainstaluj ColabCRM na drugim serwerze, aktywuj go tym samym kluczem Organizacji, a następnie zarejestruj ten serwer jako instancję deweloperską. Instancje deweloperskie odblokowują funkcje premium bez dodatkowego rozliczania i nie są wliczane do twoich miejsc produkcyjnych."
 
 #. js-lingui-id: JEtonz
 #: src/modules/settings/event-logs/components/SettingsLogs.tsx
@@ -15182,12 +15182,12 @@ msgstr "Otwórz jako link"
 #. js-lingui-id: n0vVgf
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Claude with the Twenty connector name and MCP URL prefilled."
-msgstr "Otwórz Claude z wypełnioną nazwą konektora Twenty i adresem URL MCP."
+msgstr "Otwórz Claude z wypełnioną nazwą konektora ColabCRM i adresem URL MCP."
 
 #. js-lingui-id: +n2jpB
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Cursor's MCP installer with the Twenty remote server config."
-msgstr "Otwórz instalator MCP Cursor z wypełnioną konfiguracją zdalnego serwera Twenty."
+msgstr "Otwórz instalator MCP Cursor z wypełnioną konfiguracją zdalnego serwera ColabCRM."
 
 #. js-lingui-id: pZZH4Q
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
@@ -15250,12 +15250,12 @@ msgstr "Otwieraj rekordy na dedykowanej stronie"
 #. js-lingui-id: q170S2
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Replit with the Twenty remote server config."
-msgstr "Otwórz Replit z wypełnioną konfiguracją zdalnego serwera Twenty."
+msgstr "Otwórz Replit z wypełnioną konfiguracją zdalnego serwera ColabCRM."
 
 #. js-lingui-id: sBd/cl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Twenty's official ChatGPT integration for your workspace."
-msgstr "Otwórz oficjalną integrację ChatGPT Twenty dla swojej przestrzeni roboczej."
+msgstr "Otwórz oficjalną integrację ChatGPT ColabCRM dla swojej przestrzeni roboczej."
 
 #. js-lingui-id: OV5wZZ
 #: src/modules/navigation-menu-item/display/sections/components/NavigationDrawerOpenedSection.tsx
@@ -15607,7 +15607,7 @@ msgstr "Nazwa strony"
 #. js-lingui-id: NRvxzv
 #: src/pages/not-found/NotFound.tsx
 msgid "Page Not Found | Twenty"
-msgstr "Nie znaleziono strony | Twenty"
+msgstr "Nie znaleziono strony | ColabCRM"
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -19522,7 +19522,7 @@ msgstr "Subdomena"
 #. js-lingui-id: Sv4BSp
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 msgid "Subdomain (yourco.twenty.com)"
-msgstr "Subdomena (yourco.twenty.com)"
+msgstr "Subdomena (yourco.colaborato.rio)"
 
 #. js-lingui-id: mGO3xy
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWorkspaceCreationForm.tsx
@@ -19621,7 +19621,7 @@ msgstr "Subskrypcja aktywowana."
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
 msgid "Subscription error. Please retry or contact Twenty team"
-msgstr "Błąd subskrypcji. Spróbuj ponownie lub skontaktuj się z zespołem Twenty"
+msgstr "Błąd subskrypcji. Spróbuj ponownie lub skontaktuj się z zespołem ColabCRM"
 
 #. js-lingui-id: FooJUj
 #. placeholder {0}: getTargetPlanLabel(targetPlanKey)
@@ -20094,11 +20094,11 @@ msgid ""
 "\n"
 "See the [Getting Started guide](https://twenty.com/developers/extend/apps/getting-started) for the full walkthrough, and [Building Apps](https://twenty.com/developers/extend/apps/building) for the `defineApplication` / `defineEntity` APIs."
 msgstr ""
-"Podstawowy model danych, na którym działa każdy obszar roboczy Twenty.\n"
+"Podstawowy model danych, na którym działa każdy obszar roboczy ColabCRM.\n"
 "\n"
 "#### Co oznacza „fundament”\n"
 "\n"
-"Każdy obszar roboczy Twenty zaczyna się od tego zestawu obiektów. Określają one kształt Twojego CRM, w tym relacje, aktywność i raportowanie. Wszystko pozostałe, w tym aplikacje z marketplace'u, agenty AI i obiekty niestandardowe, podłącza się do nich.\n"
+"Każdy obszar roboczy ColabCRM zaczyna się od tego zestawu obiektów. Określają one kształt Twojego CRM, w tym relacje, aktywność i raportowanie. Wszystko pozostałe, w tym aplikacje z marketplace'u, agenty AI i obiekty niestandardowe, podłącza się do nich.\n"
 "\n"
 "#### Zawarte obiekty\n"
 "- **Osoby i firmy**: rekordy kontaktów i kont\n"
@@ -20106,11 +20106,11 @@ msgstr ""
 "- **Notatki i zadania**: aktywność i działania następcze\n"
 "- **Przepływy pracy i pulpity**: automatyzacja i raportowanie\n"
 "\n"
-"Usuń tę aplikację, a reszta Twenty nie będzie miała się do czego podpiąć.\n"
+"Usuń tę aplikację, a reszta ColabCRM nie będzie miała się do czego podpiąć.\n"
 "\n"
 "#### Zbuduj własną aplikację\n"
 "\n"
-"Rozszerz Twenty o własne obiekty, pola, funkcje logiki lub umiejętności AI. Utwórz szkielet nowej aplikacji jednym poleceniem:\n"
+"Rozszerz ColabCRM o własne obiekty, pola, funkcje logiki lub umiejętności AI. Utwórz szkielet nowej aplikacji jednym poleceniem:\n"
 "\n"
 "```bash\n"
 "npx create-twenty-app@latest my-twenty-app\n"
@@ -20123,7 +20123,7 @@ msgstr ""
 "yarn twenty dev\n"
 "```\n"
 "\n"
-"Zobacz [przewodnik „Pierwsze kroki”](https://twenty.com/developers/extend/apps/getting-started) z pełnym omówieniem oraz [Budowanie aplikacji](https://twenty.com/developers/extend/apps/building) dla interfejsów API `defineApplication` / `defineEntity`."
+"Zobacz przewodnik „Pierwsze kroki” z pełnym omówieniem oraz Budowanie aplikacji dla interfejsów API `defineApplication` / `defineEntity`."
 
 #. js-lingui-id: VsxjzF
 #: src/modules/page-layout/widgets/call-recording/utils/getCallRecordingStatusDisplayConfiguration.ts
@@ -21263,12 +21263,12 @@ msgstr "Turkusowy"
 #. js-lingui-id: JnaRPe
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/components/ColumnGrid.tsx
 msgid "Twenty fields"
-msgstr "Pola Twenty"
+msgstr "Pola ColabCRM"
 
 #. js-lingui-id: pNo8xt
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "Twenty fills each level with the best model that meets your requirements"
-msgstr "Twenty wypełnia każdy poziom najlepszym modelem spełniającym Twoje wymagania"
+msgstr "ColabCRM wypełnia każdy poziom najlepszym modelem spełniającym Twoje wymagania"
 
 #. js-lingui-id: YIjS4q
 #: src/modules/ai/components/SettingsAgentModelCapabilities.tsx
@@ -22959,7 +22959,7 @@ msgstr ""
 #. js-lingui-id: nTuObL
 #: src/pages/auth/SignInUp.tsx
 msgid "Welcome to Twenty"
-msgstr "Witaj w Twenty"
+msgstr "Witaj w ColabCRM"
 
 #. js-lingui-id: t8ZvkC
 #: src/modules/onboarding/constants/WelcomeTitleMessage.ts

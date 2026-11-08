@@ -1,3 +1,4 @@
+import { BRAND_IDENTITY } from '@/brand/constants/BrandIdentity';
 import { NavigationButton } from '@/ui/input/components/NavigationButton';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { lazy, Suspense } from 'react';
@@ -43,10 +44,11 @@ const StyledButtonContainer = styled.div`
 
 export const NotFound = () => {
   const { t } = useLingui();
+  const brandName = BRAND_IDENTITY.name;
 
   return (
     <>
-      <PageTitle title={t`Page Not Found | colaborato.rio`} />
+      <PageTitle title={t`Page Not Found | ${brandName}`} />
       <StyledBackDrop>
         <AnimatedPlaceholderErrorContainer>
           <AnimatedPlaceholder type="error404" />

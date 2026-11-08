@@ -6,7 +6,11 @@ import crypto from 'crypto';
 import { msg } from '@lingui/core/macro';
 import { addMilliseconds } from 'date-fns';
 import ms from 'ms';
-import { SendInviteLinkEmail, renderEmail } from 'twenty-emails';
+import {
+  BRAND_EMAIL_IDENTITY,
+  SendInviteLinkEmail,
+  renderEmail,
+} from 'twenty-emails';
 import { AppPath, FileFolder } from 'twenty-shared/types';
 import { getAppPath, isDefined } from 'twenty-shared/utils';
 import {
@@ -408,7 +412,7 @@ export class WorkspaceInvitationService {
         const subject = i18n._(joinTeamMsg);
 
         await this.emailService.send({
-          from: `${sender.name.firstName} ${sender.name.lastName} (via Twenty) <${this.twentyConfigService.get('EMAIL_FROM_ADDRESS')}>`,
+          from: `${sender.name.firstName} ${sender.name.lastName} (via ${BRAND_EMAIL_IDENTITY.name}) <${this.twentyConfigService.get('EMAIL_FROM_ADDRESS')}>`,
           to: invitation.value.email,
           subject,
           text,

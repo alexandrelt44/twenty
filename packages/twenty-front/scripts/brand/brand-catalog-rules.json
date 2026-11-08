@@ -1,0 +1,46 @@
+{
+  "productName": "ColabCRM",
+  "exampleDomain": "colaborato.rio",
+  "exceptions": {
+    "Built on Twenty (open source)": "AGPL section 13 source offer, keeps naming the upstream project",
+    "The PDF is pre-signed by Twenty and executed with your legal entity and authorized signatory.": "Describes a contract signed by Twenty.com PBC; the screen is blocked in the fork, and renaming it would misstate who signs"
+  },
+  "translations": {
+    "Welcome to {brandName}": {
+      "pt-BR": "Bem-vindo ao {brandName}",
+      "pt-PT": "Bem-vindo ao {brandName}"
+    },
+    "Page Not Found | {brandName}": {
+      "pt-BR": "Página não encontrada | {brandName}",
+      "pt-PT": "Página não encontrada | {brandName}"
+    },
+    "Join your team on {brandName}": {
+      "pt-BR": "Junte-se à sua equipe no {brandName}",
+      "pt-PT": "Junte-se à sua equipa no {brandName}"
+    },
+    "What is {brandName}?": {
+      "pt-BR": "O que é o {brandName}?",
+      "pt-PT": "O que é o {brandName}?"
+    },
+    "It's the {brandName} CRM, where your team manages customers, deals and the AI agents that work with them.": {
+      "pt-BR": "É o {brandName}, o CRM onde sua equipe gerencia clientes, negócios e os agentes de IA que trabalham com eles.",
+      "pt-PT": "É o {brandName}, o CRM onde a sua equipa gere clientes, negócios e os agentes de IA que trabalham com eles."
+    },
+    "Connect to {brandName}": {
+      "pt-BR": "Conecte-se ao {brandName}",
+      "pt-PT": "Ligue-se ao {brandName}"
+    },
+    "If you'd ever like to give {brandName} another try, you can start a fresh workspace in minutes — we'd love to have you back.": {
+      "pt-BR": "Se um dia você quiser dar outra chance ao {brandName}, poderá iniciar um novo workspace em poucos minutos — ficaríamos felizes em ter você de volta.",
+      "pt-PT": "Se um dia quiser dar outra oportunidade ao {brandName}, poderá iniciar um novo workspace em poucos minutos — teremos todo o gosto em tê-lo de volta."
+    },
+    "We received a request to change the email address associated with your {brandName} account. Click below to confirm this change.": {
+      "pt-BR": "Recebemos um pedido para alterar o e-mail associado à sua conta no {brandName}. Clique abaixo para confirmar a alteração.",
+      "pt-PT": "Recebemos um pedido para alterar o e-mail associado à sua conta no {brandName}. Clique abaixo para confirmar a alteração."
+    },
+    "Thanks for registering for an account on {brandName}! Before we get started, we just need to confirm that this is you. Click below to verify your email address.": {
+      "pt-BR": "Obrigado por criar uma conta no {brandName}! Antes de começar, precisamos confirmar que é você. Clique abaixo para verificar seu e-mail.",
+      "pt-PT": "Obrigado por criar uma conta no {brandName}! Antes de começar, precisamos de confirmar que é você. Clique abaixo para verificar o seu e-mail."
+    }
+  }
+}

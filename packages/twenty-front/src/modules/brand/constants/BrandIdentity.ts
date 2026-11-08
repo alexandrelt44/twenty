@@ -1,5 +1,6 @@
 export const BRAND_IDENTITY = {
-  name: 'colaborato.rio',
+  name: 'ColabCRM',
   websiteUrl: 'https://colaborato.rio',
+  privacyPolicyUrl: 'https://colaborato.rio/privacidade',
   sourceCodeUrl: 'https://github.com/alexandrelt44/twenty',
 };

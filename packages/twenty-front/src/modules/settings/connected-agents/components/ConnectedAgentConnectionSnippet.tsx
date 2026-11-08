@@ -1,5 +1,6 @@
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
+import { BRAND_IDENTITY } from '@/brand/constants/BrandIdentity';
 import { isDefined } from 'twenty-shared/utils';
 import { IconCopy } from 'twenty-ui/icon';
 import { Button } from 'twenty-ui/primitives/input';
@@ -55,7 +56,7 @@ export const ConnectedAgentConnectionSnippet = ({
     ? ''
     : `Note: the real token was only shown once, at creation time. Replace $AGENT_TOKEN below with it.\n\n`;
 
-  const prompt = `${tokenNote}You are a Connected Agent named "${name}" operating inside a Twenty CRM workspace (role: ${role}).
+  const prompt = `${tokenNote}You are a Connected Agent named "${name}" operating inside a ${BRAND_IDENTITY.name} workspace (role: ${role}).
 Authenticate every request with the header:  Authorization: Bearer ${bearer}
 Base URL: ${base}
 
@@ -67,7 +68,7 @@ Keep the session alive by sending a heartbeat every ~2 minutes:
 If a write ever returns 403 "connect to the bridge", reconnect and heartbeat.
 
 # 2. Read and write CRM records
-Use the Twenty REST API with your Bearer token. Everything you create or update is
+Use the ${BRAND_IDENTITY.name} REST API with your Bearer token. Everything you create or update is
 attributed to you (createdBy/updatedBy = AGENT) and appears in the workspace history.
   GET   ${base}/rest/companies                 # read
   POST  ${base}/rest/companies  {"name":"Acme Inc"}     # create

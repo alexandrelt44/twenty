@@ -198,7 +198,7 @@ msgstr "Özenle seçilmiş bir kişi kitlesi"
 #. js-lingui-id: TF/ZV2
 #: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
 msgid "A heads up before your Twenty trial ends"
-msgstr "Twenty denemeniz bitmeden önce bir bilgilendirme"
+msgstr "ColabCRM denemeniz bitmeden önce bir bilgilendirme"
 
 #. js-lingui-id: 6yZjO1
 #: src/engine/core-modules/application/application.exception.ts
@@ -5895,7 +5895,7 @@ msgstr "Mesaj kanalı mesaj ilişkilendirmelerini mesaj klasörlerine bağlayan 
 #. js-lingui-id: PviVyk
 #: src/engine/core-modules/workspace-invitation/services/workspace-invitation.service.ts
 msgid "Join your team on Twenty"
-msgstr "Ekibinize Twenty'de katılın"
+msgstr "Ekibinize ColabCRM'de katılın"
 
 #. js-lingui-id: +KEn4d
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-call-recording-standard-flat-field-metadata.util.ts
@@ -8287,7 +8287,7 @@ msgstr ""
 #. js-lingui-id: Zm9s4F
 #: src/engine/api/common/common-args-processors/data-arg-processor/validator-utils/validate-links-field-or-throw.util.ts
 msgid "Please enter a domain name, like twenty.com"
-msgstr "Lütfen twenty.com gibi bir alan adı girin"
+msgstr "Lütfen colaborato.rio gibi bir alan adı girin"
 
 #. js-lingui-id: qgasuj
 #: src/engine/core-modules/imap-smtp-caldav-connection/services/imap-smtp-caldav-connection-validator.service.ts
@@ -9942,7 +9942,7 @@ msgstr "Sistem alanları güncellenemez"
 #. js-lingui-id: aK2k19
 #: src/engine/metadata-modules/index-metadata/services/index-metadata.service.ts
 msgid "System indexes are required for Twenty to work and cannot be deleted."
-msgstr "Twenty'nin çalışması için sistem indeksleri gereklidir ve silinemez."
+msgstr "ColabCRM'nin çalışması için sistem indeksleri gereklidir ve silinemez."
 
 #. js-lingui-id: /ojawH
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-object-metadata-validator.service.ts
@@ -10829,7 +10829,7 @@ msgstr "Bu API anahtarına herhangi bir rol atanmadı."
 #: src/engine/core-modules/application/application-registration/application-registration.exception.ts
 #: src/engine/core-modules/application/application.exception.ts
 msgid "This app requires a newer version of the Twenty server. Please upgrade your server or use a compatible app version."
-msgstr "Bu uygulama Twenty sunucusunun daha yeni bir sürümünü gerektirir. Lütfen sunucunuzu yükseltin ya da uyumlu bir uygulama sürümü kullanın."
+msgstr "Bu uygulama ColabCRM sunucusunun daha yeni bir sürümünü gerektirir. Lütfen sunucunuzu yükseltin ya da uyumlu bir uygulama sürümü kullanın."
 
 #. js-lingui-id: y2nks/
 #: src/engine/core-modules/application/application.exception.ts
@@ -12500,7 +12500,7 @@ msgstr "Çarşamba"
 #. js-lingui-id: TVkCrJ
 #: src/engine/core-modules/email-verification/services/email-verification.service.ts
 msgid "Welcome to Twenty: Please Confirm Your Email"
-msgstr "Twenty'e Hoş Geldiniz: Lütfen E-postanızı Onaylayın"
+msgstr "ColabCRM'e Hoş Geldiniz: Lütfen E-postanızı Onaylayın"
 
 #. js-lingui-id: lKboI8
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-record-share-standard-flat-field-metadata.util.ts
@@ -13468,12 +13468,12 @@ msgstr "Şirket hesabını yönetmekten sorumlu ekip üyeniz"
 #. js-lingui-id: sOfbGC
 #: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
 msgid "Your Twenty plan renews soon"
-msgstr "Twenty planınız yakında yenilenecek"
+msgstr "ColabCRM planınız yakında yenilenecek"
 
 #. js-lingui-id: qW+K5e
 #: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
 msgid "Your Twenty trial is ending soon"
-msgstr "Twenty denemeniz yakında sona eriyor"
+msgstr "ColabCRM denemeniz yakında sona eriyor"
 
 #. js-lingui-id: ej/tZF
 #: src/engine/core-modules/graphql/hooks/use-graphql-error-handler.hook.ts

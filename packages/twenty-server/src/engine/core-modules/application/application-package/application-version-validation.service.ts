@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 import semver from 'semver';
+import { BRAND_EMAIL_IDENTITY } from 'twenty-emails';
+
 import { UpgradeStatusService } from 'src/engine/core-modules/upgrade/services/upgrade-status.service';
 import { isDefined } from 'twenty-shared/utils';
 
@@ -180,12 +182,12 @@ export class ApplicationVersionValidationService {
         ? {
             compatible: false,
             reason: 'WORKSPACE_INCOMPATIBLE',
-            message: `App requires Twenty server ${requiredVersionRange} but this workspace has only completed the upgrade to ${version}.`,
+            message: `App requires ${BRAND_EMAIL_IDENTITY.name} server ${requiredVersionRange} but this workspace has only completed the upgrade to ${version}.`,
           }
         : {
             compatible: false,
             reason: 'INSTANCE_INCOMPATIBLE',
-            message: `App requires Twenty server ${requiredVersionRange} but this server is ${version}.`,
+            message: `App requires ${BRAND_EMAIL_IDENTITY.name} server ${requiredVersionRange} but this server is ${version}.`,
           };
     }
 

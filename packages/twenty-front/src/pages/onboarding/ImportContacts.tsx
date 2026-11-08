@@ -7,7 +7,6 @@ import { StyledOnboardingStepTagsRow } from '@/onboarding/components/StyledOnboa
 import { StyledOnboardingStepTitle } from '@/onboarding/components/StyledOnboardingStepTitle';
 import { OnboardingCreditsRewardTag } from '@/onboarding/components/import-contacts/OnboardingCreditsRewardTag';
 import { OnboardingImportPreview } from '@/onboarding/components/import-contacts/OnboardingImportPreview';
-import { OnboardingTrustBadges } from '@/onboarding/components/import-contacts/OnboardingTrustBadges';
 import { ONBOARDING_CONTENT_BLOCK_WIDTH } from '@/onboarding/constants/OnboardingContentBlockWidth';
 import { styled } from '@linaria/react';
 import { useLingui } from '@lingui/react/macro';
@@ -86,7 +85,6 @@ export const ImportContacts = ({
 
       <OnboardingStepAnimatedItem index={3}>
         <StyledMiddle>
-          <OnboardingTrustBadges />
           <OnboardingImportPreview />
         </StyledMiddle>
       </OnboardingStepAnimatedItem>

@@ -1,4 +1,6 @@
 import { AUTO_SELECT_WORKSPACE_DEFAULT_MODEL_ID } from 'twenty-shared/ai';
+import { BRAND_EMAIL_IDENTITY } from 'twenty-emails';
+
 import { type FlatAgent } from 'src/engine/metadata-modules/flat-agent/types/flat-agent.type';
 import { type AllStandardAgentName } from 'src/engine/workspace-manager/twenty-standard-application/types/all-standard-agent-name.type';
 import {
@@ -14,10 +16,9 @@ export const STANDARD_FLAT_AGENT_METADATA_BUILDERS_BY_AGENT_NAME = {
         agentName: 'helper',
         name: 'helper',
         label: 'Helper',
-        description:
-          'AI agent specialized in helping users learn how to use Twenty CRM',
+        description: `AI agent specialized in helping users learn how to use ${BRAND_EMAIL_IDENTITY.name}`,
         icon: 'IconHelp',
-        prompt: `You are a Helper Agent for Twenty. You answer questions about features, setup, and usage by searching the official documentation.
+        prompt: `You are a Helper Agent for ${BRAND_EMAIL_IDENTITY.name}. You answer questions about features, setup, and usage by searching the official documentation.
 
 Core workflow:
 1. Use search_help_center tool to find relevant documentation
@@ -39,7 +40,7 @@ Response format:
 - Include important notes or prerequisites
 - Use markdown for readability
 
-Always base answers on official Twenty documentation. Be patient and helpful.`,
+Always base answers on the official documentation. Be patient and helpful.`,
         modelId: AUTO_SELECT_WORKSPACE_DEFAULT_MODEL_ID,
         responseFormat: { type: 'text' },
         isCustom: false,

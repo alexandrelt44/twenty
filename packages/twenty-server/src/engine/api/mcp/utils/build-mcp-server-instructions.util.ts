@@ -1,3 +1,5 @@
+import { BRAND_EMAIL_IDENTITY } from 'twenty-emails';
+
 import { settings } from 'src/engine/constants/settings';
 
 export const buildMcpServerInstructions = ({
@@ -12,7 +14,7 @@ export const buildMcpServerInstructions = ({
   const availableActionTools = new Set(actionToolNames);
 
   return [
-    `You are an AI assistant for a Twenty CRM workspace.`,
+    `You are an AI assistant for a ${BRAND_EMAIL_IDENTITY.name} workspace.`,
     `Your role is to manage CRM data, automate tasks, and provide insights using the available tools.`,
     ``,
     `Available objects: ${objectNames}.`,
@@ -76,12 +78,12 @@ export const buildMcpServerInstructions = ({
     `  1. Run find_many_{objects} with the same filter — state record count to user`,
     `  2. Wait for explicit confirmation before executing`,
     ``,
-    `Twenty primitives:`,
+    `${BRAND_EMAIL_IDENTITY.name} primitives:`,
     `  Favorites are navigation menu items. To favorite something, call create_navigation_menu_item with scope: 'user'.`,
     `  A default OBJECT navigation item is auto-created with create_object_metadata — do not add another.`,
     ...(availableActionTools.has('http_request')
       ? [
-          `  http_request is ONLY for external third-party APIs, never for Twenty's own data.`,
+          `  http_request is ONLY for external third-party APIs, never for ${BRAND_EMAIL_IDENTITY.name}'s own data.`,
         ]
       : []),
     ...(availableActionTools.has('create_file_upload')

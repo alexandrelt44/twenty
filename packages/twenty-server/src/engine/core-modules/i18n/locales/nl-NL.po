@@ -198,7 +198,7 @@ msgstr "Een zorgvuldig geselecteerde doelgroep van mensen"
 #. js-lingui-id: TF/ZV2
 #: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
 msgid "A heads up before your Twenty trial ends"
-msgstr "Een seintje voordat je Twenty-proefperiode eindigt"
+msgstr "Een seintje voordat je ColabCRM-proefperiode eindigt"
 
 #. js-lingui-id: 6yZjO1
 #: src/engine/core-modules/application/application.exception.ts
@@ -5895,7 +5895,7 @@ msgstr "Koppeltabel die berichtkanaal-berichtassociaties koppelt aan berichtenma
 #. js-lingui-id: PviVyk
 #: src/engine/core-modules/workspace-invitation/services/workspace-invitation.service.ts
 msgid "Join your team on Twenty"
-msgstr "Sluit je aan bij je team op Twenty"
+msgstr "Sluit je aan bij je team op ColabCRM"
 
 #. js-lingui-id: +KEn4d
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-call-recording-standard-flat-field-metadata.util.ts
@@ -8287,7 +8287,7 @@ msgstr ""
 #. js-lingui-id: Zm9s4F
 #: src/engine/api/common/common-args-processors/data-arg-processor/validator-utils/validate-links-field-or-throw.util.ts
 msgid "Please enter a domain name, like twenty.com"
-msgstr "Voer een domeinnaam in, zoals twenty.com"
+msgstr "Voer een domeinnaam in, zoals colaborato.rio"
 
 #. js-lingui-id: qgasuj
 #: src/engine/core-modules/imap-smtp-caldav-connection/services/imap-smtp-caldav-connection-validator.service.ts
@@ -9942,7 +9942,7 @@ msgstr "Systeemvelden kunnen niet worden bijgewerkt"
 #. js-lingui-id: aK2k19
 #: src/engine/metadata-modules/index-metadata/services/index-metadata.service.ts
 msgid "System indexes are required for Twenty to work and cannot be deleted."
-msgstr "Systeemindexen zijn vereist voor Twenty om te werken en kunnen niet worden verwijderd."
+msgstr "Systeemindexen zijn vereist voor ColabCRM om te werken en kunnen niet worden verwijderd."
 
 #. js-lingui-id: /ojawH
 #: src/engine/workspace-manager/workspace-migration/workspace-migration-builder/validators/services/flat-object-metadata-validator.service.ts
@@ -10829,7 +10829,7 @@ msgstr "Aan deze API-sleutel is geen rol toegewezen."
 #: src/engine/core-modules/application/application-registration/application-registration.exception.ts
 #: src/engine/core-modules/application/application.exception.ts
 msgid "This app requires a newer version of the Twenty server. Please upgrade your server or use a compatible app version."
-msgstr "Deze app vereist een nieuwere versie van de Twenty-server. Werk uw server bij of gebruik een compatibele app-versie."
+msgstr "Deze app vereist een nieuwere versie van de ColabCRM-server. Werk uw server bij of gebruik een compatibele app-versie."
 
 #. js-lingui-id: y2nks/
 #: src/engine/core-modules/application/application.exception.ts
@@ -12500,7 +12500,7 @@ msgstr "Woensdag"
 #. js-lingui-id: TVkCrJ
 #: src/engine/core-modules/email-verification/services/email-verification.service.ts
 msgid "Welcome to Twenty: Please Confirm Your Email"
-msgstr "Welkom bij Twenty: Bevestig alstublieft uw e-mail"
+msgstr "Welkom bij ColabCRM: Bevestig alstublieft uw e-mail"
 
 #. js-lingui-id: lKboI8
 #: src/engine/workspace-manager/twenty-standard-application/utils/field-metadata/compute-record-share-standard-flat-field-metadata.util.ts
@@ -13468,12 +13468,12 @@ msgstr "Uw teamlid verantwoordelijk voor het beheer van het bedrijfsaccount"
 #. js-lingui-id: sOfbGC
 #: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
 msgid "Your Twenty plan renews soon"
-msgstr "Je Twenty-abonnement wordt binnenkort verlengd"
+msgstr "Je ColabCRM-abonnement wordt binnenkort verlengd"
 
 #. js-lingui-id: qW+K5e
 #: src/engine/core-modules/billing/reminders/services/billing-reminder.service.ts
 msgid "Your Twenty trial is ending soon"
-msgstr "Je Twenty-proefperiode loopt binnenkort af"
+msgstr "Je ColabCRM-proefperiode loopt binnenkort af"
 
 #. js-lingui-id: ej/tZF
 #: src/engine/core-modules/graphql/hooks/use-graphql-error-handler.hook.ts

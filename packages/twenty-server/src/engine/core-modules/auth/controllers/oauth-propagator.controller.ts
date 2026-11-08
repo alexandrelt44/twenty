@@ -13,6 +13,8 @@ import { Response } from 'express';
 import { ApiPath } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
+import { BRAND_EMAIL_IDENTITY } from 'twenty-emails';
+
 import { NodeEnvironment } from 'src/engine/core-modules/twenty-config/interfaces/node-environment.interface';
 
 import { AuthRestApiExceptionFilter } from 'src/engine/core-modules/auth/filters/auth-rest-api-exception.filter';
@@ -60,7 +62,7 @@ export class OAuthPropagatorController {
 
     if (!isValidDomain) {
       throw new ForbiddenException(
-        `${redirectUrl.hostname} is not a valid Twenty domain`,
+        `${redirectUrl.hostname} is not a valid ${BRAND_EMAIL_IDENTITY.name} domain`,
       );
     }
 

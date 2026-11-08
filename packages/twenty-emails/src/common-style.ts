@@ -23,7 +23,7 @@ const grayScale = {
 };
 
 const colors = {
-  blue40: '#5e90f2',
+  accent: '#9333EA',
 };
 
 export const canvasTheme = {
@@ -33,9 +33,9 @@ export const canvasTheme = {
       primary: grayScale.gray50,
       tertiary: grayScale.gray35,
       inverted: grayScale.gray0,
-      blue: colors.blue40,
+      accent: colors.accent,
     },
-    family: 'Trebuchet MS', // Google Inter not working, we need to use a web safe font, see https://templates.mailchimp.com/design/typography/
+    family: 'Outfit, sans-serif',
     weight: {
       regular: 400,
       bold: 600,

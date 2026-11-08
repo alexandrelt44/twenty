@@ -43,7 +43,10 @@ export const CleanSuspendedWorkspaceEmail = ({
         <Trans id="Its data has been removed and can no longer be recovered." />
         <br />
         <br />
-        <Trans id="If you'd ever like to give colaborato.rio another try, you can start a fresh workspace in minutes — we'd love to have you back." />
+        <Trans
+          id="If you'd ever like to give {brandName} another try, you can start a fresh workspace in minutes — we'd love to have you back."
+          values={{ brandName: BRAND_EMAIL_IDENTITY.name }}
+        />
       </MainText>
       <br />
       <CallToAction

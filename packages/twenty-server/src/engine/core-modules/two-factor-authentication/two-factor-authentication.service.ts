@@ -4,6 +4,8 @@ import { authenticator } from 'otplib';
 import { TwoFactorAuthenticationStrategy } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 
+import { BRAND_EMAIL_IDENTITY } from 'twenty-emails';
+
 import {
   AuthException,
   AuthExceptionCode,
@@ -115,7 +117,7 @@ export class TwoFactorAuthenticationService {
         workspaceId,
       });
 
-      const issuer = `Twenty${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`;
+      const issuer = `${BRAND_EMAIL_IDENTITY.name}${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`;
       const reuseUri = authenticator.keyuri(userEmail, issuer, existingSecret);
 
       return reuseUri;
@@ -125,7 +127,7 @@ export class TwoFactorAuthenticationService {
       TOTP_DEFAULT_CONFIGURATION,
     ).initiate(
       userEmail,
-      `Twenty${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`,
+      `${BRAND_EMAIL_IDENTITY.name}${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`,
     );
 
     const encryptedSecret = this.secretEncryptionService.encryptVersioned(

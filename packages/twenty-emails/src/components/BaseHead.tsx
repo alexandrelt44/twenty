@@ -8,7 +8,7 @@ export const BaseHead = () => {
     <Head>
       <title>{BRAND_EMAIL_IDENTITY.name}</title>
       <Font
-        fontFamily={canvasTheme.font.family}
+        fontFamily="Outfit"
         fallbackFontFamily="sans-serif"
         fontStyle="normal"
         fontWeight={canvasTheme.font.weight.regular}
