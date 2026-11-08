@@ -477,10 +477,18 @@ export class UserService {
     return savedUser;
   }
 
-  async updateEmailFromVerificationToken(userId: string, email: string) {
+  async updateEmailFromVerificationToken(
+    userId: string,
+    email: string,
+    { isEmailVerified }: { isEmailVerified?: boolean } = {},
+  ) {
     const user = await this.findUserByIdOrThrow(userId);
 
     user.email = email;
+
+    if (isDefined(isEmailVerified)) {
+      user.isEmailVerified = isEmailVerified;
+    }
 
     const updatedUser = await this.userRepository.save(user);
 
@@ -543,7 +551,10 @@ export class UserService {
     }
 
     if (!this.twentyConfigService.get('IS_EMAIL_VERIFICATION_REQUIRED')) {
-      await this.updateEmailFromVerificationToken(user.id, normalizedEmail);
+      // Nothing proves ownership of the new address on this path, and invitations are matched by email
+      await this.updateEmailFromVerificationToken(user.id, normalizedEmail, {
+        isEmailVerified: false,
+      });
 
       return;
     }

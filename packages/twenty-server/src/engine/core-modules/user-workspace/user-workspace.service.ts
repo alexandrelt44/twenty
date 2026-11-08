@@ -659,14 +659,21 @@ export class UserWorkspaceService {
         appToken?: AppTokenEntity;
       }>;
     },
-    user: Pick<UserEntity, 'email'>,
+    user: Pick<UserEntity, 'email' | 'isEmailVerified'>,
     authProvider: AuthProviderEnum,
     canAutoLoginIntoWorkspaces = true,
   ) {
+    // signUp creates accounts for any address, so the invite token must only reach a proven mailbox
+    const availableWorkspacesForSignUpToList = user.isEmailVerified
+      ? availableWorkspaces.availableWorkspacesForSignUp
+      : availableWorkspaces.availableWorkspacesForSignUp.filter(
+          ({ appToken }) => !isDefined(appToken),
+        );
+
     const [availableWorkspacesForSignUp, availableWorkspacesForSignIn] =
       await Promise.all([
         Promise.all(
-          availableWorkspaces.availableWorkspacesForSignUp.map(
+          availableWorkspacesForSignUpToList.map(
             async ({ workspace, appToken }) => {
               return {
                 ...(await this.castWorkspaceToAvailableWorkspace(workspace)),
