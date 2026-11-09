@@ -9,6 +9,7 @@ import { NodeEnvironment } from 'src/engine/core-modules/twenty-config/interface
 import { SupportDriver } from 'src/engine/core-modules/twenty-config/interfaces/support.interface';
 
 import { MaintenanceModeService } from 'src/engine/core-modules/admin-panel/maintenance-mode.service';
+import { hasCustomGoogleAuthEndpoints } from 'src/engine/core-modules/auth/utils/has-custom-google-auth-endpoints.util';
 import {
   type ClientAiModelConfig,
   type ClientConfig,
@@ -250,12 +251,12 @@ export class ClientConfigService {
       isMicrosoftCalendarEnabled: this.twentyConfigService.get(
         'CALENDAR_PROVIDER_MICROSOFT_ENABLED',
       ),
-      isGoogleMessagingEnabled: this.twentyConfigService.get(
-        'MESSAGING_PROVIDER_GMAIL_ENABLED',
-      ),
-      isGoogleCalendarEnabled: this.twentyConfigService.get(
-        'CALENDAR_PROVIDER_GOOGLE_ENABLED',
-      ),
+      isGoogleMessagingEnabled:
+        !hasCustomGoogleAuthEndpoints(this.twentyConfigService) &&
+        this.twentyConfigService.get('MESSAGING_PROVIDER_GMAIL_ENABLED'),
+      isGoogleCalendarEnabled:
+        !hasCustomGoogleAuthEndpoints(this.twentyConfigService) &&
+        this.twentyConfigService.get('CALENDAR_PROVIDER_GOOGLE_ENABLED'),
       isConfigVariablesInDbEnabled: this.twentyConfigService.get(
         'IS_CONFIG_VARIABLES_IN_DB_ENABLED',
       ),

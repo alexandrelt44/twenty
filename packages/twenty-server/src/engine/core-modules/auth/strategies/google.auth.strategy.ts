@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 
+import { isNonEmptyString } from '@sniptt/guards';
 import { type Request } from 'express';
 import {
   Strategy,
@@ -8,7 +9,7 @@ import {
   type VerifyCallback,
 } from 'passport-google-oauth20';
 import { type APP_LOCALES } from 'twenty-shared/translations';
-import { parseJson } from 'twenty-shared/utils';
+import { isNonEmptyArray, parseJson } from 'twenty-shared/utils';
 
 import {
   AuthException,
@@ -39,13 +40,33 @@ export type GoogleRequest = Omit<
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(twentyConfigService: TwentyConfigService) {
+    const authorizationURL = twentyConfigService.get(
+      'AUTH_GOOGLE_AUTHORIZATION_URL',
+    );
+    const tokenURL = twentyConfigService.get('AUTH_GOOGLE_TOKEN_URL');
+    const userProfileURL = twentyConfigService.get(
+      'AUTH_GOOGLE_USER_PROFILE_URL',
+    );
+    const scopes = twentyConfigService
+      .get('AUTH_GOOGLE_SCOPES')
+      ?.filter(isNonEmptyString);
+
     super({
       clientID: twentyConfigService.get('AUTH_GOOGLE_CLIENT_ID'),
       clientSecret: twentyConfigService.get('AUTH_GOOGLE_CLIENT_SECRET'),
       callbackURL: twentyConfigService.get('AUTH_GOOGLE_CALLBACK_URL'),
-      scope: ['email', 'profile'],
+      scope: isNonEmptyArray(scopes) ? scopes : ['email', 'profile'],
       passReqToCallback: true,
+      ...(isNonEmptyString(authorizationURL) ? { authorizationURL } : {}),
+      ...(isNonEmptyString(tokenURL) ? { tokenURL } : {}),
+      ...(isNonEmptyString(userProfileURL) ? { userProfileURL } : {}),
     });
+
+    // The library sends the token in the query string, which Google accepts
+    // but OIDC userinfo endpoints are only required to take as a header.
+    if (isNonEmptyString(userProfileURL)) {
+      this._oauth2.useAuthorizationHeaderforGET(true);
+    }
   }
 
   // oxlint-disable-next-line typescript/no-explicit-any
