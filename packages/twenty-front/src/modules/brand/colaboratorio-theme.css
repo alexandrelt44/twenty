@@ -6,7 +6,8 @@
    .dark selector keeps the scoped ThemeProvider (applyToRoot={false}) case
    working. Inventory: BRANDING.md. */
 
-:root.light, .light {
+:root.light,
+.light {
   --t-accent-accent1: #fefcfe;
   --t-accent-accent2: #fbf7fe;
   --t-accent-accent3: #f7edfe;
@@ -66,7 +67,8 @@
   --t-code-font-family: 'JetBrains Mono', monospace;
 }
 
-:root.dark, .dark {
+:root.dark,
+.dark {
   --t-accent-accent1: #18111b;
   --t-accent-accent2: #1e1523;
   --t-accent-accent3: #301c3b;
