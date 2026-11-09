@@ -122,11 +122,13 @@ export class AuthService {
       return;
     }
 
-    const invitation =
-      await this.workspaceInvitationService.getOneWorkspaceInvitation(
-        workspace.id,
-        user.email,
-      );
+    // This lookup matches on email alone and signUp accepts any address, so require a proven mailbox
+    const invitation = user.isEmailVerified
+      ? await this.workspaceInvitationService.getOneWorkspaceInvitation(
+          workspace.id,
+          user.email,
+        )
+      : undefined;
 
     if (invitation) {
       await this.workspaceInvitationService.validatePersonalInvitation({
@@ -184,10 +186,6 @@ export class AuthService {
       }
     }
 
-    if (targetWorkspace) {
-      await this.checkAccessAndUseInvitationOrThrow(targetWorkspace, user);
-    }
-
     if (!user.passwordHash) {
       throw new AuthException(
         'Incorrect login method',
@@ -212,7 +210,35 @@ export class AuthService {
 
     await this.checkIsEmailVerified(user.isEmailVerified);
 
+    if (targetWorkspace) {
+      await this.checkAccessAndUseInvitationOrThrow(targetWorkspace, user);
+    }
+
     return user;
+  }
+
+  async joinWorkspaceIfInvited({
+    user,
+    workspace,
+  }: {
+    user: UserEntity;
+    workspace: WorkspaceEntity;
+  }) {
+    const invitation =
+      await this.workspaceInvitationService.getOneWorkspaceInvitation(
+        workspace.id,
+        user.email,
+      );
+
+    if (!isDefined(invitation)) {
+      return;
+    }
+
+    await this.userWorkspaceService.addUserToWorkspaceIfUserNotInWorkspace(
+      user,
+      workspace,
+      invitation.context?.roleId,
+    );
   }
 
   async checkIsEmailVerified(isEmailVerified: boolean) {

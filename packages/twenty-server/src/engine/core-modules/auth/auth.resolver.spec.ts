@@ -53,6 +53,7 @@ describe('AuthResolver', () => {
     checkAccessForSignIn: jest.Mock;
     findWorkspaceForSignInUp: jest.Mock;
     formatUserDataPayload: jest.Mock;
+    joinWorkspaceIfInvited: jest.Mock;
     signInUp: jest.Mock;
   };
   let emailVerificationService: { sendVerificationEmail: jest.Mock };
@@ -99,6 +100,7 @@ describe('AuthResolver', () => {
             checkAccessForSignIn: jest.fn(),
             findWorkspaceForSignInUp: jest.fn(),
             formatUserDataPayload: jest.fn(),
+            joinWorkspaceIfInvited: jest.fn(),
             signInUp: jest.fn(),
           },
         },
@@ -307,6 +309,10 @@ describe('AuthResolver', () => {
         AuthProviderEnum.Password,
       );
       expect(appTokenRepository.remove).toHaveBeenCalledWith(appToken);
+      expect(authService.joinWorkspaceIfInvited).toHaveBeenCalledWith({
+        user,
+        workspace,
+      });
     });
 
     it('uses the password provider when signing up in a workspace', async () => {
