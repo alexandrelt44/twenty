@@ -195,7 +195,7 @@ describe('email templates rendering', () => {
     expect(html).toContain('mot de passe');
   });
 
-  it('should render colaborato.rio branding instead of Twenty chrome', async () => {
+  it('should render ColabCRM branding instead of Twenty chrome', async () => {
     const html = await renderEmail(
       SendInviteLinkEmail({
         link: 'https://crm.colaborato.rio/invite/token',
@@ -206,9 +206,14 @@ describe('email templates rendering', () => {
       }),
     );
 
-    expect(html).toContain('<title>colaborato.rio</title>');
-    expect(html).toContain('What is colaborato.rio?');
-    expect(html).toContain('Join your team on colaborato.rio');
+    expect(html).toContain('<title>ColabCRM</title>');
+    expect(html).toContain('What is ColabCRM?');
+    expect(html).toContain('Join your team on ColabCRM');
+    expect(html).toContain('Outfit');
+    expect(html).toContain('#9333EA');
+    expect(html).not.toContain('#5e90f2');
+    expect(html).not.toContain('Trebuchet');
+    expect(html).toContain('Built on Twenty (open source)');
     expect(html).toContain('https://colaborato.rio');
     expect(html).toContain('https://github.com/alexandrelt44/twenty');
     expect(html).toContain(

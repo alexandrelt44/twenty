@@ -1,6 +1,10 @@
 import { AppPath } from 'twenty-shared/types';
 import { isValidElement, type ReactElement } from 'react';
-import { createMemoryRouter, matchRoutes } from 'react-router-dom';
+import {
+  createMemoryRouter,
+  matchRoutes,
+  type RouteObject,
+} from 'react-router-dom';
 
 import { getWorkspaceRouteObjectsForSurface } from '@/app/routing/utils/getWorkspaceRouteObjectsForSurface';
 import { createWorkspaceRouteObjects } from '@/app/routing/utils/createWorkspaceRouteObjects';
@@ -13,6 +17,19 @@ import { SettingsProtectedRouteWrapper } from '@/settings/components/SettingsPro
 const SETTINGS_ROOT_PATH = AppPath.SettingsCatchAll.replace('/*', '');
 
 describe('workspace route objects', () => {
+  it.each(['/dpa', '/settings/legal/dpa', '/settings/legal/dpa/new'])(
+    'resolves %s to the not found page',
+    (path) => {
+      const routes: RouteObject[] = [
+        { children: createWorkspaceRouteObjects({}) as RouteObject[] },
+      ];
+
+      expect(matchRoutes(routes, path)?.at(-1)?.route.path).toBe(
+        AppPath.NotFoundWildcard,
+      );
+    },
+  );
+
   it('does not leak generated route IDs into the shared registry', () => {
     const collectRouteIds = (
       routes: ReturnType<typeof createWorkspaceRouteObjects>,

@@ -54,7 +54,7 @@ describe('buildApiCatalog', () => {
 
     for (const entry of catalog.linkset) {
       expect(entry['service-doc']?.[0]?.href).toMatch(
-        /^https:\/\/docs\.twenty\.com\//,
+        /^https:\/\/colaborato\.rio/,
       );
     }
   });

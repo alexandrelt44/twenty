@@ -75,8 +75,8 @@ msgstr "Confirme seu novo endereço de e-mail"
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
-msgid "Connect to colaborato.rio"
-msgstr "Conecte-se ao colaborato.rio"
+msgid "Connect to {brandName}"
+msgstr "Conecte-se ao {brandName}"
 
 #. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
@@ -125,7 +125,7 @@ msgstr "Olá {userName},"
 #. js-lingui-explicit-id
 #: src/emails/billing-trial-converting.email.tsx
 msgid "If Twenty is working for you, you're all set — there's nothing to do. If it's not the right fit, you can cancel in one click before then and you won't be charged."
-msgstr "Se o Twenty estiver funcionando bem para você, está tudo certo — não é preciso fazer nada. Se não for a opção ideal, você pode cancelar com um clique antes disso e não será cobrado."
+msgstr "Se o ColabCRM estiver funcionando bem para você, está tudo certo — não é preciso fazer nada. Se não for a opção ideal, você pode cancelar com um clique antes disso e não será cobrado."
 
 #. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
@@ -144,8 +144,8 @@ msgstr "Se você não fizer nada, colocaremos seu workspace em pausa e manteremo
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
-msgid "If you'd ever like to give colaborato.rio another try, you can start a fresh workspace in minutes — we'd love to have you back."
-msgstr "Se um dia você quiser dar outra chance ao colaborato.rio, poderá iniciar um novo workspace em poucos minutos — ficaríamos felizes em ter você de volta."
+msgid "If you'd ever like to give {brandName} another try, you can start a fresh workspace in minutes — we'd love to have you back."
+msgstr "Se um dia você quiser dar outra chance ao {brandName}, poderá iniciar um novo workspace em poucos minutos — ficaríamos felizes em ter você de volta."
 
 #. js-lingui-explicit-id
 #: src/emails/server-admin-access-changed.email.tsx
@@ -154,8 +154,8 @@ msgstr "Personificação: {impersonateStatus}"
 
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
-msgid "It's the colaborato.rio CRM, where your team manages customers, deals and the AI agents that work with them."
-msgstr "É o CRM da colaborato.rio, onde sua equipe gerencia clientes, negócios e os agentes de IA que trabalham com eles."
+msgid "It's the {brandName} CRM, where your team manages customers, deals and the AI agents that work with them."
+msgstr "É o {brandName}, o CRM onde sua equipe gerencia clientes, negócios e os agentes de IA que trabalham com eles."
 
 #. js-lingui-explicit-id
 #: src/emails/clean-suspended-workspace.email.tsx
@@ -164,8 +164,8 @@ msgstr "Seus dados foram removidos e não podem mais ser recuperados."
 
 #. js-lingui-explicit-id
 #: src/emails/send-invite-link.email.tsx
-msgid "Join your team on colaborato.rio"
-msgstr "Junte-se à sua equipe no colaborato.rio"
+msgid "Join your team on {brandName}"
+msgstr "Junte-se à sua equipe no {brandName}"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx
@@ -239,6 +239,11 @@ msgid "Test email"
 msgstr "Email de teste"
 
 #. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "Thanks for registering for an account on {brandName}! Before we get started, we just need to confirm that this is you. Click below to verify your email address."
+msgstr "Obrigado por criar uma conta no {brandName}! Antes de começar, precisamos confirmar que é você. Clique abaixo para verificar seu e-mail."
+
+#. js-lingui-explicit-id
 #: src/emails/password-update-notify.email.tsx
 msgid "This is a confirmation that password for your account ({email}) was successfully changed on {formattedDate}."
 msgstr "Esta é uma confirmação de que a senha da sua conta ({email}) foi alterada com sucesso em {formattedDate}."
@@ -280,14 +285,19 @@ msgid "We don't like surprise charges, so here's a friendly heads up."
 msgstr "Não gostamos de cobranças inesperadas, então aqui vai um aviso amigável."
 
 #. js-lingui-explicit-id
+#: src/emails/send-email-verification-link.email.tsx
+msgid "We received a request to change the email address associated with your {brandName} account. Click below to confirm this change."
+msgstr "Recebemos um pedido para alterar o e-mail associado à sua conta no {brandName}. Clique abaixo para confirmar a alteração."
+
+#. js-lingui-explicit-id
 #: src/components/Footer.tsx
 msgid "Website"
 msgstr "Site"
 
 #. js-lingui-explicit-id
 #: src/components/WhatIsTwenty.tsx
-msgid "What is colaborato.rio?"
-msgstr "O que é o colaborato.rio?"
+msgid "What is {brandName}?"
+msgstr "O que é o {brandName}?"
 
 #. js-lingui-explicit-id
 #: src/emails/billing-subscription-renewing.email.tsx

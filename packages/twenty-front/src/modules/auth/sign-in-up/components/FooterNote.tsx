@@ -2,6 +2,7 @@ import { styled } from '@linaria/react';
 import { Trans } from '@lingui/react/macro';
 
 import { useWorkspaceBypass } from '@/auth/sign-in-up/hooks/useWorkspaceBypass';
+import { BRAND_IDENTITY } from '@/brand/constants/BrandIdentity';
 import { useIsCurrentLocationOnAWorkspace } from '@/domain-manager/hooks/useIsCurrentLocationOnAWorkspace';
 import { ONBOARDING_CONTENT_BLOCK_WIDTH } from '@/onboarding/constants/OnboardingContentBlockWidth';
 import { themeCssVariables } from 'twenty-ui/theme-constants';
@@ -56,13 +57,17 @@ const StyledSeparator = styled.span`
   color: ${themeCssVariables.font.color.tertiary};
 `;
 
-type FooterNoteProps = {
-  secondaryAgreement?: 'privacyPolicy' | 'dataProcessingAgreement';
-};
+const PrivacyPolicyLink = () => (
+  <a
+    href={BRAND_IDENTITY.privacyPolicyUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <Trans>Privacy Policy</Trans>
+  </a>
+);
 
-export const FooterNote = ({
-  secondaryAgreement = 'privacyPolicy',
-}: FooterNoteProps) => {
+export const FooterNote = () => {
   const { isOnAWorkspace } = useIsCurrentLocationOnAWorkspace();
 
   const { shouldOfferBypass, shouldUseBypass, enableBypass } =
@@ -71,33 +76,7 @@ export const FooterNote = ({
   if (!isOnAWorkspace) {
     return (
       <StyledCopyContainer>
-        <Trans>By using Twenty, you agree to the</Trans>{' '}
-        <a
-          href="https://twenty.com/legal/terms"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Trans>Terms of Service</Trans>
-        </a>{' '}
-        <Trans>and</Trans>{' '}
-        {secondaryAgreement === 'dataProcessingAgreement' ? (
-          <a
-            href="https://twenty.com/legal/dpa"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Trans>Data Processing Agreement</Trans>
-          </a>
-        ) : (
-          <a
-            href="https://twenty.com/legal/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Trans>Privacy Policy</Trans>
-          </a>
-        )}
-        .
+        <PrivacyPolicyLink />
       </StyledCopyContainer>
     );
   }
@@ -112,21 +91,7 @@ export const FooterNote = ({
           <StyledSeparator>•</StyledSeparator>
         </>
       )}
-      <a
-        href="https://twenty.com/legal/privacy"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Trans>Privacy Policy</Trans>
-      </a>
-      <StyledSeparator>•</StyledSeparator>
-      <a
-        href="https://twenty.com/legal/terms"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <Trans>Terms of Service</Trans>
-      </a>
+      <PrivacyPolicyLink />
     </StyledLinksContainer>
   );
 };

@@ -3,6 +3,7 @@ import { BaseEmail } from 'src/components/BaseEmail';
 import { CallToAction } from 'src/components/CallToAction';
 import { MainText } from 'src/components/MainText';
 import { Title } from 'src/components/Title';
+import { BRAND_EMAIL_IDENTITY } from 'src/constants/BrandEmailIdentity';
 import { createI18nInstance } from 'src/utils/i18n.utils';
 import { type APP_LOCALES } from 'twenty-shared/translations';
 
@@ -21,9 +22,7 @@ export const SendEmailVerificationLinkEmail = ({
   const title = isEmailUpdate
     ? i18n._('Confirm your new email address')
     : i18n._('Confirm your email address');
-  const bodyId = isEmailUpdate
-    ? 'We received a request to change the email address associated with your colaborato.rio account. Click below to confirm this change.'
-    : 'Thanks for registering for an account on colaborato.rio! Before we get started, we just need to confirm that this is you. Click below to verify your email address.';
+  const brandName = BRAND_EMAIL_IDENTITY.name;
   const ctaLabel = isEmailUpdate
     ? i18n._('Confirm new email')
     : i18n._('Verify Email');
@@ -32,7 +31,17 @@ export const SendEmailVerificationLinkEmail = ({
     <BaseEmail width={333} locale={locale}>
       <Title value={title} />
       <MainText>
-        <Trans id={bodyId} />
+        {isEmailUpdate ? (
+          <Trans
+            id="We received a request to change the email address associated with your {brandName} account. Click below to confirm this change."
+            values={{ brandName }}
+          />
+        ) : (
+          <Trans
+            id="Thanks for registering for an account on {brandName}! Before we get started, we just need to confirm that this is you. Click below to verify your email address."
+            values={{ brandName }}
+          />
+        )}
       </MainText>
       <br />
       <CallToAction href={link} value={ctaLabel} />

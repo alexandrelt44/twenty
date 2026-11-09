@@ -200,18 +200,6 @@ const SettingsGeneral = lazy(() =>
   })),
 );
 
-const SettingsLegalDpa = lazy(() =>
-  import('~/pages/settings/legal/SettingsLegalDpa').then((module) => ({
-    default: module.SettingsLegalDpa,
-  })),
-);
-
-const SettingsLegalDpaNew = lazy(() =>
-  import('~/pages/settings/legal/SettingsLegalDpaNew').then((module) => ({
-    default: module.SettingsLegalDpaNew,
-  })),
-);
-
 const SettingsWorkspaceCommunications = lazy(() =>
   import('~/pages/settings/communications/SettingsWorkspaceCommunications').then(
     (module) => ({
@@ -686,12 +674,6 @@ const SettingsAdminChats = lazy(() =>
   })),
 );
 
-const SettingsCommunity = lazy(() =>
-  import('~/pages/settings/community/SettingsCommunity').then((module) => ({
-    default: module.SettingsCommunity,
-  })),
-);
-
 const SettingsRoleCreate = lazy(() =>
   import('~/pages/settings/members/roles/SettingsRoleCreate').then(
     (module) => ({
@@ -854,11 +836,6 @@ const createSettingsRouteElements = ({
       <Route
         path={SettingsPath.PublicDomain}
         element={<SettingPublicDomain />}
-      />
-      <Route path={SettingsPath.LegalDpa} element={<SettingsLegalDpa />} />
-      <Route
-        path={SettingsPath.LegalDpaNew}
-        element={<SettingsLegalDpaNew />}
       />
     </Route>
     <Route
@@ -1237,9 +1214,7 @@ const createSettingsRouteElements = ({
           settingsPermission={PermissionFlagType.WORKSPACE}
         />
       }
-    >
-      <Route path={SettingsPath.Community} element={<SettingsCommunity />} />
-    </Route>
+    ></Route>
   </>
 );
 

@@ -183,23 +183,7 @@ const createWelcomeRichText = ({
           content: [
             {
               type: 'text',
-              text: 'If you have any issues, you can check ',
-              styles: {},
-            },
-            {
-              type: 'link',
-              href: 'https://docs.twenty.com/getting-started/introduction',
-              content: [
-                {
-                  type: 'text',
-                  text: 'our documentation',
-                  styles: {},
-                },
-              ],
-            },
-            {
-              type: 'text',
-              text: ' or contact us through the Support section in Settings.',
+              text: 'If you have any issues, contact us through the Support section in Settings.',
               styles: {},
             },
           ],

@@ -1,6 +1,8 @@
+import { BRAND_EMAIL_IDENTITY } from 'twenty-emails';
+
 import { TOOL_USAGE_STRATEGY } from 'src/engine/metadata-modules/ai/ai-agent/constants/tool-usage-strategy.const';
 
-export const WORKFLOW_BASE_SYSTEM_PROMPT = `You are executing as part of a workflow automation in Twenty CRM.
+export const WORKFLOW_BASE_SYSTEM_PROMPT = `You are executing as part of a workflow automation in ${BRAND_EMAIL_IDENTITY.name}.
 
 ${TOOL_USAGE_STRATEGY}
 

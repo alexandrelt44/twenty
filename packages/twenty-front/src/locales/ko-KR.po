@@ -1682,37 +1682,37 @@ msgstr ""
 #. js-lingui-id: FKGcEL
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server as a remote context server in Zed."
-msgstr "Zed에서 Twenty MCP 서버를 원격 컨텍스트 서버로 추가하세요."
+msgstr "Zed에서 ColabCRM MCP 서버를 원격 컨텍스트 서버로 추가하세요."
 
 #. js-lingui-id: iA2nHX
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server from Augment Code settings."
-msgstr "Augment Code 설정에서 Twenty MCP 서버를 추가하세요."
+msgstr "Augment Code 설정에서 ColabCRM MCP 서버를 추가하세요."
 
 #. js-lingui-id: l+NzAk
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server from Raycast's MCP commands or settings."
-msgstr "Raycast의 MCP 명령 또는 설정에서 Twenty MCP 서버를 추가하세요."
+msgstr "Raycast의 MCP 명령 또는 설정에서 ColabCRM MCP 서버를 추가하세요."
 
 #. js-lingui-id: j6G/yI
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server in Gemini CLI settings."
-msgstr "Gemini CLI 설정에서 Twenty MCP 서버를 추가하세요."
+msgstr "Gemini CLI 설정에서 ColabCRM MCP 서버를 추가하세요."
 
 #. js-lingui-id: /OyhlM
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty MCP server to your LibreChat configuration file."
-msgstr "LibreChat 구성 파일에 Twenty MCP 서버를 추가하세요."
+msgstr "LibreChat 구성 파일에 ColabCRM MCP 서버를 추가하세요."
 
 #. js-lingui-id: K0DXoj
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add the Twenty remote server with LM Studio's install link."
-msgstr "LM Studio의 설치 링크로 Twenty 원격 서버를 추가하세요."
+msgstr "LM Studio의 설치 링크로 ColabCRM 원격 서버를 추가하세요."
 
 #. js-lingui-id: BTFMKE
 #: src/pages/settings/communications/SettingsWorkspaceCommunicationGroupChannelDetail.tsx
 msgid "Add these records at your DNS provider. Twenty checks them automatically."
-msgstr "DNS 제공업체에 이 레코드를 추가하세요. Twenty가 자동으로 확인합니다."
+msgstr "DNS 제공업체에 이 레코드를 추가하세요. ColabCRM가 자동으로 확인합니다."
 
 #. js-lingui-id: 5+ttxv
 #: src/modules/settings/accounts/components/SettingsAccountsBlocklistInput.tsx
@@ -1732,7 +1732,7 @@ msgstr "주제 추가"
 #. js-lingui-id: 4D/zWv
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Add Twenty as a Streamable HTTP extension in Goose."
-msgstr "Goose에서 Twenty를 Streamable HTTP 확장으로 추가하세요."
+msgstr "Goose에서 ColabCRM를 Streamable HTTP 확장으로 추가하세요."
 
 #. js-lingui-id: XnwceV
 #: src/pages/settings/applications/components/SettingsApplicationRegistrationRedirectURIsInput.tsx
@@ -3318,7 +3318,7 @@ msgstr "새로 생성된 모든 워크스페이스에 이 앱을 자동으로 �
 #. js-lingui-id: MHsVk5
 #: src/pages/settings/ai/components/SettingsAiModelTiersPreview.tsx
 msgid "Automatically selected by Twenty for this mode."
-msgstr "이 모드에서는 Twenty가 자동으로 선택합니다."
+msgstr "이 모드에서는 ColabCRM가 자동으로 선택합니다."
 
 #. js-lingui-id: XFGV21
 #: src/pages/settings/applications/tabs/SettingsApplicationGeneralSection.tsx
@@ -3522,7 +3522,7 @@ msgstr "청구 기간"
 #. js-lingui-id: xF/NXI
 #: src/modules/settings/billing/hooks/useBillingPortalSession.ts
 msgid "Billing portal session error. Please retry or contact Twenty team"
-msgstr "결제 포털 세션 오류입니다. 다시 시도하거나 Twenty 팀에 문의하세요"
+msgstr "결제 포털 세션 오류입니다. 다시 시도하거나 ColabCRM 팀에 문의하세요"
 
 #. js-lingui-id: 8kIU+G
 #: src/modules/advanced-text-editor/constants/AdvancedTextEditorBlockCatalog.ts
@@ -3715,7 +3715,7 @@ msgstr "제작: {author}"
 #. js-lingui-id: 8Pfllj
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
 msgid "By using Twenty, you agree to the"
-msgstr "Twenty를 사용함으로써 귀하는 다음에 동의합니다"
+msgstr "ColabCRM를 사용함으로써 귀하는 다음에 동의합니다"
 
 #. js-lingui-id: Yx41df
 #: src/modules/auth/sign-in-up/components/FooterNote.tsx
@@ -4259,7 +4259,7 @@ msgstr "새 이메일 주소를 확인하려면 받은 편지함을 확인하세
 #: src/modules/settings/billing/hooks/useHandleCheckoutSession.ts
 #: src/modules/settings/billing/hooks/useHandleCheckoutSession.ts
 msgid "Checkout session error. Please retry or contact Twenty team"
-msgstr "결제 세션 오류입니다. 다시 시도하거나 Twenty 팀에 문의하십시오"
+msgstr "결제 세션 오류입니다. 다시 시도하거나 ColabCRM 팀에 문의하십시오"
 
 #. js-lingui-id: SviKkE
 #: src/localization/hooks/useLocaleOptions.ts
@@ -4953,12 +4953,12 @@ msgstr "Amazon Q Developer의 MCP 설정에서 원격 서버를 구성하세요.
 #. js-lingui-id: g1/8jH
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Configure the Twenty MCP server manually in Cascade."
-msgstr "Cascade에서 Twenty MCP 서버를 수동으로 구성하세요."
+msgstr "Cascade에서 ColabCRM MCP 서버를 수동으로 구성하세요."
 
 #. js-lingui-id: XiyvRh
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Configure the Twenty MCP server manually in Cline."
-msgstr "Cline에서 Twenty MCP 서버를 수동으로 구성하세요."
+msgstr "Cline에서 ColabCRM MCP 서버를 수동으로 구성하세요."
 
 #. js-lingui-id: qA9AGQ
 #: src/modules/settings/domains/components/SettingsDomainRecords.tsx
@@ -8570,7 +8570,7 @@ msgstr "플랜 전환 취소 중 오류 발생."
 #. js-lingui-id: QmR+2U
 #: src/modules/settings/billing/hooks/useEndSubscriptionTrialPeriod.ts
 msgid "Error while ending trial period. Please contact Twenty team."
-msgstr "시험 기간 종료 중 오류가 발생했습니다. Twenty 팀에 문의하세요."
+msgstr "시험 기간 종료 중 오류가 발생했습니다. ColabCRM 팀에 문의하세요."
 
 #. js-lingui-id: 5g78zo
 #: src/pages/settings/members/SettingsWorkspaceMember.tsx
@@ -10509,7 +10509,7 @@ msgstr "높음"
 #. js-lingui-id: 1ETc0T
 #: src/pages/settings/community/SettingsCommunity.tsx
 msgid "Hire a partner to help you implement and customize Twenty."
-msgstr "Twenty의 구현 및 맞춤 설정을 도와줄 파트너를 고용하세요."
+msgstr "ColabCRM의 구현 및 맞춤 설정을 도와줄 파트너를 고용하세요."
 
 #. js-lingui-id: i0qMbr
 #: src/modules/navigation/hooks/useMobileNavigationBarItems.ts
@@ -10577,7 +10577,7 @@ msgstr ""
 "npx create-twenty-app@latest my-twenty-app\n"
 "```\n"
 "\n"
-"전체 안내는 [시작하기 가이드](https://twenty.com/developers/extend/apps/getting-started)를 확인하고, `defineApplication` / `defineEntity` API는 [앱 빌드](https://twenty.com/developers/extend/apps/building)를 참고하세요."
+"전체 안내는 시작하기 가이드를 확인하고, `defineApplication` / `defineEntity` API는 앱 빌드를 참고하세요."
 
 #. js-lingui-id: yY8wAv
 #: src/modules/workflow/workflow-steps/workflow-actions/delay-actions/components/WorkflowEditActionDelay.tsx
@@ -13081,7 +13081,7 @@ msgstr "모델 정보"
 #. js-lingui-id: iaurWj
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "Model used when you chat with Twenty"
-msgstr "Twenty와 채팅할 때 사용하는 모델"
+msgstr "ColabCRM와 채팅할 때 사용하는 모델"
 
 #. js-lingui-id: //nm2/
 #: src/pages/settings/admin-panel/SettingsAdminAiProviderDetail.tsx
@@ -15086,7 +15086,7 @@ msgstr "하나 이상의 필터가 비활성화되었거나 삭제된 필드를 
 #. js-lingui-id: 1WZTTl
 #: src/pages/settings/enterprise/SettingsEnterprise.tsx
 msgid "One subscription provides one Organization key that powers one production instance and one potential staging or test instance. To run a staging or test environment, install Twenty on a second server, activate it with this same Organization key, then register that server as a development instance. Development instances unlock premium features without extra billing and do not count toward your production seats."
-msgstr "하나의 구독은 하나의 프로덕션 인스턴스와 하나의 스테이징 또는 테스트 인스턴스를 구동하는 조직 키 한 개를 제공합니다. 스테이징 또는 테스트 환경을 실행하려면 두 번째 서버에 Twenty를 설치하고, 동일한 조직 키로 활성화한 다음 해당 서버를 개발 인스턴스로 등록하세요. 개발 인스턴스는 추가 청구 없이 프리미엄 기능을 활성화하며 프로덕션 좌석 수에 포함되지 않습니다."
+msgstr "하나의 구독은 하나의 프로덕션 인스턴스와 하나의 스테이징 또는 테스트 인스턴스를 구동하는 조직 키 한 개를 제공합니다. 스테이징 또는 테스트 환경을 실행하려면 두 번째 서버에 ColabCRM를 설치하고, 동일한 조직 키로 활성화한 다음 해당 서버를 개발 인스턴스로 등록하세요. 개발 인스턴스는 추가 청구 없이 프리미엄 기능을 활성화하며 프로덕션 좌석 수에 포함되지 않습니다."
 
 #. js-lingui-id: JEtonz
 #: src/modules/settings/event-logs/components/SettingsLogs.tsx
@@ -15182,12 +15182,12 @@ msgstr "링크로 열기"
 #. js-lingui-id: n0vVgf
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Claude with the Twenty connector name and MCP URL prefilled."
-msgstr "Twenty 커넥터 이름과 MCP URL이 미리 채워진 상태로 Claude를 여세요."
+msgstr "ColabCRM 커넥터 이름과 MCP URL이 미리 채워진 상태로 Claude를 여세요."
 
 #. js-lingui-id: +n2jpB
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Cursor's MCP installer with the Twenty remote server config."
-msgstr "Twenty 원격 서버 구성이 미리 채워진 상태로 Cursor의 MCP 설치 프로그램을 여세요."
+msgstr "ColabCRM 원격 서버 구성이 미리 채워진 상태로 Cursor의 MCP 설치 프로그램을 여세요."
 
 #. js-lingui-id: pZZH4Q
 #: src/modules/auth/sign-in-up/components/EmailVerificationSent.tsx
@@ -15250,12 +15250,12 @@ msgstr "전용 페이지에서 레코드를 열기"
 #. js-lingui-id: q170S2
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Replit with the Twenty remote server config."
-msgstr "Twenty 원격 서버 구성이 미리 채워진 상태로 Replit을 여세요."
+msgstr "ColabCRM 원격 서버 구성이 미리 채워진 상태로 Replit을 여세요."
 
 #. js-lingui-id: sBd/cl
 #: src/modules/settings/mcp-and-apis/utils/buildMcpSetupCategories.tsx
 msgid "Open Twenty's official ChatGPT integration for your workspace."
-msgstr "워크스페이스용 Twenty 공식 ChatGPT 통합을 여세요."
+msgstr "워크스페이스용 ColabCRM 공식 ChatGPT 통합을 여세요."
 
 #. js-lingui-id: OV5wZZ
 #: src/modules/navigation-menu-item/display/sections/components/NavigationDrawerOpenedSection.tsx
@@ -15607,7 +15607,7 @@ msgstr "페이지 이름"
 #. js-lingui-id: NRvxzv
 #: src/pages/not-found/NotFound.tsx
 msgid "Page Not Found | Twenty"
-msgstr "페이지를 찾을 수 없음 | Twenty"
+msgstr "페이지를 찾을 수 없음 | ColabCRM"
 
 #. js-lingui-id: oIhFvf
 #: src/modules/side-panel/pages/email-block-settings/components/EmailPageStyleSection.tsx
@@ -19522,7 +19522,7 @@ msgstr "하위 도메인"
 #. js-lingui-id: Sv4BSp
 #: src/modules/settings/billing/constants/SettingsBillingPlanComparisonRows.ts
 msgid "Subdomain (yourco.twenty.com)"
-msgstr "서브도메인 (yourco.twenty.com)"
+msgstr "서브도메인 (yourco.colaborato.rio)"
 
 #. js-lingui-id: mGO3xy
 #: src/modules/auth/sign-in-up/components/internal/SignInUpWorkspaceCreationForm.tsx
@@ -19621,7 +19621,7 @@ msgstr "구독이 활성화되었습니다."
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
 #: src/modules/settings/billing/hooks/useSubmitSubscriptionPayment.ts
 msgid "Subscription error. Please retry or contact Twenty team"
-msgstr "구독 오류입니다. 다시 시도하거나 Twenty 팀에 문의하세요"
+msgstr "구독 오류입니다. 다시 시도하거나 ColabCRM 팀에 문의하세요"
 
 #. js-lingui-id: FooJUj
 #. placeholder {0}: getTargetPlanLabel(targetPlanKey)
@@ -20094,11 +20094,11 @@ msgid ""
 "\n"
 "See the [Getting Started guide](https://twenty.com/developers/extend/apps/getting-started) for the full walkthrough, and [Building Apps](https://twenty.com/developers/extend/apps/building) for the `defineApplication` / `defineEntity` APIs."
 msgstr ""
-"모든 Twenty 워크스페이스가 기반으로 하는 기본 데이터 모델입니다.\n"
+"모든 ColabCRM 워크스페이스가 기반으로 하는 기본 데이터 모델입니다.\n"
 "\n"
 "#### \"foundation\"의 의미\n"
 "\n"
-"모든 Twenty 워크스페이스는 이 객체 집합으로 시작합니다. 여기에는 관계, 활동, 보고를 포함해 CRM의 형태가 정의됩니다. 마켓플레이스 앱, AI 에이전트, 사용자 지정 객체를 비롯한 다른 모든 것은 여기에 연결됩니다.\n"
+"모든 ColabCRM 워크스페이스는 이 객체 집합으로 시작합니다. 여기에는 관계, 활동, 보고를 포함해 CRM의 형태가 정의됩니다. 마켓플레이스 앱, AI 에이전트, 사용자 지정 객체를 비롯한 다른 모든 것은 여기에 연결됩니다.\n"
 "\n"
 "#### 포함된 객체\n"
 "- **People & Companies**: 연락처 및 계정 레코드\n"
@@ -20106,11 +20106,11 @@ msgstr ""
 "- **Notes & Tasks**: 활동 및 후속 조치\n"
 "- **Workflows & Dashboards**: 자동화 및 보고\n"
 "\n"
-"이 앱을 제거하면 나머지 Twenty는 의존할 토대가 없어집니다.\n"
+"이 앱을 제거하면 나머지 ColabCRM는 의존할 토대가 없어집니다.\n"
 "\n"
 "#### 나만의 앱 만들기\n"
 "\n"
-"사용자 지정 객체, 필드, 로직 함수, AI 기술로 Twenty를 확장하세요. 명령 한 번으로 새 앱을 스캐폴드합니다:\n"
+"사용자 지정 객체, 필드, 로직 함수, AI 기술로 ColabCRM를 확장하세요. 명령 한 번으로 새 앱을 스캐폴드합니다:\n"
 "\n"
 "```bash\n"
 "npx create-twenty-app@latest my-twenty-app\n"
@@ -20123,7 +20123,7 @@ msgstr ""
 "yarn twenty dev\n"
 "```\n"
 "\n"
-"전체 안내는 [시작하기 가이드](https://twenty.com/developers/extend/apps/getting-started)를 확인하고, `defineApplication` / `defineEntity` API는 [앱 빌드](https://twenty.com/developers/extend/apps/building)를 참고하세요."
+"전체 안내는 시작하기 가이드를 확인하고, `defineApplication` / `defineEntity` API는 앱 빌드를 참고하세요."
 
 #. js-lingui-id: VsxjzF
 #: src/modules/page-layout/widgets/call-recording/utils/getCallRecordingStatusDisplayConfiguration.ts
@@ -21263,12 +21263,12 @@ msgstr "터콰이즈"
 #. js-lingui-id: JnaRPe
 #: src/modules/spreadsheet-import/steps/components/MatchColumnsStep/components/ColumnGrid.tsx
 msgid "Twenty fields"
-msgstr "Twenty 필드"
+msgstr "ColabCRM 필드"
 
 #. js-lingui-id: pNo8xt
 #: src/pages/settings/ai/components/SettingsAiModelsTab.tsx
 msgid "Twenty fills each level with the best model that meets your requirements"
-msgstr "Twenty는 요구 사항을 충족하는 최적의 모델로 각 수준을 채웁니다"
+msgstr "ColabCRM는 요구 사항을 충족하는 최적의 모델로 각 수준을 채웁니다"
 
 #. js-lingui-id: YIjS4q
 #: src/modules/ai/components/SettingsAgentModelCapabilities.tsx
@@ -22959,7 +22959,7 @@ msgstr ""
 #. js-lingui-id: nTuObL
 #: src/pages/auth/SignInUp.tsx
 msgid "Welcome to Twenty"
-msgstr "Twenty에 오신 것을 환영합니다"
+msgstr "ColabCRM에 오신 것을 환영합니다"
 
 #. js-lingui-id: t8ZvkC
 #: src/modules/onboarding/constants/WelcomeTitleMessage.ts

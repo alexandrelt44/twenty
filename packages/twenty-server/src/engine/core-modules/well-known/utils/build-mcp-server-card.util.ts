@@ -1,3 +1,5 @@
+import { BRAND_EMAIL_IDENTITY } from 'twenty-emails';
+
 import { MCP_PROTOCOL_VERSION } from 'src/engine/api/mcp/constants/mcp-protocol-version.const';
 
 type BuildMcpServerCardArgs = {
@@ -13,12 +15,11 @@ export const buildMcpServerCard = ({
     'https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json',
   name: 'com.twenty/twenty',
   version,
-  title: 'Twenty CRM',
-  description:
-    'Read and write your Twenty CRM data - companies, people, opportunities, tasks, notes and any custom objects - from AI assistants. Tools are discovered at runtime and scoped to the authenticated workspace.',
-  websiteUrl: 'https://twenty.com',
+  title: BRAND_EMAIL_IDENTITY.name,
+  description: `Read and write your ${BRAND_EMAIL_IDENTITY.name} data - companies, people, opportunities, tasks, notes and any custom objects - from AI assistants. Tools are discovered at runtime and scoped to the authenticated workspace.`,
+  websiteUrl: BRAND_EMAIL_IDENTITY.websiteUrl,
   repository: {
-    url: 'https://github.com/twentyhq/twenty',
+    url: BRAND_EMAIL_IDENTITY.sourceCodeUrl,
     source: 'github',
   },
   remotes: [

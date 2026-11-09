@@ -64,7 +64,7 @@ describe('buildFullSystemPrompt', () => {
     const prompt = buildPrompt(false);
 
     expect(prompt).toContain(
-      'You are a helpful AI assistant integrated into Twenty',
+      'You are a helpful AI assistant integrated into ColabCRM',
     );
     expect(prompt).toContain('A <browsing_context> tag may appear');
     expect(prompt).toContain('## Workspace Instructions');
@@ -87,7 +87,7 @@ describe('buildFullSystemPrompt', () => {
     expect(prompt).toContain('## User Context');
     expect(prompt).toContain('Job title: COO');
     expect(prompt).not.toContain(
-      'You are a helpful AI assistant integrated into Twenty',
+      'You are a helpful AI assistant integrated into ColabCRM',
     );
     expect(prompt).not.toContain('A <browsing_context> tag may appear');
   });

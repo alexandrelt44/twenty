@@ -248,15 +248,6 @@ export const WorkflowEditActionFormBuilder = ({
               description={t`Because this workflow is not using a manual trigger, the form will not open on top of the interface. To fill it, open the corresponding workflow run and complete the form there.`}
               isClosable
               onClose={() => setIsCalloutVisible(false)}
-              action={{
-                label: t`Learn more`,
-                onClick: () =>
-                  window.open(
-                    'https://docs.twenty.com/user-guide/workflows/capabilities/workflow-actions#form',
-                    '_blank',
-                    'noopener,noreferrer',
-                  ),
-              }}
             />
           </StyledCalloutContainer>
         )}
