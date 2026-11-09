@@ -55,7 +55,7 @@ The full 12-step scale lives in `packages/twenty-front/src/modules/brand/colabor
 | `.../onboarding/import-contacts/OnboardingTrustBadges.tsx`, `public/images/onboarding/trust-badges/*`, `pages/onboarding/ImportContacts.tsx` | SOC2 and GDPR badges removed: Twenty's certifications | Remove them again |
 | `packages/twenty-front/src/modules/auth/sign-in-up/components/{FooterNote,SignInUpStandardContent}.tsx` | Privacy link only: no Twenty, terms or DPA | Reapply |
 | `.../settings/hooks/useSettingsNavigationItems.tsx`, `.../app/components/SettingsRoutes.tsx`, `.../app/routing/utils/createWorkspaceRouteObjects.tsx` | Community and Documentation hidden; `/dpa` and `/settings/legal/dpa` routes removed | Remove them again |
-| `packages/twenty-shared/src/constants/DocumentationBaseUrl.ts`, `.../support/utils/getDocumentationUrl.ts`, `WorkflowEditActionFormBuilder.tsx` | Help links go to the company site or disappear | Reapply |
+| `packages/twenty-shared/src/constants/DocumentationBaseUrl.ts`, `.../support/utils/getDocumentationUrl.ts`, `WorkflowEditActionFormBuilder.tsx`, `packages/twenty-server/.../build-api-catalog.util.ts` | Help links go to the company site or disappear | Reapply |
 | `packages/twenty-emails/src/common-style.ts` and templates that use its accent | `#9333EA`, Outfit | Reapply |
 | `packages/twenty-emails/src/components/{Logo,Footer,WhatIsTwenty,BaseHead}.tsx`, emails with the product name | Brand chrome, `{brandName}` from `BRAND_EMAIL_IDENTITY` | Reapply |
 | `packages/twenty-emails/src/index.ts` | Exports `BRAND_EMAIL_IDENTITY` | Reapply |
