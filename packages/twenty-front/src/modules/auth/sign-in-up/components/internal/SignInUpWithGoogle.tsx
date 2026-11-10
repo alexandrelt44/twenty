@@ -8,6 +8,7 @@ import {
 } from '@/auth/states/signInUpStepState';
 import { AuthenticatedMethod } from '@/auth/types/AuthenticatedMethod.enum';
 import { type SocialSsoSignInUpActionType } from '@/auth/types/socialSsoSignInUp.type';
+import { googleAuthButtonLabelState } from '@/client-config/states/googleAuthButtonLabelState';
 import { useLingui } from '@lingui/react/macro';
 import { memo, useContext } from 'react';
 import { MainButton } from 'twenty-ui/components';
@@ -33,6 +34,7 @@ export const SignInUpWithGoogle = ({
 }) => {
   const { t } = useLingui();
   const signInUpStep = useAtomStateValue(signInUpStepState);
+  const googleAuthButtonLabel = useAtomStateValue(googleAuthButtonLabelState);
   const [lastAuthenticatedMethod, setLastAuthenticatedMethod] = useAtomState(
     lastAuthenticatedMethodState,
   );
@@ -46,15 +48,20 @@ export const SignInUpWithGoogle = ({
 
   const isLastUsed = lastAuthenticatedMethod === AuthenticatedMethod.GOOGLE;
 
+  // A custom label means sign-in goes to another provider, so the Google logo would mislead
+  const hasCustomLabel = isDefined(googleAuthButtonLabel);
+
   return (
     <>
       <StyledSsoButtonContainer>
         <MainButton
-          startIcon={isDefined(GoogleIcon) ? <GoogleIcon /> : undefined}
+          startIcon={hasCustomLabel ? undefined : <GoogleIcon />}
           onClick={handleClick}
           fullWidth
           variant={signInUpStep === SignInUpStep.Init ? 'solid' : 'outline'}
-        >{t`Continue with Google`}</MainButton>
+        >
+          {hasCustomLabel ? googleAuthButtonLabel : t`Continue with Google`}
+        </MainButton>
         {isLastUsed && (isGlobalScope || hasMultipleAuthMethods) && (
           <LastUsedPill />
         )}

@@ -22,6 +22,7 @@ export type ClientConfig = {
   authProviders: AuthProviders;
   billing: Billing;
   calendarBookingPageId?: string;
+  googleAuthButtonLabel?: string;
   isBookCallOnboardingStepEnabled: boolean;
   isCompanyEnrichmentEnabled: boolean;
   canManageFeatureFlags: boolean;

@@ -201,6 +201,64 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Authorization endpoint of an OIDC provider used instead of Google for sign-in. Leave unset to use Google.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  @IsUrl({ require_tld: false, require_protocol: true })
+  AUTH_GOOGLE_AUTHORIZATION_URL?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Token endpoint of an OIDC provider used instead of Google for sign-in. Leave unset to use Google.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  @IsUrl({ require_tld: false, require_protocol: true })
+  AUTH_GOOGLE_TOKEN_URL?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Userinfo endpoint of an OIDC provider used instead of Google for sign-in. Must end in /userinfo so email_verified is read. Leave unset to use Google.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  @IsUrl({ require_tld: false, require_protocol: true })
+  AUTH_GOOGLE_USER_PROFILE_URL?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Comma-separated OAuth scopes requested at sign-in. Leave unset to request email and profile.',
+    type: ConfigVariableType.ARRAY,
+  })
+  @IsOptional()
+  AUTH_GOOGLE_SCOPES?: string[];
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Text of the sign-in button when the Google sign-in points to another provider. Leave unset to show "Continue with Google".',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  AUTH_GOOGLE_BUTTON_LABEL?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
     description: 'Enable or disable the Gmail messaging integration',
     type: ConfigVariableType.BOOLEAN,
   })

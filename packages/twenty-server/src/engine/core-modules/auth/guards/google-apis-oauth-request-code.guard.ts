@@ -9,6 +9,7 @@ import {
 } from 'src/engine/core-modules/auth/auth.exception';
 import { GoogleAPIsOauthRequestCodeStrategy } from 'src/engine/core-modules/auth/strategies/google-apis-oauth-request-code.auth.strategy';
 import { TransientTokenService } from 'src/engine/core-modules/auth/token/services/transient-token.service';
+import { hasCustomGoogleAuthEndpoints } from 'src/engine/core-modules/auth/utils/has-custom-google-auth-endpoints.util';
 import { setRequestExtraParams } from 'src/engine/core-modules/auth/utils/google-apis-set-request-extra-params.util';
 import { WorkspaceDomainsService } from 'src/engine/core-modules/domain/workspace-domains/services/workspace-domains.service';
 import { GuardRedirectService } from 'src/engine/core-modules/guard-redirect/services/guard-redirect.service';
@@ -58,8 +59,9 @@ export class GoogleAPIsOauthRequestCodeGuard extends AuthGuard('google-apis') {
       });
 
       if (
-        !this.twentyConfigService.get('MESSAGING_PROVIDER_GMAIL_ENABLED') &&
-        !this.twentyConfigService.get('CALENDAR_PROVIDER_GOOGLE_ENABLED')
+        hasCustomGoogleAuthEndpoints(this.twentyConfigService) ||
+        (!this.twentyConfigService.get('MESSAGING_PROVIDER_GMAIL_ENABLED') &&
+          !this.twentyConfigService.get('CALENDAR_PROVIDER_GOOGLE_ENABLED'))
       ) {
         throw new AuthException(
           'Google apis auth is not enabled',

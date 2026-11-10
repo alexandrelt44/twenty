@@ -381,6 +381,9 @@ export class ClientConfig {
   @Field(() => String, { nullable: true })
   calendarBookingPageId?: string;
 
+  @Field(() => String, { nullable: true })
+  googleAuthButtonLabel?: string;
+
   @Field(() => Boolean)
   isBookCallOnboardingStepEnabled: boolean;
 
