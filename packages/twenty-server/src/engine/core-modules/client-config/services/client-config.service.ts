@@ -70,6 +70,9 @@ export class ClientConfigService {
     const calendarBookingPageId = this.twentyConfigService.get(
       'CALENDAR_BOOKING_PAGE_ID',
     );
+    const googleAuthButtonLabel = this.twentyConfigService
+      .get('AUTH_GOOGLE_BUTTON_LABEL')
+      ?.trim();
     const isBookCallOnboardingStepEnabled = isDefined(
       readBookCallStepMinEmployeeCount(this.twentyConfigService),
     );
@@ -269,6 +272,9 @@ export class ClientConfigService {
       ),
       calendarBookingPageId: isNonEmptyString(calendarBookingPageId)
         ? calendarBookingPageId
+        : undefined,
+      googleAuthButtonLabel: isNonEmptyString(googleAuthButtonLabel)
+        ? googleAuthButtonLabel
         : undefined,
       isBookCallOnboardingStepEnabled,
       isCompanyEnrichmentEnabled,

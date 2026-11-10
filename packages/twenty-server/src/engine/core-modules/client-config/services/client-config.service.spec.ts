@@ -40,4 +40,20 @@ describe('ClientConfigService', () => {
     expect(clientConfig.isGoogleMessagingEnabled).toBe(false);
     expect(clientConfig.isGoogleCalendarEnabled).toBe(false);
   });
+
+  it('passes the sign-in button label to the front', async () => {
+    const clientConfig = await buildService({
+      AUTH_GOOGLE_BUTTON_LABEL: ' Entrar com Colaboratório ',
+    }).getClientConfig();
+
+    expect(clientConfig.googleAuthButtonLabel).toBe('Entrar com Colaboratório');
+  });
+
+  it('leaves the sign-in button label unset when the variable is blank', async () => {
+    const clientConfig = await buildService({
+      AUTH_GOOGLE_BUTTON_LABEL: '  ',
+    }).getClientConfig();
+
+    expect(clientConfig.googleAuthButtonLabel).toBeUndefined();
+  });
 });

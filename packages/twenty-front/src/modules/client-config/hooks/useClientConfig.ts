@@ -8,6 +8,7 @@ import { billingState } from '@/client-config/states/billingState';
 import { calendarBookingPageIdState } from '@/client-config/states/calendarBookingPageIdState';
 import { canManageFeatureFlagsState } from '@/client-config/states/canManageFeatureFlagsState';
 import { captchaState } from '@/client-config/states/captchaState';
+import { googleAuthButtonLabelState } from '@/client-config/states/googleAuthButtonLabelState';
 import { isBookCallOnboardingStepEnabledState } from '@/client-config/states/isBookCallOnboardingStepEnabledState';
 import { isCompanyEnrichmentEnabledState } from '@/client-config/states/isCompanyEnrichmentEnabledState';
 import { isAnalyticsEnabledState } from '@/client-config/states/isAnalyticsEnabledState';
@@ -108,6 +109,8 @@ export const useClientConfig = (): UseClientConfigResult => {
   );
 
   const setCalendarBookingPageId = useSetAtomState(calendarBookingPageIdState);
+
+  const setGoogleAuthButtonLabel = useSetAtomState(googleAuthButtonLabelState);
 
   const setIsBookCallOnboardingStepEnabled = useSetAtomState(
     isBookCallOnboardingStepEnabledState,
@@ -224,6 +227,7 @@ export const useClientConfig = (): UseClientConfigResult => {
       }));
 
       setCalendarBookingPageId(clientConfig?.calendarBookingPageId ?? null);
+      setGoogleAuthButtonLabel(clientConfig?.googleAuthButtonLabel ?? null);
       setIsBookCallOnboardingStepEnabled(
         clientConfig?.isBookCallOnboardingStepEnabled ?? false,
       );
@@ -269,6 +273,7 @@ export const useClientConfig = (): UseClientConfigResult => {
     setBilling,
     setCalendarBookingPageId,
     setCanManageFeatureFlags,
+    setGoogleAuthButtonLabel,
     setCaptcha,
     setClientConfigApiStatus,
     setDomainConfiguration,

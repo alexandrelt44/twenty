@@ -248,6 +248,17 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Text of the sign-in button when the Google sign-in points to another provider. Leave unset to show "Continue with Google".',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  AUTH_GOOGLE_BUTTON_LABEL?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
     description: 'Enable or disable the Gmail messaging integration',
     type: ConfigVariableType.BOOLEAN,
   })

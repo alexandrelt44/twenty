@@ -1128,6 +1128,7 @@ export type ClientConfig = {
   defaultSubdomain?: Maybe<Scalars['String']['output']>;
   enterpriseInstanceType: Scalars['String']['output'];
   frontDomain: Scalars['String']['output'];
+  googleAuthButtonLabel?: Maybe<Scalars['String']['output']>;
   isAttachmentPreviewEnabled: Scalars['Boolean']['output'];
   isBookCallOnboardingStepEnabled: Scalars['Boolean']['output'];
   isClickHouseConfigured: Scalars['Boolean']['output'];
