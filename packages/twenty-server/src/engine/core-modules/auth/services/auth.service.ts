@@ -69,6 +69,7 @@ import { UserWorkspaceService } from 'src/engine/core-modules/user-workspace/use
 import { UserService } from 'src/engine/core-modules/user/services/user.service';
 import { UserEntity } from 'src/engine/core-modules/user/user.entity';
 import { WorkspaceInvitationService } from 'src/engine/core-modules/workspace-invitation/services/workspace-invitation.service';
+import { WorkspaceAccessSyncService } from 'src/engine/core-modules/auth/services/workspace-access-sync.service';
 import { AuthProviderEnum } from 'src/engine/core-modules/workspace/types/workspace.type';
 import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { workspaceValidator } from 'src/engine/core-modules/workspace/workspace.validate';
@@ -107,6 +108,7 @@ export class AuthService {
     private readonly featureFlagService: FeatureFlagService,
     private readonly createSsoConnectedAccountService: CreateSsoConnectedAccountService,
     private readonly userSessionService: UserSessionService,
+    private readonly workspaceAccessSyncService: WorkspaceAccessSyncService,
   ) {}
 
   private async checkAccessAndUseInvitationOrThrow(
@@ -1010,6 +1012,7 @@ export class AuthService {
       returnToPath,
     }: MicrosoftRequest['user'] | GoogleRequest['user'],
     authProvider: AuthProviderEnum.Google | AuthProviderEnum.Microsoft,
+    directoryUserId?: string,
   ): Promise<string> {
     const email = rawEmail.toLowerCase();
 
@@ -1072,6 +1075,17 @@ export class AuthService {
             })
           : undefined;
 
+      const hasDirectoryAccess =
+        isDefined(currentWorkspace) &&
+        !isDefined(invitation) &&
+        !isNonEmptyString(workspaceInviteHash) &&
+        isNonEmptyString(directoryUserId)
+          ? await this.workspaceAccessSyncService.grantAccessOnSignIn({
+              directoryUserId,
+              workspaceId: currentWorkspace.id,
+            })
+          : false;
+
       const { userData } = this.formatUserDataPayload(
         {
           firstName,
@@ -1081,7 +1095,9 @@ export class AuthService {
           locale,
           isEmailAlreadyVerified: true,
         },
-        existingUser,
+        hasDirectoryAccess
+          ? await this.userService.findUserByEmailWithWorkspaces(email)
+          : existingUser,
       );
 
       await this.checkAccessForSignIn({

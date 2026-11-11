@@ -152,6 +152,7 @@ export class SignInUpService {
       const updatedUser = await this.signInUpOnExistingWorkspace({
         workspace: params.workspace,
         userData: params.userData,
+        roleId: params.roleId,
       });
 
       return { user: updatedUser, workspace: params.workspace };

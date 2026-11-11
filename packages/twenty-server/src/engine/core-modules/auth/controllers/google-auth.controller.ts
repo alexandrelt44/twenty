@@ -50,6 +50,7 @@ export class GoogleAuthController {
       await this.authService.signInUpWithSocialSso(
         req.user,
         AuthProviderEnum.Google,
+        req.user.directoryUserId,
       ),
     );
   }

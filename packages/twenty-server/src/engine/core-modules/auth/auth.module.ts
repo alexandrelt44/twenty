@@ -16,6 +16,13 @@ import { MicrosoftAPIsAuthController } from 'src/engine/core-modules/auth/contro
 import { MicrosoftAuthController } from 'src/engine/core-modules/auth/controllers/microsoft-auth.controller';
 import { OAuthPropagatorController } from 'src/engine/core-modules/auth/controllers/oauth-propagator.controller';
 import { SsoAuthController } from 'src/engine/core-modules/auth/controllers/sso-auth.controller';
+import { WorkosWebhookController } from 'src/engine/core-modules/auth/controllers/workos-webhook.controller';
+import { WorkspaceAccessDirectory } from 'src/engine/core-modules/auth/services/workspace-access-directory';
+import { WorkspaceAccessSyncService } from 'src/engine/core-modules/auth/services/workspace-access-sync.service';
+import { WorkosWorkspaceAccessDirectoryService } from 'src/engine/core-modules/auth/services/workos-workspace-access-directory.service';
+import { RoleEntity } from 'src/engine/metadata-modules/role/role.entity';
+import { UserRoleModule } from 'src/engine/metadata-modules/user-role/user-role.module';
+import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspace-scoped-repository/provide-workspace-scoped-repository';
 import { AuthSsoService } from 'src/engine/core-modules/auth/services/auth-sso.service';
 import { CreateCalendarChannelService } from 'src/engine/core-modules/auth/services/create-calendar-channel.service';
 import { CreateConnectedAccountService } from 'src/engine/core-modules/auth/services/create-connected-account.service';
@@ -103,6 +110,7 @@ import { JwtAuthStrategy } from './strategies/jwt.auth.strategy';
       ConnectedAccountEntity,
       MessageChannelEntity,
       CalendarChannelEntity,
+      RoleEntity,
     ]),
     UserWorkspaceModule,
     OnboardingModule,
@@ -136,6 +144,7 @@ import { JwtAuthStrategy } from './strategies/jwt.auth.strategy';
     ConnectedAccountTokenEncryptionModule,
     EmailAliasManagerModule,
     UserSessionModule,
+    UserRoleModule,
   ],
   controllers: [
     GoogleAuthController,
@@ -145,6 +154,7 @@ import { JwtAuthStrategy } from './strategies/jwt.auth.strategy';
     OAuthPropagatorController,
     SsoAuthController,
     ConnectionProviderOAuthController,
+    WorkosWebhookController,
   ],
   providers: [
     SignInUpService,
@@ -171,6 +181,12 @@ import { JwtAuthStrategy } from './strategies/jwt.auth.strategy';
     UpdateConnectedAccountOnReconnectService,
     TransientTokenService,
     AuthSsoService,
+    WorkspaceAccessSyncService,
+    provideWorkspaceScopedRepository(RoleEntity),
+    {
+      provide: WorkspaceAccessDirectory,
+      useClass: WorkosWorkspaceAccessDirectoryService,
+    },
   ],
   exports: [
     AccessTokenService,
