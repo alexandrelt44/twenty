@@ -14,6 +14,7 @@ export type SignInUpBaseParams = {
   invitation?: AppTokenEntity;
   workspace?: WorkspaceEntity | null;
   billingCheckoutSessionState?: string | null;
+  roleId?: string | null;
 };
 
 export type SignInUpNewUserPayload = {

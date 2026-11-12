@@ -17,6 +17,7 @@ import {
 } from 'src/engine/core-modules/auth/auth.exception';
 import { type SocialSsoSignInUpActionType } from 'src/engine/core-modules/auth/types/signInUp.type';
 import { type SocialSsoState } from 'src/engine/core-modules/auth/types/social-sso-state.type';
+import { hasCustomGoogleAuthEndpoints } from 'src/engine/core-modules/auth/utils/has-custom-google-auth-endpoints.util';
 import { TwentyConfigService } from 'src/engine/core-modules/twenty-config/twenty-config.service';
 
 export type GoogleRequest = Omit<
@@ -34,11 +35,14 @@ export type GoogleRequest = Omit<
     workspaceId?: string;
     billingCheckoutSessionState?: string;
     returnToPath?: string;
+    directoryUserId?: string;
   };
 };
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
+  private readonly isDirectoryProvider: boolean;
+
   constructor(twentyConfigService: TwentyConfigService) {
     const authorizationURL = twentyConfigService.get(
       'AUTH_GOOGLE_AUTHORIZATION_URL',
@@ -67,6 +71,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     if (isNonEmptyString(userProfileURL)) {
       this._oauth2.useAuthorizationHeaderforGET(true);
     }
+
+    this.isDirectoryProvider =
+      hasCustomGoogleAuthEndpoints(twentyConfigService);
   }
 
   // oxlint-disable-next-line typescript/no-explicit-any
@@ -118,6 +125,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       action: state?.action ?? 'list-available-workspaces',
       locale: state?.locale,
       returnToPath: state?.returnToPath,
+      ...(this.isDirectoryProvider && isNonEmptyString(profile.id)
+        ? { directoryUserId: profile.id }
+        : {}),
     };
 
     done(null, user);

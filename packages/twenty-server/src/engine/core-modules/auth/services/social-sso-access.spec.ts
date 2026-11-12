@@ -7,6 +7,7 @@ import { AppTokenEntity } from 'src/engine/core-modules/app-token/app-token.enti
 import { AuthSsoService } from 'src/engine/core-modules/auth/services/auth-sso.service';
 import { AuthService } from 'src/engine/core-modules/auth/services/auth.service';
 import { SignInUpService } from 'src/engine/core-modules/auth/services/sign-in-up.service';
+import { WorkspaceAccessSyncService } from 'src/engine/core-modules/auth/services/workspace-access-sync.service';
 import { type GoogleRequest } from 'src/engine/core-modules/auth/strategies/google.auth.strategy';
 import { LoginTokenService } from 'src/engine/core-modules/auth/token/services/login-token.service';
 import { SsoExchangeTokenService } from 'src/engine/core-modules/auth/token/services/sso-exchange-token.service';
@@ -80,6 +81,7 @@ describe('social SSO access', () => {
   let guardRedirectService: {
     getRedirectErrorUrlAndCaptureExceptions: jest.Mock;
   };
+  let workspaceAccessSyncService: { grantAccessOnSignIn: jest.Mock };
 
   beforeEach(async () => {
     const config: Record<string, unknown> = {
@@ -142,7 +144,12 @@ describe('social SSO access', () => {
         .mockReturnValue(ERROR_URL),
     };
 
+    workspaceAccessSyncService = {
+      grantAccessOnSignIn: jest.fn().mockResolvedValue(false),
+    };
+
     const mocksByToken = new Map<unknown, unknown>([
+      [WorkspaceAccessSyncService, workspaceAccessSyncService],
       [getRepositoryToken(UserEntity), userRepository],
       [getRepositoryToken(WorkspaceEntity), workspaceRepository],
       [
@@ -210,7 +217,10 @@ describe('social SSO access', () => {
     signInUpService = module.get(SignInUpService);
   });
 
-  const signIn = (identity: Partial<GoogleRequest['user']> = {}) =>
+  const signIn = (
+    identity: Partial<GoogleRequest['user']> = {},
+    directoryUserId?: string,
+  ) =>
     authService.signInUpWithSocialSso(
       {
         email: EMAIL,
@@ -219,6 +229,7 @@ describe('social SSO access', () => {
         ...identity,
       },
       AuthProviderEnum.Google,
+      directoryUserId,
     );
 
   const expectRefusalReason = (message: string) => {
@@ -347,6 +358,59 @@ describe('social SSO access', () => {
         workspace.id,
         AuthProviderEnum.Google,
       );
+    });
+  });
+
+  describe('with access through a directory organization', () => {
+    it('lets a member of the linked organization in without an invitation', async () => {
+      workspaceAccessSyncService.grantAccessOnSignIn.mockResolvedValue(true);
+      userService.findUserByEmailWithWorkspaces
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(existingUser);
+      userService.hasUserAccessToWorkspaceOrThrow.mockResolvedValue(undefined);
+
+      await expect(
+        signIn({ workspaceId: workspace.id }, 'directory-user-id'),
+      ).resolves.toContain('https://workspace.example.com/verify');
+
+      expect(
+        workspaceAccessSyncService.grantAccessOnSignIn,
+      ).toHaveBeenCalledWith({
+        directoryUserId: 'directory-user-id',
+        workspaceId: workspace.id,
+      });
+      expect(loginTokenService.generateLoginToken).toHaveBeenCalledWith(
+        EMAIL,
+        workspace.id,
+        AuthProviderEnum.Google,
+      );
+    });
+
+    it('still refuses someone the directory does not link to the workspace', async () => {
+      await expect(
+        signIn({ workspaceId: workspace.id }, 'directory-user-id'),
+      ).resolves.toBe(ERROR_URL);
+
+      expectRefusalReason('User does not have access to this workspace');
+      expectNoWorkspaceAccess();
+    });
+
+    it('does not ask the directory when the sign-in has no directory user', async () => {
+      await signIn({ workspaceId: workspace.id });
+
+      expect(
+        workspaceAccessSyncService.grantAccessOnSignIn,
+      ).not.toHaveBeenCalled();
+    });
+
+    it('leaves an invitation to the invitation flow', async () => {
+      invitationQuery.getOne.mockResolvedValue(invitation);
+
+      await signIn({ workspaceId: workspace.id }, 'directory-user-id');
+
+      expect(
+        workspaceAccessSyncService.grantAccessOnSignIn,
+      ).not.toHaveBeenCalled();
     });
   });
 

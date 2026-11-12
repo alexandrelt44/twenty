@@ -259,6 +259,28 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: true,
+    isEnvOnly: true,
+    description:
+      'WorkOS API key used to read organization memberships, so people are added to and removed from workspaces automatically. Leave unset to keep access by invitation only.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  WORKOS_API_KEY?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: true,
+    isEnvOnly: true,
+    description:
+      'Secret that signs WorkOS webhooks sent to /webhooks/workos. Leave unset to disable that endpoint.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  WORKOS_WEBHOOK_SECRET?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
     description: 'Enable or disable the Gmail messaging integration',
     type: ConfigVariableType.BOOLEAN,
   })
