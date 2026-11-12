@@ -189,6 +189,8 @@ import { JwtAuthStrategy } from './strategies/jwt.auth.strategy';
     },
   ],
   exports: [
+    WorkspaceAccessSyncService,
+    WorkspaceAccessDirectory,
     AccessTokenService,
     LoginTokenService,
     RefreshTokenService,
