@@ -4,6 +4,7 @@ import { isNonEmptyString } from '@sniptt/guards';
 
 import {
   type DirectoryMembership,
+  type DirectoryOrganizationMember,
   type DirectoryUser,
   WorkspaceAccessDirectory,
 } from 'src/engine/core-modules/auth/services/workspace-access-directory';
@@ -22,6 +23,7 @@ type WorkosUserResponse = {
 };
 
 type WorkosMembershipResponse = {
+  user_id: string;
   organization_id: string;
   status: string;
   role?: { slug?: string | null } | null;
@@ -46,17 +48,30 @@ export class WorkosWorkspaceAccessDirectoryService extends WorkspaceAccessDirect
       `/user_management/users/${encodeURIComponent(directoryUserId)}`,
     );
 
-    if (user === null) {
-      return null;
-    }
+    return user === null ? null : this.toDirectoryUser(user);
+  }
 
-    return {
-      id: user.id,
-      email: user.email.toLowerCase(),
-      firstName: user.first_name,
-      lastName: user.last_name,
-      isEmailVerified: user.email_verified === true,
-    };
+  async findUserByEmail(email: string): Promise<DirectoryUser | null> {
+    const response = await this.request<{ data: WorkosUserResponse[] }>(
+      `/user_management/users?email=${encodeURIComponent(email)}&limit=1`,
+    );
+    const user = response?.data[0];
+
+    return user ? this.toDirectoryUser(user) : null;
+  }
+
+  async listOrganizationMembers(
+    organizationId: string,
+  ): Promise<DirectoryOrganizationMember[]> {
+    const response = await this.request<{ data: WorkosMembershipResponse[] }>(
+      `/user_management/organization_memberships?organization_id=${encodeURIComponent(organizationId)}&limit=100`,
+    );
+
+    return (response?.data ?? []).map((membership) => ({
+      directoryUserId: membership.user_id,
+      roleSlug: membership.role?.slug ?? null,
+      isActive: membership.status === 'active',
+    }));
   }
 
   async listMemberships(
@@ -83,6 +98,16 @@ export class WorkosWorkspaceAccessDirectoryService extends WorkspaceAccessDirect
     const workspaceId = organization?.metadata?.[WORKSPACE_ID_METADATA_KEY];
 
     return isNonEmptyString(workspaceId) ? workspaceId : null;
+  }
+
+  private toDirectoryUser(user: WorkosUserResponse): DirectoryUser {
+    return {
+      id: user.id,
+      email: user.email.toLowerCase(),
+      firstName: user.first_name,
+      lastName: user.last_name,
+      isEmailVerified: user.email_verified === true,
+    };
   }
 
   private async request<TResponse>(path: string): Promise<TResponse | null> {

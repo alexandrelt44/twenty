@@ -19,7 +19,11 @@ const directoryUser: DirectoryUser = {
   isEmailVerified: true,
 };
 
-const workspace = { id: WORKSPACE_ID, defaultRoleId: DEFAULT_ROLE_ID };
+const workspace = {
+  id: WORKSPACE_ID,
+  defaultRoleId: DEFAULT_ROLE_ID,
+  activationStatus: 'ACTIVE',
+};
 
 type Setup = {
   linkedWorkspaceId?: string | null;
@@ -31,6 +35,7 @@ type Setup = {
   } | null;
   memberCount?: number;
   roleMap?: Record<string, string>;
+  activationStatus?: string;
 };
 
 const buildService = ({
@@ -42,12 +47,15 @@ const buildService = ({
   crmUser = null,
   memberCount = 3,
   roleMap = {},
+  activationStatus = 'ACTIVE',
 }: Setup = {}) => {
   const directory: WorkspaceAccessDirectory = {
     isEnabled: () => true,
     findUser: jest.fn(async () => user),
     listMemberships: jest.fn(async () => memberships),
     findWorkspaceIdForOrganization: jest.fn(async () => linkedWorkspaceId),
+    findUserByEmail: jest.fn(async () => user),
+    listOrganizationMembers: jest.fn(async () => []),
   };
   const signInUpService = { signInUp: jest.fn() };
   const userWorkspaceService = {
@@ -60,7 +68,9 @@ const buildService = ({
 
   const service = new WorkspaceAccessSyncService(
     directory,
-    { findOneBy: jest.fn(async () => workspace) } as never,
+    {
+      findOneBy: jest.fn(async () => ({ ...workspace, activationStatus })),
+    } as never,
     { findOne: jest.fn(async () => crmUser) } as never,
     { count: jest.fn(async () => memberCount) } as never,
     { findOne: jest.fn(async () => ({ id: ADMIN_ROLE_ID })) } as never,
@@ -75,6 +85,7 @@ const buildService = ({
 
   return {
     service,
+    directory,
     signInUpService,
     userWorkspaceService,
     userService,
@@ -262,6 +273,28 @@ describe('WorkspaceAccessSyncService', () => {
     expect(
       lastAdmin.userService.deleteUserWorkspaceAndPotentiallyDeleteUser,
     ).not.toHaveBeenCalled();
+  });
+
+  it('leaves a workspace that is still waiting for its first member to the tenant flow', async () => {
+    const { service, signInUpService } = buildService({
+      activationStatus: 'PENDING_CREATION',
+    });
+
+    expect(await sync(service)).toBe('workspace-pending');
+    expect(signInUpService.signInUp).not.toHaveBeenCalled();
+  });
+
+  it('uses the workspace given by the caller instead of asking the directory', async () => {
+    const { service, directory } = buildService({ linkedWorkspaceId: null });
+
+    expect(
+      await service.syncMembership({
+        directoryUserId: DIRECTORY_USER_ID,
+        organizationId: ORGANIZATION_ID,
+        workspaceId: WORKSPACE_ID,
+      }),
+    ).toBe('created');
+    expect(directory.findWorkspaceIdForOrganization).not.toHaveBeenCalled();
   });
 
   it('ignores organizations that are not linked to a workspace', async () => {

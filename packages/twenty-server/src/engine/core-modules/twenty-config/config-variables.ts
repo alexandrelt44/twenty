@@ -281,6 +281,50 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'WorkOS issuer whose JWKS signs the ColabAuth machine tokens sent to /colabauth/v1. Leave unset to disable those routes.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  WORKOS_ISSUER?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Audience expected in ColabAuth machine tokens: the client id of the WorkOS environment.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  COLABAUTH_AUDIENCE?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'Comma-separated WorkOS client ids allowed to call /colabauth/v1.',
+    type: ConfigVariableType.ARRAY,
+  })
+  @IsOptional()
+  COLABAUTH_ALLOWED_CLIENT_IDS?: string[];
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'WorkOS organization that ColabAuth machine tokens must belong to.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  COLABAUTH_ORG_ID?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
     description: 'Enable or disable the Gmail messaging integration',
     type: ConfigVariableType.BOOLEAN,
   })

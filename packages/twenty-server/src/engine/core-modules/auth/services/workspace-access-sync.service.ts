@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { isDefined } from 'twenty-shared/utils';
+import { WorkspaceActivationStatus } from 'twenty-shared/workspace';
 import { Repository } from 'typeorm';
 
 import { SignInUpService } from 'src/engine/core-modules/auth/services/sign-in-up.service';
@@ -36,6 +37,7 @@ export type WorkspaceAccessSyncOutcome =
   | 'removed'
   | 'kept-last-member'
   | 'kept-last-admin'
+  | 'workspace-pending'
   | 'unchanged';
 
 @Injectable()
@@ -107,16 +109,19 @@ export class WorkspaceAccessSyncService {
   async syncMembership({
     directoryUserId,
     organizationId,
+    workspaceId: knownWorkspaceId,
   }: {
     directoryUserId: string;
     organizationId: string;
+    workspaceId?: string;
   }): Promise<WorkspaceAccessSyncOutcome> {
     if (!this.directory.isEnabled()) {
       return 'disabled';
     }
 
     const workspaceId =
-      await this.directory.findWorkspaceIdForOrganization(organizationId);
+      knownWorkspaceId ??
+      (await this.directory.findWorkspaceIdForOrganization(organizationId));
 
     if (!isDefined(workspaceId)) {
       return 'not-linked';
@@ -132,6 +137,16 @@ export class WorkspaceAccessSyncService {
       );
 
       return 'not-linked';
+    }
+
+    // A workspace is activated by its first member, which the ColabAuth
+    // tenant flow handles; adding someone before that would fail.
+    if (
+      workspace.activationStatus ===
+        WorkspaceActivationStatus.PENDING_CREATION ||
+      workspace.activationStatus === WorkspaceActivationStatus.ONGOING_CREATION
+    ) {
+      return 'workspace-pending';
     }
 
     const directoryUser = await this.directory.findUser(directoryUserId);

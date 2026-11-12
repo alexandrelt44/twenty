@@ -12,6 +12,12 @@ export type DirectoryMembership = {
   isActive: boolean;
 };
 
+export type DirectoryOrganizationMember = {
+  directoryUserId: string;
+  roleSlug: string | null;
+  isActive: boolean;
+};
+
 // The identity provider that decides who belongs to which workspace. WorkOS
 // implements it today; the ColabAuth service will replace that implementation.
 export abstract class WorkspaceAccessDirectory {
@@ -19,9 +25,15 @@ export abstract class WorkspaceAccessDirectory {
 
   abstract findUser(directoryUserId: string): Promise<DirectoryUser | null>;
 
+  abstract findUserByEmail(email: string): Promise<DirectoryUser | null>;
+
   abstract listMemberships(
     directoryUserId: string,
   ): Promise<DirectoryMembership[]>;
+
+  abstract listOrganizationMembers(
+    organizationId: string,
+  ): Promise<DirectoryOrganizationMember[]>;
 
   abstract findWorkspaceIdForOrganization(
     organizationId: string,
