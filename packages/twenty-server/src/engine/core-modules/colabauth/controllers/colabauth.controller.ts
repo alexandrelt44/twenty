@@ -116,16 +116,24 @@ export class ColabauthController {
   }
 
   @Post('memberships/sync')
-  @HttpCode(HttpStatus.OK)
   async syncMembership(
     @Body() body: SyncMembershipBody,
+    @Res({ passthrough: true }) response: Response,
   ): Promise<ColabauthMembershipSyncResult> {
-    return this.colabauthTenantService.syncMembership({
+    const result = await this.colabauthTenantService.syncMembership({
       workosUserId: requireString(body?.workosUserId, 'workosUserId'),
       workosOrganizationId: requireString(
         body?.workosOrganizationId,
         'workosOrganizationId',
       ),
     });
+
+    // 202 tells the caller the workspace is still being activated and the
+    // same call should be retried.
+    response.status(
+      result.action === 'pending' ? HttpStatus.ACCEPTED : HttpStatus.OK,
+    );
+
+    return result;
   }
 }

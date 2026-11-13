@@ -209,18 +209,23 @@ export class ColabauthTenantService {
     const directoryUser = await this.directory.findUser(workosUserId);
 
     if (PENDING_STATUSES.includes(workspace.activationStatus)) {
-      const isActivated = await this.activateWithFirstMember({
+      const activation = await this.activateWithFirstMember({
         workspace,
         workosUserId,
         workosOrganizationId,
       });
 
-      return isActivated && isDefined(directoryUser)
-        ? {
-            action: 'created',
-            role: await this.findMemberRole(workspace.id, directoryUser.email),
-          }
-        : { action: 'noop', role: null };
+      if (activation === 'activated' && isDefined(directoryUser)) {
+        return {
+          action: 'created',
+          role: await this.findMemberRole(workspace.id, directoryUser.email),
+        };
+      }
+
+      return {
+        action: activation === 'in-progress' ? 'pending' : 'noop',
+        role: null,
+      };
     }
 
     const outcome = await this.workspaceAccessSyncService.syncMembership({
@@ -323,7 +328,8 @@ export class ColabauthTenantService {
   }
 
   // The first person synced into a pending workspace activates it, and
-  // activation makes that person the workspace Admin.
+  // activation makes that person the workspace Admin. Activation takes tens of
+  // seconds, so callers that arrive meanwhile get 'in-progress' and retry.
   private async activateWithFirstMember({
     workspace,
     workosUserId,
@@ -332,7 +338,7 @@ export class ColabauthTenantService {
     workspace: WorkspaceEntity;
     workosUserId: string;
     workosOrganizationId: string;
-  }): Promise<boolean> {
+  }): Promise<'activated' | 'in-progress' | 'not-eligible'> {
     const memberships = await this.directory.listMemberships(workosUserId);
     const isActiveMember = memberships.some(
       (membership) =>
@@ -342,13 +348,17 @@ export class ColabauthTenantService {
     const directoryUser = await this.directory.findUser(workosUserId);
 
     if (
-      workspace.activationStatus !==
-        WorkspaceActivationStatus.PENDING_CREATION ||
       !isActiveMember ||
       !isDefined(directoryUser) ||
       !directoryUser.isEmailVerified
     ) {
-      return false;
+      return 'not-eligible';
+    }
+
+    if (
+      workspace.activationStatus !== WorkspaceActivationStatus.PENDING_CREATION
+    ) {
+      return 'in-progress';
     }
 
     const existingUser = await this.userRepository.findOne({
@@ -365,7 +375,7 @@ export class ColabauthTenantService {
         (pendingMember) => pendingMember.userId !== existingUser?.id,
       )
     ) {
-      return false;
+      return 'in-progress';
     }
     const user =
       existingUser ??
@@ -395,12 +405,31 @@ export class ColabauthTenantService {
       });
     }
 
-    await this.workspaceService.activateWorkspace(
-      fromUserEntityToFlat(user),
-      workspace,
-    );
+    try {
+      const activatedWorkspace = await this.workspaceService.activateWorkspace(
+        fromUserEntityToFlat(user),
+        workspace,
+      );
 
-    return true;
+      return activatedWorkspace?.activationStatus ===
+        WorkspaceActivationStatus.ACTIVE
+        ? 'activated'
+        : 'in-progress';
+    } catch (error) {
+      // Another request took the activation lock between our status read and
+      // this call.
+      const current = await this.workspaceRepository.findOneBy({
+        id: workspace.id,
+      });
+
+      if (
+        current?.activationStatus === WorkspaceActivationStatus.ONGOING_CREATION
+      ) {
+        return 'in-progress';
+      }
+
+      throw error;
+    }
   }
 
   private async toTenant(workspace: WorkspaceEntity): Promise<ColabauthTenant> {
