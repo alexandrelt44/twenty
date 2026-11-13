@@ -26,7 +26,8 @@ export type ColabauthMembershipAction =
   | 'created'
   | 'updated'
   | 'removed'
-  | 'noop';
+  | 'noop'
+  | 'pending';
 
 export type ColabauthMembershipSyncResult = {
   action: ColabauthMembershipAction;

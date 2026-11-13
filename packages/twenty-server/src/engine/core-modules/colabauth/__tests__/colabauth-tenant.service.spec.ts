@@ -112,7 +112,9 @@ const buildService = ({
     findById: jest.fn(async () => ({ universalIdentifier: 'app-uid' })),
   };
   const workspaceService = {
-    activateWorkspace: jest.fn(),
+    activateWorkspace: jest.fn(async () => ({
+      activationStatus: WorkspaceActivationStatus.ACTIVE,
+    })),
     suspendWorkspace: jest.fn(),
     reactivateWorkspace: jest.fn(),
   };
@@ -152,6 +154,7 @@ const buildService = ({
   return {
     service,
     dataSource,
+    workspaceRepository,
     savedEntities,
     userRepository,
     userWorkspaceService,
@@ -268,9 +271,67 @@ describe('ColabauthTenantService', () => {
           workosUserId: DIRECTORY_USER_ID,
           workosOrganizationId: ORGANIZATION_ID,
         }),
-      ).toEqual({ action: 'noop', role: null });
+      ).toEqual({ action: 'pending', role: null });
       expect(userWorkspaceService.create).not.toHaveBeenCalled();
       expect(workspaceService.activateWorkspace).not.toHaveBeenCalled();
+    });
+
+    it('says the workspace is still being activated instead of noop', async () => {
+      const { service, workspaceService } = buildService({
+        linkedWorkspaceId: WORKSPACE_ID,
+        activationStatus: WorkspaceActivationStatus.ONGOING_CREATION,
+      });
+
+      expect(
+        await service.syncMembership({
+          workosUserId: DIRECTORY_USER_ID,
+          workosOrganizationId: ORGANIZATION_ID,
+        }),
+      ).toEqual({ action: 'pending', role: null });
+      expect(workspaceService.activateWorkspace).not.toHaveBeenCalled();
+    });
+
+    it('reports pending when another request takes the activation lock first', async () => {
+      const { service, workspaceService, workspaceRepository } = buildService({
+        linkedWorkspaceId: WORKSPACE_ID,
+        activationStatus: WorkspaceActivationStatus.PENDING_CREATION,
+      });
+
+      workspaceService.activateWorkspace.mockRejectedValueOnce(
+        new Error('Workspace is already being created'),
+      );
+      workspaceRepository.findOneBy
+        .mockResolvedValueOnce({
+          id: WORKSPACE_ID,
+          activationStatus: WorkspaceActivationStatus.PENDING_CREATION,
+          workspaceCustomApplicationId: 'app-1',
+        } as never)
+        .mockResolvedValueOnce({
+          id: WORKSPACE_ID,
+          activationStatus: WorkspaceActivationStatus.ONGOING_CREATION,
+        } as never);
+
+      expect(
+        await service.syncMembership({
+          workosUserId: DIRECTORY_USER_ID,
+          workosOrganizationId: ORGANIZATION_ID,
+        }),
+      ).toEqual({ action: 'pending', role: null });
+    });
+
+    it('still answers noop to someone outside the organization while the workspace is being activated', async () => {
+      const { service } = buildService({
+        linkedWorkspaceId: WORKSPACE_ID,
+        activationStatus: WorkspaceActivationStatus.ONGOING_CREATION,
+        memberships: [],
+      });
+
+      expect(
+        await service.syncMembership({
+          workosUserId: DIRECTORY_USER_ID,
+          workosOrganizationId: ORGANIZATION_ID,
+        }),
+      ).toEqual({ action: 'noop', role: null });
     });
 
     it('does not activate a pending workspace for someone outside the organization', async () => {
