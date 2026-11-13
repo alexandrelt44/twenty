@@ -1006,7 +1006,7 @@ export class AuthService {
       email: rawEmail,
       picture,
       workspaceInviteHash,
-      workspaceId,
+      workspaceId: requestedWorkspaceId,
       billingCheckoutSessionState,
       locale,
       returnToPath,
@@ -1015,6 +1015,16 @@ export class AuthService {
     directoryUserId?: string,
   ): Promise<string> {
     const email = rawEmail.toLowerCase();
+
+    // The base-domain workspace picker leaves people coming from the directory
+    // stuck on /verify, so send them straight to their only workspace.
+    const workspaceId =
+      requestedWorkspaceId ??
+      (!workspaceInviteHash && isNonEmptyString(directoryUserId)
+        ? ((await this.workspaceAccessSyncService.findSingleWorkspaceForSignIn(
+            directoryUserId,
+          )) ?? undefined)
+        : undefined);
 
     const existingUser =
       await this.userService.findUserByEmailWithWorkspaces(email);

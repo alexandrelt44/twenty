@@ -81,7 +81,10 @@ describe('social SSO access', () => {
   let guardRedirectService: {
     getRedirectErrorUrlAndCaptureExceptions: jest.Mock;
   };
-  let workspaceAccessSyncService: { grantAccessOnSignIn: jest.Mock };
+  let workspaceAccessSyncService: {
+    grantAccessOnSignIn: jest.Mock;
+    findSingleWorkspaceForSignIn: jest.Mock;
+  };
 
   beforeEach(async () => {
     const config: Record<string, unknown> = {
@@ -146,6 +149,7 @@ describe('social SSO access', () => {
 
     workspaceAccessSyncService = {
       grantAccessOnSignIn: jest.fn().mockResolvedValue(false),
+      findSingleWorkspaceForSignIn: jest.fn().mockResolvedValue(null),
     };
 
     const mocksByToken = new Map<unknown, unknown>([
@@ -400,6 +404,49 @@ describe('social SSO access', () => {
 
       expect(
         workspaceAccessSyncService.grantAccessOnSignIn,
+      ).not.toHaveBeenCalled();
+    });
+
+    it('sends a base-domain sign-in straight to the only workspace the directory links', async () => {
+      workspaceAccessSyncService.findSingleWorkspaceForSignIn.mockResolvedValue(
+        workspace.id,
+      );
+      workspaceAccessSyncService.grantAccessOnSignIn.mockResolvedValue(true);
+      userService.findUserByEmailWithWorkspaces.mockResolvedValue(existingUser);
+      userService.hasUserAccessToWorkspaceOrThrow.mockResolvedValue(undefined);
+
+      await expect(signIn({}, 'directory-user-id')).resolves.toContain(
+        'https://workspace.example.com/verify',
+      );
+
+      expect(
+        workspaceAccessSyncService.findSingleWorkspaceForSignIn,
+      ).toHaveBeenCalledWith('directory-user-id');
+      expect(loginTokenService.generateLoginToken).toHaveBeenCalledWith(
+        EMAIL,
+        workspace.id,
+        AuthProviderEnum.Google,
+      );
+      expect(
+        ssoExchangeTokenService.generateSsoExchangeToken,
+      ).not.toHaveBeenCalled();
+    });
+
+    it('keeps the workspace picker when the directory does not point to a single workspace', async () => {
+      userService.findUserByEmailWithWorkspaces.mockResolvedValue(existingUser);
+
+      await expect(signIn({}, 'directory-user-id')).resolves.toContain(
+        'ssoExchangeToken=exchange-token',
+      );
+
+      expectNoWorkspaceAccess();
+    });
+
+    it('does not override a workspace chosen by the sign-in', async () => {
+      await signIn({ workspaceId: workspace.id }, 'directory-user-id');
+
+      expect(
+        workspaceAccessSyncService.findSingleWorkspaceForSignIn,
       ).not.toHaveBeenCalled();
     });
 

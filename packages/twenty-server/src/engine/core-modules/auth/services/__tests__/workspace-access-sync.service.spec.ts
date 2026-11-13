@@ -297,6 +297,59 @@ describe('WorkspaceAccessSyncService', () => {
     expect(directory.findWorkspaceIdForOrganization).not.toHaveBeenCalled();
   });
 
+  describe('findSingleWorkspaceForSignIn', () => {
+    it('returns the active workspace linked to the only organization', async () => {
+      const { service } = buildService();
+
+      expect(
+        await service.findSingleWorkspaceForSignIn(DIRECTORY_USER_ID),
+      ).toBe(WORKSPACE_ID);
+    });
+
+    it('returns nothing when the organizations point to several workspaces', async () => {
+      const { service, directory } = buildService({
+        memberships: [
+          { organizationId: 'org_a', roleSlug: 'member', isActive: true },
+          { organizationId: 'org_b', roleSlug: 'member', isActive: true },
+        ],
+      });
+
+      (directory.findWorkspaceIdForOrganization as jest.Mock)
+        .mockResolvedValueOnce('workspace-a')
+        .mockResolvedValueOnce('workspace-b');
+
+      expect(
+        await service.findSingleWorkspaceForSignIn(DIRECTORY_USER_ID),
+      ).toBeNull();
+    });
+
+    it('returns nothing for a workspace that is not active yet', async () => {
+      const { service } = buildService({
+        activationStatus: 'PENDING_CREATION',
+      });
+
+      expect(
+        await service.findSingleWorkspaceForSignIn(DIRECTORY_USER_ID),
+      ).toBeNull();
+    });
+
+    it('ignores inactive memberships', async () => {
+      const { service } = buildService({
+        memberships: [
+          {
+            organizationId: ORGANIZATION_ID,
+            roleSlug: 'member',
+            isActive: false,
+          },
+        ],
+      });
+
+      expect(
+        await service.findSingleWorkspaceForSignIn(DIRECTORY_USER_ID),
+      ).toBeNull();
+    });
+  });
+
   it('ignores organizations that are not linked to a workspace', async () => {
     const { service, signInUpService } = buildService({
       linkedWorkspaceId: null,
