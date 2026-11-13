@@ -65,6 +65,44 @@ export class WorkspaceAccessSyncService {
     return this.directory.isEnabled();
   }
 
+  // Sign-ins on the base domain carry no workspace. When the person's
+  // directory organizations point to exactly one active workspace, sign-in goes
+  // straight there instead of through the workspace picker.
+  async findSingleWorkspaceForSignIn(
+    directoryUserId: string,
+  ): Promise<string | null> {
+    if (!this.directory.isEnabled()) {
+      return null;
+    }
+
+    const memberships = await this.directory.listMemberships(directoryUserId);
+    const linkedWorkspaceIds = new Set<string>();
+
+    for (const membership of memberships.filter(({ isActive }) => isActive)) {
+      const linkedWorkspaceId =
+        await this.directory.findWorkspaceIdForOrganization(
+          membership.organizationId,
+        );
+
+      if (isDefined(linkedWorkspaceId)) {
+        linkedWorkspaceIds.add(linkedWorkspaceId);
+      }
+    }
+
+    if (linkedWorkspaceIds.size !== 1) {
+      return null;
+    }
+
+    const [workspaceId] = linkedWorkspaceIds;
+    const workspace = await this.workspaceRepository.findOneBy({
+      id: workspaceId,
+    });
+
+    return workspace?.activationStatus === WorkspaceActivationStatus.ACTIVE
+      ? workspaceId
+      : null;
+  }
+
   // Called on sign-in when the user has no invitation: gives access to the
   // workspace if one of the user's directory organizations is linked to it.
   async grantAccessOnSignIn({
