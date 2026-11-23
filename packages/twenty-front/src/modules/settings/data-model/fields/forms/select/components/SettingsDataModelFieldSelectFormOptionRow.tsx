@@ -10,6 +10,7 @@ import { useCloseDropdown } from '@/ui/layout/dropdown/hooks/useCloseDropdown';
 import { styled } from '@linaria/react';
 import { useContext } from 'react';
 import { type SelectStageKind } from 'twenty-shared/types';
+import { isDefined } from 'twenty-shared/utils';
 import { t } from '@lingui/core/macro';
 import { ColorSample } from 'twenty-ui/primitives/data-display';
 import {
