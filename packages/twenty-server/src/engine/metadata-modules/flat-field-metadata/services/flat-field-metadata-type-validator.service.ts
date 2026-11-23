@@ -16,6 +16,7 @@ import { validateLinksFlatFieldMetadata } from 'src/engine/metadata-modules/flat
 import { validateMorphOrRelationFlatFieldMetadata } from 'src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-morph-or-relation-flat-field-metadata.util';
 import { validateMorphRelationFlatFieldMetadata } from 'src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-morph-relation-flat-field-metadata.util';
 import { validatePositionFlatFieldMetadata } from 'src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-position-flat-field-metadata.util';
+import { validateSelectFlatFieldMetadata } from 'src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-select-flat-field-metadata.util';
 import { validateTsVectorFlatFieldMetadata } from 'src/engine/metadata-modules/flat-field-metadata/validators/utils/validate-ts-vector-flat-field-metadata.util';
 import { belongsToTwentyStandardApp } from 'src/engine/metadata-modules/utils/belongs-to-twenty-standard-app.util';
 
@@ -83,7 +84,10 @@ export class FlatFieldMetadataTypeValidatorService {
       MULTI_SELECT: validateEnumSelectFlatFieldMetadata,
       RATING: validateEnumSelectFlatFieldMetadata,
       RELATION: validateMorphOrRelationFlatFieldMetadata,
-      SELECT: validateEnumSelectFlatFieldMetadata,
+      SELECT: (args) => [
+        ...validateEnumSelectFlatFieldMetadata(args),
+        ...validateSelectFlatFieldMetadata(args),
+      ],
     };
 
   public validateFlatFieldMetadataTypeSpecificities(
