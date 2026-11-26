@@ -148,12 +148,14 @@ const setup = (configOverrides: Record<string, unknown> = {}) => {
       ),
     },
     jtiCache: {
-      setIfAbsent: jest.fn(async (key: string) => {
-        if (usedJtis.has(key)) return false;
-        usedJtis.add(key);
+      setIfAbsent: jest.fn(
+        async (key: string, _value: unknown, _ttlMs: number) => {
+          if (usedJtis.has(key)) return false;
+          usedJtis.add(key);
 
-        return true;
-      }),
+          return true;
+        },
+      ),
     },
     lockCache: {
       acquireLock: jest.fn(async (key: string) => {
@@ -425,7 +427,7 @@ describe('ColabosJwtBearerGrantService', () => {
 
       await grant(buildAssertion({}, { lifetimeSeconds: 120 }));
 
-      const ttl = mocks.jtiCache.setIfAbsent.mock.calls[0][2] as number;
+      const ttl = mocks.jtiCache.setIfAbsent.mock.calls[0][2];
 
       // 120 s of validity plus 30 s of clock tolerance.
       expect(ttl).toBeGreaterThan(150_000);
