@@ -3,7 +3,10 @@ import { generateKeyPairSync, randomUUID } from 'crypto';
 import { sign } from 'jsonwebtoken';
 import { WorkspaceActivationStatus } from 'twenty-shared/workspace';
 
-import { ColabosJwtBearerGrantService } from 'src/engine/core-modules/application/application-oauth/colabos-jwt-bearer/colabos-jwt-bearer-grant.service';
+import {
+  ColabosJwtBearerGrantService,
+  RELEASE_INSTALL_LOCK_SCRIPT,
+} from 'src/engine/core-modules/application/application-oauth/colabos-jwt-bearer/colabos-jwt-bearer-grant.service';
 
 // Every collaborator is a test double below; mocking the modules keeps the
 // spec from loading their whole dependency graph.
@@ -85,7 +88,7 @@ const setup = (configOverrides: Record<string, unknown> = {}) => {
   };
 
   const usedJtis = new Set<string>();
-  const locks = new Set<string>();
+  const locks = new Map<string, string>();
 
   const registration = {
     id: 'registration-1',
@@ -158,15 +161,23 @@ const setup = (configOverrides: Record<string, unknown> = {}) => {
       ),
     },
     lockCache: {
-      acquireLock: jest.fn(async (key: string) => {
-        if (locks.has(key)) return false;
-        locks.add(key);
+      setIfAbsent: jest.fn(
+        async (key: string, value: string, _ttlMs: number) => {
+          if (locks.has(key)) return false;
+          locks.set(key, JSON.stringify(value));
 
-        return true;
-      }),
-      releaseLock: jest.fn(async (key: string) => {
-        locks.delete(key);
-      }),
+          return true;
+        },
+      ),
+      // Compare-and-delete, like RELEASE_INSTALL_LOCK_SCRIPT.
+      runScript: jest.fn(
+        async ({ keys, args }: { keys: string[]; args: string[] }) => {
+          if (locks.get(keys[0]) !== args[0]) return 0;
+          locks.delete(keys[0]);
+
+          return 1;
+        },
+      ),
     },
   };
 
@@ -537,9 +548,13 @@ describe('ColabosJwtBearerGrantService', () => {
 
       await grant(buildAssertion());
 
-      expect(mocks.lockCache.acquireLock).toHaveBeenCalledWith(
+      expect(mocks.lockCache.setIfAbsent).toHaveBeenCalledWith(
         `colabos-jwt-bearer:install:registration-1:${WORKSPACE_ID}`,
+        expect.any(String),
         30_000,
+      );
+      expect(mocks.lockCache.runScript).toHaveBeenCalledWith(
+        expect.objectContaining({ script: RELEASE_INSTALL_LOCK_SCRIPT }),
       );
       expect(locks.size).toBe(0);
     });
@@ -570,6 +585,23 @@ describe('ColabosJwtBearerGrantService', () => {
       expect(mocks.oauthService.findOrInstallApplication).toHaveBeenCalledTimes(
         2,
       );
+    });
+
+    it('never frees a lock that another holder took after expiry', async () => {
+      const { grant, mocks, locks } = setup();
+      const lockKey = `colabos-jwt-bearer:install:registration-1:${WORKSPACE_ID}`;
+
+      mocks.oauthService.findOrInstallApplication.mockImplementationOnce(
+        async () => {
+          // Our lock expired mid-install and someone else took it.
+          locks.set(lockKey, JSON.stringify('another-holder'));
+
+          return { id: 'application-1' };
+        },
+      );
+
+      expect((await grant(buildAssertion())).ok).toBe(true);
+      expect(locks.get(lockKey)).toBe(JSON.stringify('another-holder'));
     });
 
     it('releases the lock when the install fails', async () => {

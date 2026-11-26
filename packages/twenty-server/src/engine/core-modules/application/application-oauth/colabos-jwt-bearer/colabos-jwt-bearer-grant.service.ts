@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { createPublicKey, type KeyObject } from 'crypto';
+import { createPublicKey, randomUUID, type KeyObject } from 'crypto';
 
 import { isNonEmptyString } from '@sniptt/guards';
 import { decode, type JwtPayload, verify } from 'jsonwebtoken';
@@ -46,6 +46,16 @@ const JTI_MAX_LENGTH = 128;
 const INSTALL_LOCK_TTL_MS = 30_000;
 const INSTALL_LOCK_WAIT_MS = 15_000;
 const INSTALL_LOCK_POLL_MS = 200;
+
+// Deletes the lock only while it still holds this holder's token, so a holder
+// whose lock already expired never frees the lock of the next one.
+export const RELEASE_INSTALL_LOCK_SCRIPT = {
+  name: 'colabos-jwt-bearer-release-install-lock',
+  source: `if redis.call('GET', KEYS[1]) == ARGV[1] then
+  return redis.call('DEL', KEYS[1])
+end
+return 0`,
+};
 
 type ColabosAssertionPayload = JwtPayload & { workspace_id?: unknown };
 
@@ -366,15 +376,23 @@ export class ColabosJwtBearerGrantService {
 
   // The first exchange in a workspace installs the application. Two people
   // opening ColabOS at once must not install it twice, so the install runs
-  // under a lock and re-reads before installing.
+  // under a lock and re-reads before installing. The lock holds a token of its
+  // own and is released only by its holder.
   private async findOrInstallApplicationOnce(
     applicationRegistration: ApplicationRegistrationEntity,
     workspaceId: string,
   ): Promise<ApplicationEntity | null> {
     const lockKey = `colabos-jwt-bearer:install:${applicationRegistration.id}:${workspaceId}`;
+    const lockToken = randomUUID();
     const deadline = Date.now() + INSTALL_LOCK_WAIT_MS;
 
-    while (!(await this.lockCache.acquireLock(lockKey, INSTALL_LOCK_TTL_MS))) {
+    while (
+      !(await this.lockCache.setIfAbsent(
+        lockKey,
+        lockToken,
+        INSTALL_LOCK_TTL_MS,
+      ))
+    ) {
       if (Date.now() >= deadline) {
         return null;
       }
@@ -388,7 +406,12 @@ export class ColabosJwtBearerGrantService {
         workspaceId,
       );
     } finally {
-      await this.lockCache.releaseLock(lockKey);
+      // setIfAbsent stores the value JSON-encoded.
+      await this.lockCache.runScript<number>({
+        script: RELEASE_INSTALL_LOCK_SCRIPT,
+        keys: [lockKey],
+        args: [JSON.stringify(lockToken)],
+      });
     }
   }
 
