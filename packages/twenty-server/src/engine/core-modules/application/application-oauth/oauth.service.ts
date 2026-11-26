@@ -755,7 +755,8 @@ export class OAuthService {
     return scope.split(' ').filter((entry) => entry.length > 0);
   }
 
-  private async findOrInstallApplication(
+  // Public so the ColabOS jwt-bearer grant installs the same way (fork).
+  async findOrInstallApplication(
     applicationRegistration: ApplicationRegistrationEntity,
     workspaceId: string,
   ): Promise<ApplicationEntity> {
