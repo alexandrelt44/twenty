@@ -7,17 +7,23 @@ import { ApplicationInstallModule } from 'src/engine/core-modules/application/ap
 import { ApplicationRegistrationEntity } from 'src/engine/core-modules/application/application-registration/application-registration.entity';
 import { ApplicationEntity } from 'src/engine/core-modules/application/application.entity';
 import { ApplicationModule as ApplicationCoreModule } from 'src/engine/core-modules/application/application.module';
+import { ColabosJwtBearerGrantService } from 'src/engine/core-modules/application/application-oauth/colabos-jwt-bearer/colabos-jwt-bearer-grant.service';
+import { ColabosJwtBearerController } from 'src/engine/core-modules/application/application-oauth/colabos-jwt-bearer/colabos-jwt-bearer.controller';
 import { ApplicationOAuthResolver } from 'src/engine/core-modules/application/application-oauth/application-oauth.resolver';
 import { OAuthDiscoveryController } from 'src/engine/core-modules/application/application-oauth/controllers/oauth-discovery.controller';
 import { OAuthRegistrationController } from 'src/engine/core-modules/application/application-oauth/controllers/oauth-registration.controller';
 import { OAuthTokenController } from 'src/engine/core-modules/application/application-oauth/controllers/oauth-token.controller';
 import { OAuthService } from 'src/engine/core-modules/application/application-oauth/oauth.service';
 import { ApplicationRegistrationModule } from 'src/engine/core-modules/application/application-registration/application-registration.module';
+import { WorkspaceAccessDirectory } from 'src/engine/core-modules/auth/services/workspace-access-directory';
+import { WorkosWorkspaceAccessDirectoryService } from 'src/engine/core-modules/auth/services/workos-workspace-access-directory.service';
 import { TokenModule } from 'src/engine/core-modules/auth/token/token.module';
 import { FeatureFlagModule } from 'src/engine/core-modules/feature-flag/feature-flag.module';
 import { ThrottlerModule } from 'src/engine/core-modules/throttler/throttler.module';
 import { TwentyConfigModule } from 'src/engine/core-modules/twenty-config/twenty-config.module';
 import { UserWorkspaceEntity } from 'src/engine/core-modules/user-workspace/user-workspace.entity';
+import { UserEntity } from 'src/engine/core-modules/user/user.entity';
+import { WorkspaceEntity } from 'src/engine/core-modules/workspace/workspace.entity';
 import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permissions.module';
 import { WorkspaceCacheStorageModule } from 'src/engine/workspace-cache-storage/workspace-cache-storage.module';
 import { DomainServerConfigModule } from 'src/engine/core-modules/domain/domain-server-config/domain-server-config.module';
@@ -29,6 +35,8 @@ import { DomainServerConfigModule } from 'src/engine/core-modules/domain/domain-
       ApplicationEntity,
       ApplicationRegistrationEntity,
       UserWorkspaceEntity,
+      UserEntity,
+      WorkspaceEntity,
     ]),
     ApplicationRegistrationModule,
     ApplicationAuthorizationModule,
@@ -46,8 +54,19 @@ import { DomainServerConfigModule } from 'src/engine/core-modules/domain/domain-
     OAuthTokenController,
     OAuthDiscoveryController,
     OAuthRegistrationController,
+    ColabosJwtBearerController,
   ],
-  providers: [OAuthService, ApplicationOAuthResolver],
+  providers: [
+    OAuthService,
+    ApplicationOAuthResolver,
+    ColabosJwtBearerGrantService,
+    // The WorkOS directory only needs the config: provided here instead of
+    // importing AuthModule.
+    {
+      provide: WorkspaceAccessDirectory,
+      useClass: WorkosWorkspaceAccessDirectoryService,
+    },
+  ],
   exports: [OAuthService],
 })
 export class ApplicationOAuthModule {}

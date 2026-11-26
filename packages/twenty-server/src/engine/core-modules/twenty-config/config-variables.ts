@@ -325,6 +325,37 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'ColabOS jwt-bearer grant: JSON object mapping each key id (kid) to the PEM public key ColabAuth signs assertions with. Leave unset to disable the grant.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  COLABOS_ASSERTION_PUBLIC_KEYS?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isSensitive: false,
+    isEnvOnly: true,
+    description:
+      'ColabOS jwt-bearer grant: the only OAuth client_id allowed to use it.',
+    type: ConfigVariableType.STRING,
+  })
+  @IsOptionalOrEmptyString()
+  COLABOS_OAUTH_CLIENT_ID?: string;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
+    isEnvOnly: true,
+    description:
+      'ColabOS jwt-bearer grant: accept requests that came through a reverse proxy (X-Forwarded-For). Keep false so only the internal network can use it.',
+    type: ConfigVariableType.BOOLEAN,
+  })
+  COLABOS_JWT_BEARER_ALLOW_PROXIED = false;
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.GOOGLE_AUTH,
     description: 'Enable or disable the Gmail messaging integration',
     type: ConfigVariableType.BOOLEAN,
   })
