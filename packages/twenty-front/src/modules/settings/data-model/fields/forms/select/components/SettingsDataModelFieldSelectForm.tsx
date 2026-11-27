@@ -11,6 +11,10 @@ import { useSelectSettingsFormInitialValues } from '@/settings/data-model/fields
 import { convertBulkTextToOptions } from '@/settings/data-model/fields/forms/select/utils/convertBulkTextToOptions';
 import { convertOptionsToBulkText } from '@/settings/data-model/fields/forms/select/utils/convertOptionsToBulkText';
 import { generateNewSelectOption } from '@/settings/data-model/fields/forms/select/utils/generateNewSelectOption';
+import {
+  pruneStageKindsOfRemovedOptions,
+  setStageKindInSettings,
+} from '@/settings/data-model/fields/forms/select/utils/updateSelectStageKinds';
 import { isSelectOptionDefaultValue } from '@/settings/data-model/utils/isSelectOptionDefaultValue';
 import { DraggableItem } from '@/ui/layout/draggable-list/components/DraggableItem';
 import { DraggableList } from '@/ui/layout/draggable-list/components/DraggableList';
@@ -32,6 +36,7 @@ import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomState
 import { t } from '@lingui/core/macro';
 import { useContext, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { SELECT_STAGE_KINDS, type SelectStageKind } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
 import { LightButton } from 'twenty-ui/components';
 import {
@@ -47,9 +52,17 @@ import { MenuItem } from 'twenty-ui/primitives/navigation';
 import { ThemeContext, themeCssVariables } from 'twenty-ui/theme-constants';
 import { SettingsDataModelFieldSelectFormOptionRow } from './SettingsDataModelFieldSelectFormOptionRow';
 
+// Loose so the resolver keeps settings keys this form does not edit
+const selectFormSettingsSchema = z
+  .looseObject({
+    stageKinds: z.record(z.string(), z.enum(SELECT_STAGE_KINDS)).optional(),
+  })
+  .nullish();
+
 export const settingsDataModelFieldSelectFormSchema = z.object({
   defaultValue: selectFieldDefaultValueSchema(),
   options: selectOptionsSchema,
+  settings: selectFormSettingsSchema,
 });
 
 export const settingsDataModelFieldMultiSelectFormSchema = z.object({
@@ -172,10 +185,15 @@ export const SettingsDataModelFieldSelectForm = ({
     useSelectSettingsFormInitialValues({
       fieldMetadataId: existingFieldMetadataId,
     });
-  const { fieldMetadataItem } = useFieldMetadataItemById(
+  const { fieldMetadataItem, objectMetadataItem } = useFieldMetadataItemById(
     existingFieldMetadataId,
   );
   const isNullable = fieldMetadataItem?.isNullable;
+  // v1 only exposes stage kinds on the opportunity stage field
+  const isStageKindEditable =
+    fieldType === FieldMetadataType.SELECT &&
+    fieldMetadataItem?.name === 'stage' &&
+    objectMetadataItem?.nameSingular === 'opportunity';
 
   const isAdvancedModeEnabled = useAtomStateValue(isAdvancedModeEnabledState);
 
@@ -211,6 +229,42 @@ export const SettingsDataModelFieldSelectForm = ({
       setHasAppliedNewOption(true);
     }
   }, [searchParams, hasAppliedNewOption, initialOptions, setFormValue]);
+
+  const pruneStageKinds = (nextOptions: FieldMetadataItemOption[]) => {
+    if (!isStageKindEditable) {
+      return;
+    }
+
+    const currentSettings = getValues('settings');
+
+    if (!isDefined(currentSettings?.stageKinds)) {
+      return;
+    }
+
+    setFormValue(
+      'settings',
+      pruneStageKindsOfRemovedOptions({
+        settings: currentSettings,
+        remainingOptionIds: nextOptions.map((option) => option.id),
+      }),
+      { shouldDirty: true },
+    );
+  };
+
+  const handleStageKindChange = (
+    optionId: string,
+    stageKind: SelectStageKind,
+  ) => {
+    setFormValue(
+      'settings',
+      setStageKindInSettings({
+        settings: getValues('settings'),
+        optionId,
+        stageKind,
+      }),
+      { shouldDirty: true, shouldValidate: true },
+    );
+  };
 
   const handleDragEnd = (
     values: FieldMetadataItemOption[],
@@ -401,6 +455,7 @@ export const SettingsDataModelFieldSelectForm = ({
                               LeftIcon={IconTrash}
                               onClick={() => {
                                 onChange([]);
+                                pruneStageKinds([]);
                                 closeOptionsDropdown(OPTIONS_DROPDOWN_ID);
                               }}
                             />
@@ -428,6 +483,7 @@ export const SettingsDataModelFieldSelectForm = ({
                         );
 
                         onChange(nextOptions);
+                        pruneStageKinds(nextOptions);
                         setBulkInputText(nextOptionAsText);
                       }}
                       minRows={5}
@@ -493,7 +549,22 @@ export const SettingsDataModelFieldSelectForm = ({
                                       position: nextOptionIndex,
                                     }));
                                     onChange(nextOptions);
+                                    pruneStageKinds(nextOptions);
                                   }}
+                                  stageKind={
+                                    watchFormValue('settings')?.stageKinds?.[
+                                      option.id
+                                    ]
+                                  }
+                                  onStageKindChange={
+                                    isStageKindEditable && !disabled
+                                      ? (stageKind) =>
+                                          handleStageKindChange(
+                                            option.id,
+                                            stageKind,
+                                          )
+                                      : undefined
+                                  }
                                   isDefault={isOptionDefaultValue(option.value)}
                                   fieldIsNullable={!!isNullable}
                                   onSetAsDefault={() => {

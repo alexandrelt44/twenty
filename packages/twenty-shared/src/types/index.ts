@@ -126,6 +126,8 @@ export type {
   FieldCurrencyFormat,
   FieldLinksVariant,
   FieldMetadataSettingsMapping,
+  FieldMetadataSelectSettings,
+  SelectStageKind,
   AllFieldMetadataSettings,
   FieldMetadataSettings,
 } from './FieldMetadataSettings';
@@ -133,6 +135,7 @@ export {
   NumberDataType,
   DateDisplayFormat,
   FIELD_LINKS_VARIANTS,
+  SELECT_STAGE_KINDS,
 } from './FieldMetadataSettings';
 export { FieldMetadataType } from './FieldMetadataType';
 export type { FieldMetadataUniversalSettings } from './FieldMetadataUniversalSettings';

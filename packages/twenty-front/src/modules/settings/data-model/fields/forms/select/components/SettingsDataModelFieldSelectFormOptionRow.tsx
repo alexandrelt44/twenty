@@ -1,6 +1,7 @@
 import { type FieldMetadataItemOption } from '@/object-metadata/types/FieldMetadataItem';
 import { AdvancedSettingsWrapper } from '@/settings/components/AdvancedSettingsWrapper';
 import { OPTION_VALUE_MAXIMUM_LENGTH } from '@/settings/data-model/constants/OptionValueMaximumLength';
+import { Select } from '@/ui/input/components/Select';
 import { SettingsTextInput } from '@/ui/input/components/SettingsTextInput';
 import { Dropdown } from '@/ui/layout/dropdown/components/Dropdown';
 import { DropdownContent } from '@/ui/layout/dropdown/components/DropdownContent';
@@ -8,6 +9,8 @@ import { DropdownMenuItemsContainer } from '@/ui/layout/dropdown/components/Drop
 import { useCloseDropdown } from '@/ui/layout/dropdown/hooks/useCloseDropdown';
 import { styled } from '@linaria/react';
 import { useContext } from 'react';
+import { type SelectStageKind } from 'twenty-shared/types';
+import { isDefined } from 'twenty-shared/utils';
 import { t } from '@lingui/core/macro';
 import { ColorSample } from 'twenty-ui/primitives/data-display';
 import {
@@ -66,6 +69,9 @@ type SettingsDataModelFieldSelectFormOptionRowProps = {
   option: FieldMetadataItemOption;
   isNewRow?: boolean;
   fieldIsNullable?: boolean;
+  // The stage kind selector only shows when onStageKindChange is provided
+  stageKind?: SelectStageKind;
+  onStageKindChange?: (stageKind: SelectStageKind) => void;
 };
 
 const StyledRow = styled.div`
@@ -100,6 +106,10 @@ const StyledIconGripVerticalContainer = styled.span`
   margin-right: 3px;
 `;
 
+const StyledStageKindContainer = styled.span`
+  margin-left: ${themeCssVariables.spacing[2]};
+`;
+
 const StyledLightIconButtonContainer = styled.span`
   align-items: center;
   display: flex;
@@ -117,6 +127,8 @@ export const SettingsDataModelFieldSelectFormOptionRow = ({
   option,
   isNewRow,
   fieldIsNullable,
+  stageKind = 'OPEN',
+  onStageKindChange,
 }: SettingsDataModelFieldSelectFormOptionRowProps) => {
   const { theme } = useContext(ThemeContext);
   const colorLabels = useColorLabels();
@@ -125,6 +137,12 @@ export const SettingsDataModelFieldSelectFormOptionRow = ({
 
   const { closeDropdown: closeColorDropdown } = useCloseDropdown();
   const { closeDropdown: closeActionsDropdown } = useCloseDropdown();
+
+  const stageKindOptions: { value: SelectStageKind; label: string }[] = [
+    { value: 'OPEN', label: t`Open` },
+    { value: 'WON', label: t`Won` },
+    { value: 'LOST', label: t`Lost` },
+  ];
 
   const shouldForbidRemoveAsDefault = isDefault && !fieldIsNullable;
 
@@ -210,6 +228,19 @@ export const SettingsDataModelFieldSelectFormOptionRow = ({
           autoSelectOnMount={isNewRow}
         />
       </StyledOptionInputContainer>
+      {isDefined(onStageKindChange) && (
+        <StyledStageKindContainer>
+          <Select<SelectStageKind>
+            selectSizeVariant="small"
+            dropdownId={`select-stage-kind-${option.id}`}
+            dropdownWidth={120}
+            needIconCheck={false}
+            value={stageKind}
+            options={stageKindOptions}
+            onChange={onStageKindChange}
+          />
+        </StyledStageKindContainer>
+      )}
       <Dropdown
         dropdownId={SELECT_ACTIONS_DROPDOWN_ID}
         dropdownPlacement="right-start"

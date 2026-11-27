@@ -114,7 +114,6 @@ type NotDefinedSettings = {
 type SettingsAssertions = [
   Expect<HasAllProperties<FullNameFieldMetadata, NotDefinedSettings>>,
   Expect<HasAllProperties<RatingFieldMetadata, NotDefinedSettings>>,
-  Expect<HasAllProperties<SelectFieldMetadata, NotDefinedSettings>>,
   Expect<HasAllProperties<MultiSelectFieldMetadata, NotDefinedSettings>>,
   Expect<HasAllProperties<PositionFieldMetadata, NotDefinedSettings>>,
   Expect<HasAllProperties<RawJsonFieldMetadata, NotDefinedSettings>>,
@@ -122,6 +121,16 @@ type SettingsAssertions = [
   Expect<HasAllProperties<UUIDFieldMetadata, NotDefinedSettings>>,
   Expect<HasAllProperties<BooleanFieldMetadata, NotDefinedSettings>>,
 
+  Expect<
+    HasAllProperties<
+      SelectFieldMetadata,
+      {
+        settings: JsonbProperty<
+          FieldMetadataSettingsMapping[FieldMetadataType.SELECT]
+        >;
+      }
+    >
+  >,
   Expect<
     HasAllProperties<
       TextFieldMetadata,

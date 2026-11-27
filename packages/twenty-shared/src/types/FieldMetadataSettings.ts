@@ -70,6 +70,15 @@ type FieldMetadataFilesSettings = {
   maxNumberOfValues: number;
 };
 
+export const SELECT_STAGE_KINDS = ['OPEN', 'WON', 'LOST'] as const;
+
+export type SelectStageKind = (typeof SELECT_STAGE_KINDS)[number];
+
+export type FieldMetadataSelectSettings = {
+  // Keyed by option id; an option without an entry counts as OPEN
+  stageKinds?: Record<string, SelectStageKind>;
+};
+
 export type FieldMetadataSettingsMapping = {
   [FieldMetadataType.NUMBER]: FieldMetadataNumberSettings | null;
   [FieldMetadataType.CURRENCY]: FieldMetadataCurrencySettings | null;
@@ -85,6 +94,7 @@ export type FieldMetadataSettingsMapping = {
   [FieldMetadataType.LINKS]: FieldMetadataLinksSettings | null;
   [FieldMetadataType.ARRAY]: FieldMetadataMultiItemSettings | null;
   [FieldMetadataType.FILES]: FieldMetadataFilesSettings;
+  [FieldMetadataType.SELECT]: FieldMetadataSelectSettings | null;
 };
 
 export type AllFieldMetadataSettings =
