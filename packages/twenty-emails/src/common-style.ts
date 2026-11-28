@@ -23,7 +23,7 @@ const grayScale = {
 };
 
 const colors = {
-  accent: '#9333EA',
+  accent: '#BE185D',
 };
 
 export const canvasTheme = {
@@ -35,7 +35,7 @@ export const canvasTheme = {
       inverted: grayScale.gray0,
       accent: colors.accent,
     },
-    family: 'Outfit, sans-serif',
+    family: 'Inter, Arial, sans-serif',
     weight: {
       regular: 400,
       bold: 600,

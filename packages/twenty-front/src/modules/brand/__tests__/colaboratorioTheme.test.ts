@@ -96,6 +96,9 @@ describe('colaboratorio theme', () => {
         getContrastRatio(whiteColor, getHexValue(block, '--t-color-blue')),
       ).toBeGreaterThanOrEqual(4.5);
       expect(
+        getContrastRatio(whiteColor, getHexValue(block, '--t-accent-accent9')),
+      ).toBeGreaterThanOrEqual(4.5);
+      expect(
         getContrastRatio(getHexValue(block, '--t-accent-accent11'), background),
       ).toBeGreaterThanOrEqual(4.5);
     },

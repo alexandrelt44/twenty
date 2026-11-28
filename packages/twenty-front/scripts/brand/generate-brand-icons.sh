@@ -8,7 +8,7 @@ SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_ICON="$SCRIPT_DIRECTORY/brand-icon-source.png"
 ICONS_DIRECTORY="$SCRIPT_DIRECTORY/../../public/images/icons"
 # Non-square tiles (splash screens, wide tiles) are padded with the brand background.
-PAD_COLOR="0A0A0F"
+PAD_COLOR="1C1A17"
 TEMPORARY_ICON="$(mktemp -t brand-icon).png"
 
 regenerated_count=0

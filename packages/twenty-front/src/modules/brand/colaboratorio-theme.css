@@ -8,18 +8,18 @@
 
 :root.light,
 .light {
-  --t-accent-accent1: #fefcfe;
-  --t-accent-accent2: #fbf7fe;
-  --t-accent-accent3: #f7edfe;
-  --t-accent-accent4: #f2e2fc;
-  --t-accent-accent5: #ead5f9;
-  --t-accent-accent6: #e0c4f4;
-  --t-accent-accent7: #d1afec;
-  --t-accent-accent8: #be93e4;
-  --t-accent-accent9: #9333ea;
-  --t-accent-accent10: #7e22ce;
-  --t-accent-accent11: #7e22ce;
-  --t-accent-accent12: #402060;
+  --t-accent-accent1: #fdf2f8;
+  --t-accent-accent2: #fce7f3;
+  --t-accent-accent3: #fbdbed;
+  --t-accent-accent4: #fbcfe8;
+  --t-accent-accent5: #fac5e3;
+  --t-accent-accent6: #fabbde;
+  --t-accent-accent7: #f9b2d9;
+  --t-accent-accent8: #f9a8d4;
+  --t-accent-accent9: #be185d;
+  --t-accent-accent10: #9d174d;
+  --t-accent-accent11: #9d174d;
+  --t-accent-accent12: #500724;
   --t-accent-primary: var(--t-accent-accent5);
   --t-accent-secondary: var(--t-accent-accent5);
   --t-accent-tertiary: var(--t-accent-accent3);
@@ -29,58 +29,57 @@
 
   /* Primary buttons and links read the blue scale, not accent. User-picked
      "blue" tags use --t-tag-*-blue and stay blue. */
-  --t-color-blue: #9333ea;
-  --t-color-blue1: #fefcfe;
-  --t-color-blue2: #fbf7fe;
-  --t-color-blue3: #f7edfe;
-  --t-color-blue4: #f2e2fc;
-  --t-color-blue5: #ead5f9;
-  --t-color-blue6: #e0c4f4;
-  --t-color-blue7: #d1afec;
-  --t-color-blue8: #be93e4;
-  --t-color-blue9: #9333ea;
-  --t-color-blue10: #7e22ce;
-  --t-color-blue11: #7e22ce;
-  --t-color-blue12: #402060;
+  --t-color-blue: #be185d;
+  --t-color-blue1: #fdf2f8;
+  --t-color-blue2: #fce7f3;
+  --t-color-blue3: #fbdbed;
+  --t-color-blue4: #fbcfe8;
+  --t-color-blue5: #fac5e3;
+  --t-color-blue6: #fabbde;
+  --t-color-blue7: #f9b2d9;
+  --t-color-blue8: #f9a8d4;
+  --t-color-blue9: #be185d;
+  --t-color-blue10: #9d174d;
+  --t-color-blue11: #9d174d;
+  --t-color-blue12: #500724;
 
   /* Same alpha bytes as upstream transparent-blue, RGB swapped to the accent/
      blue scale above (step N -> accentN). Focus rings, DnD targets, active AI
      thread rows, spreadsheet import table, Monaco selection, info snackbars. */
-  --t-color-transparent-blue1: #fefcfe02;
-  --t-color-transparent-blue2: #fbf7fe08;
-  --t-color-transparent-blue3: #f7edfe12;
-  --t-color-transparent-blue4: #f2e2fc1e;
-  --t-color-transparent-blue5: #ead5f92d;
-  --t-color-transparent-blue6: #e0c4f43e;
-  --t-color-transparent-blue7: #d1afec54;
-  --t-color-transparent-blue8: #be93e472;
-  --t-color-transparent-blue9: #9333eac1;
-  --t-color-transparent-blue10: #7e22cecc;
-  --t-color-transparent-blue11: #7e22cec5;
-  --t-color-transparent-blue12: #402060e0;
-  --t-background-transparent-blue: #f7edfe12;
-  --t-border-color-blue: #d1afec;
-  --t-snack-bar-info-background-color: #f7edfe12;
-  --t-snack-bar-info-color: #9333ea;
+  --t-color-transparent-blue1: #fdf2f802;
+  --t-color-transparent-blue2: #fce7f308;
+  --t-color-transparent-blue3: #fbdbed12;
+  --t-color-transparent-blue4: #fbcfe81e;
+  --t-color-transparent-blue5: #fac5e32d;
+  --t-color-transparent-blue6: #fabbde3e;
+  --t-color-transparent-blue7: #f9b2d954;
+  --t-color-transparent-blue8: #f9a8d472;
+  --t-color-transparent-blue9: #be185dc1;
+  --t-color-transparent-blue10: #9d174dcc;
+  --t-color-transparent-blue11: #9d174dc5;
+  --t-color-transparent-blue12: #500724e0;
+  --t-background-transparent-blue: #fbdbed12;
+  --t-border-color-blue: #f9b2d9;
+  --t-snack-bar-info-background-color: #fbdbed12;
+  --t-snack-bar-info-color: #be185d;
 
-  --t-font-family: Outfit, sans-serif;
   --t-code-font-family: 'JetBrains Mono', monospace;
 }
 
 :root.dark,
 .dark {
-  --t-accent-accent1: #18111b;
-  --t-accent-accent2: #1e1523;
-  --t-accent-accent3: #301c3b;
-  --t-accent-accent4: #3d224e;
-  --t-accent-accent5: #48295c;
-  --t-accent-accent6: #54346b;
-  --t-accent-accent7: #664282;
-  --t-accent-accent8: #8457aa;
-  --t-accent-accent9: #8e4ec6;
-  --t-accent-accent10: #9a5cd0;
-  --t-accent-accent11: #d8b4fe;
-  --t-accent-accent12: #ecd9fa;
+  --t-accent-accent1: #191114;
+  --t-accent-accent2: #201318;
+  --t-accent-accent3: #381525;
+  --t-accent-accent4: #4d122f;
+  --t-accent-accent5: #5c1839;
+  --t-accent-accent6: #6d2545;
+  --t-accent-accent7: #873356;
+  --t-accent-accent8: #b0436e;
+  --t-accent-accent9: #be185d;
+  --t-accent-accent10: #db2777;
+  --t-accent-accent11: #f9a8d4;
+  --t-accent-accent12: #fce7f3;
   --t-accent-primary: var(--t-accent-accent5);
   --t-accent-secondary: var(--t-accent-accent5);
   --t-accent-tertiary: var(--t-accent-accent3);
@@ -88,42 +87,36 @@
   --t-accent-accent3570: var(--t-accent-accent8);
   --t-accent-accent4060: var(--t-accent-accent8);
 
-  --t-color-blue: #8e4ec6;
-  --t-color-blue1: #18111b;
-  --t-color-blue2: #1e1523;
-  --t-color-blue3: #301c3b;
-  --t-color-blue4: #3d224e;
-  --t-color-blue5: #48295c;
-  --t-color-blue6: #54346b;
-  --t-color-blue7: #664282;
-  --t-color-blue8: #8457aa;
-  --t-color-blue9: #8e4ec6;
-  --t-color-blue10: #9a5cd0;
-  --t-color-blue11: #d8b4fe;
-  --t-color-blue12: #ecd9fa;
+  --t-color-blue: #be185d;
+  --t-color-blue1: #191114;
+  --t-color-blue2: #201318;
+  --t-color-blue3: #381525;
+  --t-color-blue4: #4d122f;
+  --t-color-blue5: #5c1839;
+  --t-color-blue6: #6d2545;
+  --t-color-blue7: #873356;
+  --t-color-blue8: #b0436e;
+  --t-color-blue9: #be185d;
+  --t-color-blue10: #db2777;
+  --t-color-blue11: #f9a8d4;
+  --t-color-blue12: #fce7f3;
 
-  --t-color-transparent-blue1: #18111b0f;
-  --t-color-transparent-blue2: #1e152317;
-  --t-color-transparent-blue3: #301c3b3c;
-  --t-color-transparent-blue4: #3d224e57;
-  --t-color-transparent-blue5: #48295c6b;
-  --t-color-transparent-blue6: #54346b7c;
-  --t-color-transparent-blue7: #66428290;
-  --t-color-transparent-blue8: #8457aaac;
-  --t-color-transparent-blue9: #8e4ec6db;
-  --t-color-transparent-blue10: #9a5cd0e3;
-  --t-color-transparent-blue11: #d8b4fe;
-  --t-color-transparent-blue12: #ecd9fa;
-  --t-background-transparent-blue: #3d224e57;
-  --t-border-color-blue: #664282;
-  --t-snack-bar-info-background-color: #3d224e57;
-  --t-snack-bar-info-color: #8e4ec6;
+  --t-color-transparent-blue1: #1911140f;
+  --t-color-transparent-blue2: #20131817;
+  --t-color-transparent-blue3: #3815253c;
+  --t-color-transparent-blue4: #4d122f57;
+  --t-color-transparent-blue5: #5c18396b;
+  --t-color-transparent-blue6: #6d25457c;
+  --t-color-transparent-blue7: #87335690;
+  --t-color-transparent-blue8: #b0436eac;
+  --t-color-transparent-blue9: #be185ddb;
+  --t-color-transparent-blue10: #db2777e3;
+  --t-color-transparent-blue11: #f9a8d4;
+  --t-color-transparent-blue12: #fce7f3;
+  --t-background-transparent-blue: #4d122f57;
+  --t-border-color-blue: #873356;
+  --t-snack-bar-info-background-color: #4d122f57;
+  --t-snack-bar-info-color: #be185d;
 
-  --t-font-family: Outfit, sans-serif;
   --t-code-font-family: 'JetBrains Mono', monospace;
-}
-
-/* index.css hardcodes Inter on body. */
-body {
-  font-family: 'Outfit', sans-serif;
 }
