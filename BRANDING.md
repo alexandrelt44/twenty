@@ -28,6 +28,48 @@ exported from `twenty-emails`), so per-workspace branding can reuse them.
 
 The full 12-step scale lives in `packages/twenty-front/src/modules/brand/colaboratorio-theme.css`.
 
+## ColabOS design system (PRD-974)
+
+The same stylesheet applies the ColabOS design system (`docs/design-system/` in `alexandrelt44/colabtools`:
+`tokens.css` and `componentes.md`) in light mode. Dark mode keeps Twenty's neutrals until the ColabOS has a dark
+content mode.
+
+| Item | Value |
+|---|---|
+| Neutrals | Twenty's gray scale re-mapped to the "areia" scale: `#FFFFFF`, `#FBFAF6`, `#F5F2EA` ... `#5E5A52`, `#1C1A17` |
+| Text | Primary `#1C1A17`, secondary `#5E5A52`, tertiary (placeholders, empty values) `#8A8478` |
+| Page and surfaces | Main page cream `#F5F2EA`; tables, cards, menus, modals and fields white; table header `#FBF9F4` |
+| Borders | `#E2DCCE` (medium), `#EFEAE0` (light), `#D6CFC0` (strong, outline buttons) |
+| Hover and pressed | `#ECE7DB`, `#E2DCCE` |
+| Shadows and overlays | From `rgb(28 26 23)`, never pure black |
+| Radii | 6 px (sm), 10 px (md: buttons, menus, fields), 16 px (lg), 20 px (xl); plain rounded corners, no squircles |
+| Sidebar | `#1C1A17`, items `#E7E2D8`, labels `#9A9387`, hover `#26231F`; current item a cream `#F5F2EA` chip with `#1C1A17` text at 600; monochrome icons; workspace switcher in a `#26231F` box with a `#3A3631` border |
+| Tabs | Current tab underlined 3 px in `#BE185D` |
+| Primary action | `#BE185D` (the KATIA purple stays out of the CRM) |
+
+The layer only re-maps theme variables, plus a few rules on stable hooks. If an upstream merge drops one of
+these hooks, the rule stops matching and that part falls back to Twenty's look; nothing breaks:
+
+| Hook | Used for |
+|---|---|
+| `[data-click-outside-id='navigation-drawer']` (`NAVIGATION_DRAWER_CLICK_OUTSIDE_ID`) | Dark sidebar, re-mapped roles inside it |
+| `[aria-current='page']`, `button[aria-current='true']` inside the drawer | Current item and current mode chip |
+| `.navigation-drawer-item` | Monochrome icons in the sidebar |
+| `[data-testid='workspace-dropdown']` | Workspace switcher box |
+| `[data-page-surface='main'] > div > div` (`PageCardLayout`'s card) | Cream page; white fields and outline buttons inside it |
+| `.header-cell` | Table header fill and label color |
+| `button[data-variant='outline']` | Outline button border |
+| `[class*='_tabButton_'][data-active]`, `[class*='_tabContainer_'][data-active]` | Pink tab underline |
+
+Left as Twenty draws it, because matching the ColabOS would mean changing upstream components or structure:
+table density (32 px rows, `RECORD_TABLE_ROW_HEIGHT`, tied to virtualization) and 13 px text, 28 px sidebar items
+instead of 44 px, Tabler icons at 16 px instead of Lucide at 18 px, the account box at the foot of the sidebar,
+the page title in Outfit 34 px, the mobile bottom bar, and tag colors (chosen per option in the CRM).
+
+Twenty resolves part of the theme in JS at startup (`getComputedStyle(document.documentElement)`), for instance
+the record table cells. Those read the root values only, so the sidebar and page scoping above applies to
+components that use `themeCssVariables`, and the root values must stay right on their own.
+
 Source of the values: the Colab brand kit, `docs/brand/` in `alexandrelt44/colabtools` (`tokens.css`,
 `logos/colabcrm/`). The accent is the Tailwind pink scale the kit uses: `#BE185D` for primary actions,
 `#9D174D` for hover and links on light backgrounds, `#F9A8D4` for links on dark backgrounds.
@@ -96,7 +138,8 @@ who signs (the screen is blocked).
 - `sign-in-up-dpa-guard.spec.ts` fails if sign-up records the DPA again.
 
 - `packages/twenty-front/src/modules/brand/__tests__/colaboratorioTheme.test.ts` fails if
-  upstream renames a theme variable the brand overrides, or if contrast drops below WCAG AA.
+  upstream renames a theme variable the brand overrides (root or sidebar), or if contrast drops below WCAG AA:
+  accent on white, text on the light surfaces, and text in the sidebar and its current item.
 - `email-templates-rendering.spec.ts` fails if upstream email chrome reappears.
 
 ## Syncing upstream
