@@ -107,7 +107,9 @@ describe('colaboratorio theme', () => {
     );
     const sidebarVariableNames = [
       ...getDeclaredVariableNames(getRuleBlock(brandCss, SIDEBAR_SELECTOR)),
-      ...getDeclaredVariableNames(getRuleBlock(brandCss, CURRENT_ITEM_SELECTOR)),
+      ...getDeclaredVariableNames(
+        getRuleBlock(brandCss, CURRENT_ITEM_SELECTOR),
+      ),
     ];
 
     expect(sidebarVariableNames.length).toBeGreaterThan(0);

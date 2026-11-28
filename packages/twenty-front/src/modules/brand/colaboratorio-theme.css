@@ -237,7 +237,9 @@
 
 :root.light [data-click-outside-id='navigation-drawer'] [aria-current='page'],
 .light [data-click-outside-id='navigation-drawer'] [aria-current='page'],
-:root.light [data-click-outside-id='navigation-drawer'] button[aria-current='true'],
+:root.light
+  [data-click-outside-id='navigation-drawer']
+  button[aria-current='true'],
 .light [data-click-outside-id='navigation-drawer'] button[aria-current='true'] {
   --t-font-color-primary: #1c1a17;
   --t-font-color-secondary: #1c1a17;
@@ -251,13 +253,20 @@
 
 /* Lucide-style monochrome icons: the per-object icon colors are tuned for a
    light background and drop below 3:1 on the dark sidebar. */
-:root.light [data-click-outside-id='navigation-drawer'] .navigation-drawer-item svg,
+:root.light
+  [data-click-outside-id='navigation-drawer']
+  .navigation-drawer-item
+  svg,
 .light [data-click-outside-id='navigation-drawer'] .navigation-drawer-item svg {
   stroke: currentColor;
 }
 
-:root.light [data-click-outside-id='navigation-drawer'] [data-testid='workspace-dropdown'],
-.light [data-click-outside-id='navigation-drawer'] [data-testid='workspace-dropdown'] {
+:root.light
+  [data-click-outside-id='navigation-drawer']
+  [data-testid='workspace-dropdown'],
+.light
+  [data-click-outside-id='navigation-drawer']
+  [data-testid='workspace-dropdown'] {
   background: #26231f;
   border: 1px solid #3a3631;
   border-radius: 10px;
