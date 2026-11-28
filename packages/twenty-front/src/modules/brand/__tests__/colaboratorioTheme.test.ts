@@ -10,6 +10,10 @@ const UPSTREAM_THEME_PATHS = {
   dark: '../../../../../twenty-ui/src/theme-constants/theme-dark.css',
 };
 
+const SIDEBAR_SELECTOR = ".light [data-click-outside-id='navigation-drawer']";
+const CURRENT_ITEM_SELECTOR =
+  ".light [data-click-outside-id='navigation-drawer'] button[aria-current='true']";
+
 type ColorSchemeClass = keyof typeof UPSTREAM_THEME_PATHS;
 
 const getSelectorBlocks = (css: string, colorSchemeClass: ColorSchemeClass) =>
@@ -20,9 +24,24 @@ const getSelectorBlocks = (css: string, colorSchemeClass: ColorSchemeClass) =>
 const getDeclaredVariableNames = (block: string) =>
   [...block.matchAll(/(--t-[a-z0-9-]+)\s*:/g)].map((match) => match[1]);
 
+const getReferencedVariableNames = (css: string) =>
+  [...css.matchAll(/var\((--t-[a-z0-9-]+)/g)].map((match) => match[1]);
+
+const getRuleBlock = (css: string, selectorFragment: string) => {
+  const rule = [...css.matchAll(/([^{}]+)\{([^}]*)\}/g)].find((match) =>
+    match[1].trim().endsWith(selectorFragment),
+  );
+
+  if (rule === undefined) {
+    throw new Error(`No rule with selector ${selectorFragment}`);
+  }
+
+  return rule[2];
+};
+
 const getHexValue = (block: string, variableName: string) => {
   const match = block.match(
-    new RegExp(`${variableName}\\s*:\\s*(#[0-9a-fA-F]{6})\\s*;`),
+    new RegExp(`(?<![\\w-])${variableName}\\s*:\\s*(#[0-9a-fA-F]{6})\\s*;`),
   );
 
   if (match === null) {
@@ -59,14 +78,15 @@ describe('colaboratorio theme', () => {
   it.each(['light', 'dark'] as const)(
     'should only override variables that exist in the upstream %s theme',
     (colorSchemeClass) => {
-      const upstreamVariableNames = new Set(
-        getDeclaredVariableNames(
-          getSelectorBlocks(
-            readRelativeFile(UPSTREAM_THEME_PATHS[colorSchemeClass]),
-            colorSchemeClass,
-          ),
-        ),
+      const upstreamCss = readRelativeFile(
+        UPSTREAM_THEME_PATHS[colorSchemeClass],
       );
+      const upstreamVariableNames = new Set([
+        ...getDeclaredVariableNames(
+          getSelectorBlocks(upstreamCss, colorSchemeClass),
+        ),
+        ...getReferencedVariableNames(upstreamCss),
+      ]);
       const brandVariableNames = getDeclaredVariableNames(
         getSelectorBlocks(brandCss, colorSchemeClass),
       );
@@ -79,6 +99,81 @@ describe('colaboratorio theme', () => {
       ).toEqual([]);
     },
   );
+
+  it('should only re-map upstream light variables inside the sidebar', () => {
+    const upstreamCss = readRelativeFile(UPSTREAM_THEME_PATHS.light);
+    const upstreamVariableNames = new Set(
+      getDeclaredVariableNames(getSelectorBlocks(upstreamCss, 'light')),
+    );
+    const sidebarVariableNames = [
+      ...getDeclaredVariableNames(getRuleBlock(brandCss, SIDEBAR_SELECTOR)),
+      ...getDeclaredVariableNames(getRuleBlock(brandCss, CURRENT_ITEM_SELECTOR)),
+    ];
+
+    expect(sidebarVariableNames.length).toBeGreaterThan(0);
+    expect(
+      sidebarVariableNames.filter(
+        (variableName) => !upstreamVariableNames.has(variableName),
+      ),
+    ).toEqual([]);
+  });
+
+  it('should keep the warm neutrals WCAG AA readable on the light surfaces', () => {
+    const block = getSelectorBlocks(brandCss, 'light');
+    const surfaces = [
+      getHexValue(block, '--t-background-primary'),
+      getHexValue(block, '--t-background-secondary'),
+      getHexValue(block, '--t-background-tertiary'),
+    ];
+
+    for (const surface of surfaces) {
+      expect(
+        getContrastRatio(getHexValue(block, '--t-font-color-primary'), surface),
+      ).toBeGreaterThanOrEqual(4.5);
+      expect(
+        getContrastRatio(
+          getHexValue(block, '--t-font-color-secondary'),
+          surface,
+        ),
+      ).toBeGreaterThanOrEqual(4.5);
+      expect(
+        getContrastRatio(getHexValue(block, '--t-color-blue'), surface),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+
+    // Tertiary is for placeholders and empty values, as in the ColabOS.
+    expect(
+      getContrastRatio(
+        getHexValue(block, '--t-font-color-tertiary'),
+        getHexValue(block, '--t-background-primary'),
+      ),
+    ).toBeGreaterThanOrEqual(3);
+  });
+
+  it('should keep the dark sidebar and its current item WCAG AA readable', () => {
+    const sidebarBlock = getRuleBlock(brandCss, SIDEBAR_SELECTOR);
+    const currentItemBlock = getRuleBlock(brandCss, CURRENT_ITEM_SELECTOR);
+    const sidebarBackground = getHexValue(sidebarBlock, 'background-color');
+
+    for (const variableName of [
+      '--t-font-color-primary',
+      '--t-font-color-secondary',
+      '--t-font-color-tertiary',
+    ]) {
+      expect(
+        getContrastRatio(
+          getHexValue(sidebarBlock, variableName),
+          sidebarBackground,
+        ),
+      ).toBeGreaterThanOrEqual(4.5);
+      expect(
+        getContrastRatio(
+          getHexValue(currentItemBlock, variableName),
+          getHexValue(currentItemBlock, 'background'),
+        ),
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
 
   it.each([
     // oxlint-disable-next-line twenty/no-hardcoded-colors
