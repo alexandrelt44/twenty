@@ -16,16 +16,21 @@ exported from `twenty-emails`), so per-workspace branding can reuse them.
 | Website | `https://colaborato.rio` |
 | Privacy policy | `https://colaborato.rio/privacidade` |
 | Terms of use | Not published yet (COL-1473), link hidden |
-| Interface font | Outfit, sans-serif |
+| Interface font | Inter (upstream default, not overridden). Outfit only inside the logo artwork |
 | Code font | JetBrains Mono, monospace |
-| Email accent | `#9333EA` |
-| Email font | Outfit with sans-serif fallback |
-| Accent light | 9 `#9333EA`, 10 `#7E22CE`, 11 `#7E22CE`, 12 `#402060` |
-| Accent dark | 9 `#8E4EC6`, 10 `#9A5CD0`, 11 `#D8B4FE`, 12 `#ECD9FA` |
-| Manifest and `theme-color` | `#0A0A0F` |
-| Icon | `packages/twenty-front/scripts/brand/brand-icon-source.png`, 512x512 |
+| Email accent | `#BE185D` |
+| Email font | Inter, Arial, sans-serif |
+| Accent light | 1-8 `#FDF2F8` to `#F9A8D4`, 9 `#BE185D`, 10 `#9D174D`, 11 `#9D174D`, 12 `#500724` |
+| Accent dark | 1-8 `#191114` to `#B0436E`, 9 `#BE185D`, 10 `#DB2777`, 11 `#F9A8D4`, 12 `#FCE7F3` |
+| `theme-color`, manifest `theme_color` | `#1C1A17` |
+| Manifest `background_color` | `#F5F2EA` |
+| Icon | `packages/twenty-front/scripts/brand/brand-icon-source.png`, 512x512, the ColabCRM `favicon-512.png` from the brand kit |
 
 The full 12-step scale lives in `packages/twenty-front/src/modules/brand/colaboratorio-theme.css`.
+
+Source of the values: the Colab brand kit, `docs/brand/` in `alexandrelt44/colabtools` (`tokens.css`,
+`logos/colabcrm/`). The accent is the Tailwind pink scale the kit uses: `#BE185D` for primary actions,
+`#9D174D` for hover and links on light backgrounds, `#F9A8D4` for links on dark backgrounds.
 
 ## Fork-only files (never conflict)
 
@@ -39,10 +44,10 @@ The full 12-step scale lives in `packages/twenty-front/src/modules/brand/colabor
 
 | File | Change | On conflict |
 |---|---|---|
-| `packages/twenty-front/src/index.tsx` | `@fontsource` imports (alphabetical) + brand CSS (last) | Take upstream, re-add `@fontsource` imports alphabetically, then add brand CSS as final import |
-| `packages/twenty-front/package.json`, `yarn.lock` | `@fontsource/outfit`, `@fontsource/jetbrains-mono` | Take upstream, `yarn workspace twenty-front add @fontsource/outfit@^5 @fontsource/jetbrains-mono@^5` |
+| `packages/twenty-front/src/index.tsx` | `@fontsource/jetbrains-mono` import (alphabetical) + brand CSS (last) | Take upstream, re-add the import alphabetically, then add brand CSS as final import |
+| `packages/twenty-front/package.json`, `yarn.lock` | `@fontsource/jetbrains-mono` | Take upstream, `yarn workspace twenty-front add @fontsource/jetbrains-mono@^5` |
 | `packages/twenty-front/public/images/icons/**` | Regenerated brand icons | Take upstream, run `packages/twenty-front/scripts/brand/generate-brand-icons.sh` |
-| `packages/twenty-front/index.html` | Title/meta | Take upstream, reapply title/description/og/twitter |
+| `packages/twenty-front/index.html` | Title/meta, `theme-color` | Take upstream, reapply title/description/og/twitter/theme-color |
 | `packages/twenty-front/public/manifest.json` | Names/colors | Take upstream, reapply |
 | `.../navigation-drawer/constants/DefaultWorkspaceLogo.ts` | Local brand icon | Reapply |
 | `packages/twenty-emails/src/constants/DefaultWorkspaceLogo.ts` | Brand icon URL | Reapply |
@@ -56,7 +61,7 @@ The full 12-step scale lives in `packages/twenty-front/src/modules/brand/colabor
 | `packages/twenty-front/src/modules/auth/sign-in-up/components/{FooterNote,SignInUpStandardContent}.tsx` | Privacy link only: no Twenty, terms or DPA | Reapply |
 | `.../settings/hooks/useSettingsNavigationItems.tsx`, `.../app/components/SettingsRoutes.tsx`, `.../app/routing/utils/createWorkspaceRouteObjects.tsx` | Community and Documentation hidden; `/dpa` and `/settings/legal/dpa` routes removed | Remove them again |
 | `packages/twenty-shared/src/constants/DocumentationBaseUrl.ts`, `.../support/utils/getDocumentationUrl.ts`, `WorkflowEditActionFormBuilder.tsx`, `packages/twenty-server/.../build-api-catalog.util.ts` | Help links go to the company site or disappear | Reapply |
-| `packages/twenty-emails/src/common-style.ts` and templates that use its accent | `#9333EA`, Outfit | Reapply |
+| `packages/twenty-emails/src/common-style.ts` and templates that use its accent | `#BE185D`, Inter with Arial fallback | Reapply |
 | `packages/twenty-emails/src/components/{Logo,Footer,WhatIsTwenty,BaseHead}.tsx`, emails with the product name | Brand chrome, `{brandName}` from `BRAND_EMAIL_IDENTITY` | Reapply |
 | `packages/twenty-emails/src/index.ts` | Exports `BRAND_EMAIL_IDENTITY` | Reapply |
 | `packages/twenty-server/.../sign-in-up.service.ts` | Stops recording the click-through DPA naming Twenty.com PBC. Table and entity stay | Remove the block again |
