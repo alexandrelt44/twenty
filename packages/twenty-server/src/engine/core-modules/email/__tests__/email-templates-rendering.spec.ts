@@ -209,8 +209,10 @@ describe('email templates rendering', () => {
     expect(html).toContain('<title>ColabCRM</title>');
     expect(html).toContain('What is ColabCRM?');
     expect(html).toContain('Join your team on ColabCRM');
-    expect(html).toContain('Outfit');
-    expect(html).toContain('#9333EA');
+    expect(html).toContain('Inter');
+    expect(html).not.toContain('Outfit');
+    expect(html).toContain('#BE185D');
+    expect(html).not.toContain('#9333EA');
     expect(html).not.toContain('#5e90f2');
     expect(html).not.toContain('Trebuchet');
     expect(html).toContain('Built on Twenty (open source)');
